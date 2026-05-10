@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050505;
+  --color-foreground: #fcfcfc;
+  --color-accent: #00FF41;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+}
+
+/* Brutalist Utilities */
+@layer utilities {
+  .brutalist-border {
+    border: 3px solid var(--color-foreground);
+  }
+
+  .brutalist-border-b {
+    border-bottom: 3px solid var(--color-foreground);
+  }
+
+  .brutalist-btn {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    text-transform: uppercase;
+    font-weight: 800;
+    border: 3px solid var(--color-foreground);
+    transition: all 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .brutalist-btn:hover {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    box-shadow: 6px 6px 0px 0px var(--color-foreground);
+    transform: translate(-2px, -2px);
+  }
+
+  /* Instant High-Contrast Inversion */
+  .inverted-hover {
+    transition: background-color 0.1s linear, color 0.1s linear;
+  }
+
+  .inverted-hover:hover {
+    background-color: var(--color-foreground) !important;
+    color: var(--color-background) !important;
+  }
+}
+
+@keyframes cellPop {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+}
+
