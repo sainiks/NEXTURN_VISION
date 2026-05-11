@@ -190,17 +190,6 @@ export default function Team() {
             start: "left 100%", end: "left 55%", scrub: true,
           },
         });
-
-        /* Subtle floating idle after entrance */
-        gsap.to(card, {
-          y: i % 2 === 0 ? "+=12" : "-=12",
-          rotation: i % 2 === 0 ? 1 : -1,
-          duration: 2.5 + (i * 0.3),
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: i * 0.2,
-        });
       });
     });
 
