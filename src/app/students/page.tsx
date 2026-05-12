@@ -22,7 +22,7 @@ const roadmaps = [
   {
     title: "Data Science & ML",
     content: "Focus on Probability, Statistics, Linear Algebra, and Python libraries (Pandas, NumPy, PyTorch/TensorFlow).",
-    url: "https://roadmap.sh/ai-ml",
+    url: "https://roadmap.sh/ai-data-scientist",
     pdfUrl: "/roadmaps/ai-data-scientist.pdf"
   },
   {
