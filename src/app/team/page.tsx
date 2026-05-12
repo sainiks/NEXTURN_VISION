@@ -14,24 +14,31 @@ gsap.registerPlugin(ScrollTrigger);
  * Recommended: square or portrait, min 400x400px.
  */
 const founders = [
-  { name: "Vanshika", role: "Founder - President", phone: "9716689446", email: "vanshika255sharma@gmail.com", initials: "VS", image: "/team/vanshika.png" },
-  { name: "Aditya Sehrawat", role: "Founder - Vice President", phone: "8882333608", email: "sehrawataditya120@gmail.com", initials: "AS", image: "/team/aditya.png", imageStyle: { objectPosition: "15% top" } },
+  { name: "Vanshika", role: "Founder - President", linkedin: "https://www.linkedin.com/in/vanshika-sharma-437704249/", initials: "VS", image: "/team/vanshika.png" },
+  { name: "Aditya Sehrawat", role: "Founder - Vice President", linkedin: "https://www.linkedin.com/in/aditya-sehrawat18/", initials: "AS", image: "/team/aditya.png", imageStyle: { objectPosition: "15% top" } },
 ];
 
 const coreMembers = [
-  { name: "Aksh Gautam", role: "General Secretary", phone: "9315735714", email: "akshgautam1605@gmail.com", initials: "AG", image: "/team/aksh.png" },
-  { name: "Piyush", role: "Assistant Secretary", phone: "9466831821", email: "11piyush05@gmail.com", initials: "P", image: "/team/piyush.png" },
-  { name: "Harshita Thareja", role: "Marketing Head", phone: "8377831878", email: "harshitathareja@gmail.com", initials: "HT", image: "/team/harshita.png" },
-  { name: "Ishita Rana", role: "Marketing Co-Head", phone: "8882071150", email: "ranaishita04@gmail.com", initials: "IR", image: "/team/ishita.png" },
-  { name: "Kunal Saini", role: "Technical Head", phone: "7428530125", email: "kunalsaini20090360@gmail.com", initials: "KS", image: "/team/kunal.png", imageStyle: { objectPosition: "center 20%", transform: "scale(1)" } },
-  { name: "Siddhartha Khanna", role: "Social Media Head", phone: "9213651199", email: "khannasiddhartha15@gmail.com", initials: "SK", image: "/team/siddhartha.png" },
-  { name: "Mitashi Dogra", role: "Social Media Co-Head", phone: "9953863900", email: "mitashidogra@gmail.com", initials: "MD", image: "/team/mitashi.png" },
-  { name: "Pratham Sehdev", role: "Corporate Relation Head", phone: "9205188717", email: "sehdevpratham94@gmail.com", initials: "PS", image: "/team/pratham.png" },
-  { name: "Kamaljeet Kaur", role: "Corporate Relation Co-Head", phone: "9811529947", email: "info.kamaljeet2024@gmail.com", initials: "KK", image: "/team/kamaljeet.png", imageStyle: { objectPosition: "center top", transform: "scale(1)" } },
-  { name: "Aman Sangwan", role: "Management Head", phone: "9729392966", email: "amansangwan055@gmail.com", initials: "AS", image: "/team/aman.png", imageStyle: { objectPosition: "center 15%" } },
+  { name: "Aksh Gautam", role: "General Secretary", linkedin: "https://www.linkedin.com/in/aksh-gautam-963128222/", initials: "AG", image: "/team/aksh.png" },
+  { name: "Piyush", role: "Assistant Secretary", linkedin: "https://www.linkedin.com/in/piyush-chalka-208bb7327/", initials: "P", image: "/team/piyush.png" },
+  { name: "Harshita Thareja", role: "Marketing Head", linkedin: "https://www.linkedin.com/in/harshita-thareja/", initials: "HT", image: "/team/harshita.png" },
+  { name: "Ishita Rana", role: "Marketing Co-Head", linkedin: "https://www.linkedin.com/in/ishita-rana-a95a04332/", initials: "IR", image: "/team/ishita.png" },
+  { name: "Kunal Saini", role: "Technical Head", linkedin: "https://www.linkedin.com/in/kunal-saini-b392a0167/", initials: "KS", image: "/team/kunal.png", imageStyle: { objectPosition: "center 20%", transform: "scale(1)" } },
+  { name: "Siddhartha Khanna", role: "Social Media Head", linkedin: "https://www.linkedin.com/in/siddhartha-khanna-603635336/", initials: "SK", image: "/team/siddhartha.png" },
+  { name: "Mitashi Dogra", role: "Social Media Co-Head", linkedin: "https://www.linkedin.com/in/mitashi-dogra-a45511337/", initials: "MD", image: "/team/mitashi.png" },
+  { name: "Pratham Sehdev", role: "Corporate Relation Head", linkedin: "https://www.linkedin.com/in/pratham-sehdev-7a527b31b/", initials: "PS", image: "/team/pratham.png" },
+  { name: "Kamaljeet Kaur", role: "Corporate Relation Co-Head", linkedin: "https://www.linkedin.com/in/kamaljeet-kaur-98248a2b9/", initials: "KK", image: "/team/kamaljeet.png", imageStyle: { objectPosition: "center top", transform: "scale(1)" } },
+  { name: "Aman Sangwan", role: "Management Head", linkedin: "https://www.linkedin.com/in/aman-sangwan-7838112a6/", initials: "AS", image: "/team/aman.png", imageStyle: { objectPosition: "center 15%" } },
 ];
 
-type Member = typeof coreMembers[0];
+type Member = {
+  name: string;
+  role: string;
+  linkedin?: string;
+  initials: string;
+  image: string;
+  imageStyle?: any;
+};
 
 /* ── Hexagon Avatar (image with initials fallback) ── */
 function HexAvatar({ member, size = "md", className = "" }: { member: Member; size?: "sm" | "md" | "lg"; className?: string }) {
@@ -102,8 +109,19 @@ function MemberModal({ member, onClose }: { member: Member | null; onClose: () =
         <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-center mb-2">{member.name}</h2>
         <p className="text-center text-lg font-bold uppercase tracking-widest text-[var(--color-accent)] mb-10">{member.role}</p>
         <div className="border-t-4 border-[var(--color-foreground)] pt-6 flex flex-col gap-4">
-          <div><span className="text-xs font-black uppercase tracking-widest opacity-50 block mb-1">Phone</span><a href={`tel:${member.phone}`} className="font-bold text-xl tracking-widest hover:text-[var(--color-accent)] transition-colors">{member.phone}</a></div>
-          <div><span className="text-xs font-black uppercase tracking-widest opacity-50 block mb-1">Email</span><a href={`mailto:${member.email}`} className="font-bold tracking-widest hover:text-[var(--color-accent)] transition-colors break-all">{member.email}</a></div>
+          {member.linkedin ? (
+            <div>
+              <span className="text-sm font-black uppercase tracking-widest opacity-50 block mb-2">LinkedIn</span>
+              <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="font-bold text-3xl tracking-widest hover:text-[var(--color-accent)] transition-colors break-all">
+                Connect ↗
+              </a>
+            </div>
+          ) : (
+            <div>
+              <span className="text-sm font-black uppercase tracking-widest opacity-50 block mb-2">Status</span>
+              <span className="font-bold text-2xl tracking-widest">Active Member</span>
+            </div>
+          )}
         </div>
       </motion.div>
     </motion.div>
@@ -241,7 +259,13 @@ export default function Team() {
               <TiltCard
                 key={i}
                 className="founder-card group relative border-[4px] border-[var(--color-foreground)] p-10 md:p-14 flex flex-col items-center text-center cursor-pointer overflow-hidden"
-                onClick={() => setSelectedMember(f)}
+                onClick={() => {
+                  if (f.linkedin) {
+                    window.open(f.linkedin, "_blank");
+                  } else {
+                    setSelectedMember(f);
+                  }
+                }}
               >
                 {/* Animated corner accents */}
                 <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -256,14 +280,20 @@ export default function Team() {
                 <p className="text-lg md:text-xl font-bold uppercase tracking-widest text-[var(--color-accent)] mb-6">{f.role}</p>
 
                 <div className="w-full border-t-4 border-[var(--color-foreground)] pt-6 flex flex-col gap-3 text-left">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">Phone</span>
-                    <span className="font-bold tracking-widest">{f.phone}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">Email</span>
-                    <span className="font-bold tracking-widest text-sm break-all">{f.email}</span>
-                  </div>
+                  {f.linkedin && (
+                    <div className="flex flex-col">
+                      <span className="text-sm font-black uppercase tracking-widest opacity-40 mb-2">LinkedIn</span>
+                      <a 
+                        href={f.linkedin} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="font-black text-3xl tracking-widest hover:text-[var(--color-accent)] transition-all duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Connect ↗
+                      </a>
+                    </div>
+                  )}
                 </div>
 
                 <span className="mt-8 text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-60 transition-opacity duration-300">Click to Expand ↗</span>
@@ -313,7 +343,13 @@ export default function Team() {
                   className={`h-card flex-shrink-0 w-[320px] md:w-[380px] border-[4px] border-[var(--color-foreground)] p-8 flex flex-col items-center text-center cursor-pointer group relative overflow-hidden transition-all duration-300 hover:border-[var(--color-accent)] hover:shadow-[8px_8px_0_var(--color-accent)] ${
                     i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
                   }`}
-                  onClick={() => setSelectedMember(member)}
+                  onClick={() => {
+                    if (member.linkedin) {
+                      window.open(member.linkedin, "_blank");
+                    } else {
+                      setSelectedMember(member);
+                    }
+                  }}
                 >
                   {/* Sweep BG */}
                   <div className="absolute inset-0 bg-[var(--color-foreground)] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0" />
@@ -331,14 +367,17 @@ export default function Team() {
                     <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] mb-6 transition-colors">{member.role}</p>
 
                     <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-0.5">Phone</span>
-                        <span className="font-bold tracking-widest text-sm">{member.phone}</span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-0.5">Email</span>
-                        <span className="font-bold tracking-widest text-xs break-all">{member.email}</span>
-                      </div>
+                      {member.linkedin ? (
+                        <div className="flex flex-col">
+                          <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1.5 group-hover:text-[var(--color-background)] transition-colors">LinkedIn</span>
+                          <span className="font-black tracking-widest text-xl group-hover:text-[var(--color-background)] transition-colors">Connect ↗</span>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col">
+                          <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1.5 group-hover:text-[var(--color-background)] transition-colors">Nexturn</span>
+                          <span className="font-black tracking-widest text-lg group-hover:text-[var(--color-background)] transition-colors">Core Member</span>
+                        </div>
+                      )}
                     </div>
 
                     <span className="mt-6 text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-60 transition-opacity">Click ↗</span>
