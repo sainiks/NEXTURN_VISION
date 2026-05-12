@@ -103,7 +103,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
         className="w-full h-full relative"
       >
         {/* FRONT SIDE */}
-        <div className="absolute inset-0 w-full h-full backface-hidden z-10 border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-8 flex flex-col items-center text-center overflow-hidden">
+        <div className="absolute inset-0 w-full h-full backface-hidden z-10 border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-6 flex flex-col items-center text-center overflow-hidden">
           {/* Flip Trigger Button */}
           <button 
             onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
@@ -124,9 +124,9 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
              <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
                 {String(i + 1).padStart(2, "0")}
               </span>
-            <HexAvatar member={member} size={isFounder ? "lg" : "sm"} className="mb-6 group-hover:scale-105 transition-transform duration-500" />
+            <HexAvatar member={member} size={isFounder ? "lg" : "sm"} className="mb-4 group-hover:scale-105 transition-transform duration-500" />
             <h3 className={`${isFounder ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'} font-black uppercase tracking-tighter mb-1`}>{member.name}</h3>
-            <p className={`${isFounder ? 'text-lg md:text-xl' : 'text-sm md:text-base'} font-bold uppercase tracking-widest text-[var(--color-accent)] mb-6 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text`}>{member.role}</p>
+            <p className={`${isFounder ? 'text-lg md:text-xl' : 'text-sm md:text-base'} font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text`}>{member.role}</p>
 
             <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
@@ -149,7 +149,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                 </div>
               )}
             </div>
-            <span className="mt-6 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for Info</span>
+            <span className="mt-4 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for Info</span>
           </div>
         </div>
 
@@ -386,7 +386,7 @@ export default function Team() {
                 member={f}
                 i={i}
                 isFounder
-                className="w-full h-[600px] md:h-[700px] founder-card"
+                className="w-full h-[550px] md:h-[620px] founder-card"
                 onClick={() => setSelectedMember(f)}
               />
             ))}
@@ -433,7 +433,7 @@ export default function Team() {
                   key={i}
                   member={member}
                   i={i}
-                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[550px] md:h-[600px] ${
+                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[480px] md:h-[520px] ${
                     i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
                   }`}
                   onClick={() => setSelectedMember(member)}
