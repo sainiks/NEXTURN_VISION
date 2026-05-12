@@ -58,7 +58,7 @@ export default function PipelinePage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="mb-24 max-w-7xl mx-auto"
       >
-        <div className="text-[#FFD700] uppercase tracking-widest font-bold mb-4">
+        <div className="text-[#00FF41] uppercase tracking-widest font-bold mb-4">
           LOGISTICS // RSVP
         </div>
         <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
@@ -81,10 +81,10 @@ export default function PipelinePage() {
 
             {timelineEvents.map((event, index) => {
               const isScheduled = event.status === 'SCHEDULED';
-              const borderColor = isScheduled ? 'border-[#FFD700]' : 'border-[#333]';
-              const textColor = isScheduled ? 'text-[#FFD700]' : 'text-[#888]';
-              const statusColor = isScheduled ? 'text-[#FFD700]' : 'text-[#666]';
-              const nodeBorder = isScheduled ? 'border-[#FFD700]' : 'border-[#666]';
+              const borderColor = isScheduled ? 'border-[#00FF41]' : 'border-[#333]';
+              const textColor = isScheduled ? 'text-[#00FF41]' : 'text-[#888]';
+              const statusColor = isScheduled ? 'text-[#00FF41]' : 'text-[#666]';
+              const nodeBorder = isScheduled ? 'border-[#00FF41]' : 'border-[#666]';
 
               return (
                 <motion.div 
@@ -144,7 +144,7 @@ export default function PipelinePage() {
         {/* RIGHT COLUMN: GLIMPSE SIDEBAR */}
         <div className="hidden lg:block lg:col-span-4 relative">
           <div className="sticky top-32 border border-[#222] bg-[#050505] p-8">
-            <h3 className="text-[#FFD700] text-sm font-bold tracking-widest uppercase mb-8">Mission Overview</h3>
+            <h3 className="text-[#00FF41] text-sm font-bold tracking-widest uppercase mb-8">Mission Overview</h3>
             <div className="flex flex-col gap-6 relative">
               {/* Subtle connecting line for overview */}
               <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-[#222] z-0" />
@@ -159,9 +159,9 @@ export default function PipelinePage() {
                     }}
                     className="relative flex items-start gap-4 text-left group z-10"
                   >
-                    <div className={`mt-1.5 w-2 h-2 border transition-colors duration-300 ${isActive ? 'bg-[#FFD700] border-[#FFD700]' : 'bg-[#050505] border-[#444] group-hover:border-[#FFD700]'}`} />
+                    <div className={`mt-1.5 w-2 h-2 border transition-colors duration-300 ${isActive ? 'bg-[#00FF41] border-[#00FF41]' : 'bg-[#050505] border-[#444] group-hover:border-[#00FF41]'}`} />
                     <div className="flex flex-col">
-                      <span className={`font-mono text-xs tracking-wider transition-colors duration-300 ${isActive ? 'text-[#FFD700]' : 'text-[#666] group-hover:text-[#aaa]'}`}>
+                      <span className={`font-mono text-xs tracking-wider transition-colors duration-300 ${isActive ? 'text-[#00FF41]' : 'text-[#666] group-hover:text-[#aaa]'}`}>
                         {event.date}
                       </span>
                       <span className={`text-sm font-bold mt-1 transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#888] group-hover:text-white'}`}>
