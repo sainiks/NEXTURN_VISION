@@ -105,13 +105,6 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
         {/* FRONT SIDE */}
         <div className="absolute inset-0 w-full h-full backface-hidden z-10 border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-6 flex flex-col items-center text-center overflow-hidden">
           {/* Flip Trigger Button */}
-          <button 
-            onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
-            className="absolute top-4 right-4 w-10 h-10 bg-[var(--color-accent)] text-[var(--color-foreground)] flex items-center justify-center z-20 hover:scale-110 transition-transform active:scale-95 border-2 border-[var(--color-foreground)]"
-            title="View Board ID"
-          >
-            <span className="font-black text-xs">ID</span>
-          </button>
 
           {/* Animated corner accents */}
           <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)] opacity-40" />
@@ -149,7 +142,19 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                 </div>
               )}
             </div>
-            <span className="mt-4 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for Info</span>
+            
+            {/* Signature Flip Trigger */}
+            <div 
+              onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
+              className="mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
+              title="Click to flip"
+            >
+              <div className="flex flex-col items-start">
+                <span className="text-[7px] font-mono uppercase tracking-tighter opacity-50">Authorized Core Board</span>
+                <span className="text-[10px] font-black tracking-widest leading-none">NXT-VERIFY-{i+1}</span>
+              </div>
+              <span className="text-sm font-black tracking-widest italic opacity-80">{member.initials}_</span>
+            </div>
           </div>
         </div>
 
@@ -158,14 +163,12 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
           className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-8 flex flex-col justify-between overflow-hidden"
           style={{ transform: "rotateY(180deg)" }}
         >
-          {/* Flip Back Button */}
-          <button 
+          {/* Flip Back Pattern Overlay */}
+          <div 
             onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
-            className="absolute top-4 right-4 w-10 h-10 bg-[var(--color-accent)] text-[var(--color-background)] flex items-center justify-center z-20 hover:scale-110 transition-transform active:scale-95 border-2 border-[var(--color-background)]"
-            title="View Info"
-          >
-            <span className="font-black text-xs">✕</span>
-          </button>
+            className="absolute inset-0 z-0 cursor-pointer opacity-0 hover:opacity-5 transition-opacity"
+            title="Click to flip back"
+          />
           {/* Background Grid Pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-accent) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
           
@@ -205,8 +208,14 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
               </div>
             </div>
             
-            {/* Bottom Accent */}
-            <div className="flex justify-end mt-4">
+            {/* Bottom Accent + Flip Back Trigger */}
+            <div className="flex justify-between items-end mt-4 relative z-10">
+               <button 
+                 onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+                 className="px-4 py-1 border-2 border-[var(--color-accent)] text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
+               >
+                 Return to Profile
+               </button>
                <div className="w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
             </div>
           </div>
