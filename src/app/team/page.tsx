@@ -173,7 +173,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
 
             {/* Metadata Footer */}
             <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-6 font-mono space-y-2">
-              <p className="text-xl font-black uppercase tracking-tighter leading-none mb-4 text-[var(--color-accent)]">Nexturn Core Board 2026</p>
+              <p className="text-xl font-black uppercase tracking-tighter leading-none mb-4 text-[var(--color-accent)]">Nexturn Core Board 2024</p>
               <div className="grid grid-cols-2 gap-4 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
                 <div>
                   <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
@@ -447,7 +447,7 @@ export default function Team() {
         <section className="py-16 px-8 border-t-[3px] border-[var(--color-foreground)]">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="text-sm font-black uppercase tracking-widest opacity-60">IITM • Nexturn — The Internship Cell</p>
-            <p className="text-sm font-black uppercase tracking-widest opacity-60">Est. 2026</p>
+            <p className="text-sm font-black uppercase tracking-widest opacity-60">Est. 2024</p>
           </div>
         </section>
       </main>

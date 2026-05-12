@@ -177,7 +177,7 @@ export default function Home() {
         </h1>
         
         <div className="mt-8 pt-8 border-t-[3px] border-[var(--color-background)] flex justify-between text-sm font-bold uppercase tracking-widest">
-          <span>© 2026 NEXTURN</span>
+          <span>© 2024 NEXTURN</span>
           <span>ALL RIGHTS RESERVED</span>
         </div>
       </footer>

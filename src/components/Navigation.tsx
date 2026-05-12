@@ -70,7 +70,7 @@ export default function Navigation() {
 
             <div className="absolute bottom-8 left-8 right-8 md:left-24 md:right-24 flex justify-between uppercase font-bold tracking-widest text-sm border-t-4 border-[var(--color-background)] pt-4">
               <span>IITM • NEXTURN</span>
-              <span>EST. 2026</span>
+              <span>EST. 2024</span>
             </div>
           </motion.div>
         )}
