@@ -155,19 +155,19 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
 
         {/* BACK SIDE (Stylish ID Design) */}
         <div 
-          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-foreground)] text-[var(--color-background)] p-8 flex flex-col justify-between overflow-hidden"
+          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-8 flex flex-col justify-between overflow-hidden"
           style={{ transform: "rotateY(180deg)" }}
         >
           {/* Flip Back Button */}
           <button 
             onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
-            className="absolute top-4 right-4 w-10 h-10 bg-[var(--color-accent)] text-[var(--color-foreground)] flex items-center justify-center z-20 hover:scale-110 transition-transform active:scale-95 border-2 border-[var(--color-background)]"
+            className="absolute top-4 right-4 w-10 h-10 bg-[var(--color-accent)] text-[var(--color-background)] flex items-center justify-center z-20 hover:scale-110 transition-transform active:scale-95 border-2 border-[var(--color-background)]"
             title="View Info"
           >
             <span className="font-black text-xs">✕</span>
           </button>
           {/* Background Grid Pattern */}
-          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-background) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-accent) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
           
           <div className="relative z-10 flex flex-col h-full">
             {/* Top Bar */}
@@ -188,19 +188,19 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
 
             {/* Metadata Footer */}
             <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-6 font-mono space-y-2">
-              <p className="text-xl font-black uppercase tracking-tighter leading-none mb-4">Nexturn Core Board 2026</p>
-              <div className="grid grid-cols-2 gap-4 text-[10px] font-bold uppercase tracking-widest">
+              <p className="text-xl font-black uppercase tracking-tighter leading-none mb-4 text-[var(--color-accent)]">Nexturn Core Board 2026</p>
+              <div className="grid grid-cols-2 gap-4 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
                 <div>
-                  <span className="opacity-50 block mb-0.5">Access Level</span>
-                  <span className="text-[var(--color-accent)]">Alpha-1</span>
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
+                  <span className="font-black">Alpha-1</span>
                 </div>
                 <div>
-                  <span className="opacity-50 block mb-0.5">Status</span>
-                  <span className="text-[var(--color-accent)]">Active</span>
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Status</span>
+                  <span className="font-black">Active</span>
                 </div>
                 <div className="col-span-2">
-                  <span className="opacity-50 block mb-0.5">Identification</span>
-                  <span>NC-026-{member.initials}-{i+1}</span>
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification</span>
+                  <span className="font-black">NC-026-{member.initials}-{i+1}</span>
                 </div>
               </div>
             </div>
