@@ -162,7 +162,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className="flex flex-col gap-4">
             <h4 className="text-xl font-bold uppercase mb-4">Connect</h4>
-            <a href="#" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">LinkedIn</a>
+            <a href="https://www.linkedin.com/company/nexturn-iitm/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">LinkedIn</a>
             <a href="#" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">Twitter</a>
             <a href="https://www.instagram.com/nexturn.iitm/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">Instagram</a>
           </div>
