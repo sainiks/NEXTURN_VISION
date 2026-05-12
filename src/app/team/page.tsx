@@ -132,7 +132,15 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
               {member.linkedin ? (
                 <div className="flex flex-col">
                   <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">LinkedIn</span>
-                  <span className={`${isFounder ? 'text-3xl' : 'text-xl'} font-black tracking-widest text-[var(--color-accent)]`}>Connect ↗</span>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(member.linkedin, "_blank");
+                    }}
+                    className={`${isFounder ? 'text-3xl' : 'text-xl'} font-black tracking-widest text-[var(--color-accent)] text-left hover:translate-x-2 transition-transform duration-300`}
+                  >
+                    Connect ↗
+                  </button>
                 </div>
               ) : (
                 <div className="flex flex-col">
@@ -141,7 +149,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                 </div>
               )}
             </div>
-            <span className="mt-6 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for LinkedIn</span>
+            <span className="mt-6 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for Info</span>
           </div>
         </div>
 
@@ -379,13 +387,7 @@ export default function Team() {
                 i={i}
                 isFounder
                 className="w-full h-[600px] md:h-[700px] founder-card"
-                onClick={() => {
-                  if (f.linkedin) {
-                    window.open(f.linkedin, "_blank");
-                  } else {
-                    setSelectedMember(f);
-                  }
-                }}
+                onClick={() => setSelectedMember(f)}
               />
             ))}
           </div>
@@ -434,13 +436,7 @@ export default function Team() {
                   className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[550px] md:h-[600px] ${
                     i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
                   }`}
-                  onClick={() => {
-                    if (member.linkedin) {
-                      window.open(member.linkedin, "_blank");
-                    } else {
-                      setSelectedMember(member);
-                    }
-                  }}
+                  onClick={() => setSelectedMember(member)}
                 />
               ))}
 
