@@ -17,19 +17,19 @@ const roadmaps = [
     title: "Software Engineering (SDE)",
     content: "Master Data Structures & Algorithms, System Design (HLD & LLD), and one core backend framework (Spring Boot, Node.js, or Go).",
     url: "https://roadmap.sh/software-design-architecture",
-    pdfUrl: "/roadmaps/sde.pdf"
+    pdfUrl: "/roadmaps/software-design-architecture.pdf"
   },
   {
     title: "Data Science & ML",
     content: "Focus on Probability, Statistics, Linear Algebra, and Python libraries (Pandas, NumPy, PyTorch/TensorFlow).",
     url: "https://roadmap.sh/ai-ml",
-    pdfUrl: "/roadmaps/ds.pdf"
+    pdfUrl: "/roadmaps/ai-data-scientist.pdf"
   },
   {
     title: "Product Management",
     content: "Understand product life cycles, wireframing (Figma), SQL for data analytics, and user psychology.",
     url: "https://roadmap.sh/product-manager",
-    pdfUrl: "/roadmaps/pm.pdf"
+    pdfUrl: "/roadmaps/product-manager.pdf"
   },
 ];
 
