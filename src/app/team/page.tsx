@@ -59,33 +59,18 @@ function HexAvatar({ member, size = "md", className = "" }: { member: Member; si
   );
 }
 
-/* ── Team Card (3D Tilt + 3D Flip) ── */
+/* ── Team Card (3D Flip) ── */
 function TeamCard({ member, i, className, onClick, isFounder = false }: { member: Member; i: number; className?: string; onClick: () => void; isFounder?: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 300, damping: 30 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 300, damping: 30 });
-
-  const handleMouse = useCallback((e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-  }, [x, y]);
 
   const handleLeave = useCallback(() => { 
-    x.set(0); 
-    y.set(0); 
     setIsFlipped(false);
-  }, [x, y]);
+  }, []);
 
   return (
     <div 
       className={`relative perspective-1000 group ${className}`}
-      onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
       onClick={onClick}
       style={{ perspective: "1200px" }}
@@ -93,9 +78,6 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
       <motion.div
         ref={ref}
         style={{ 
-          rotateX, 
-          rotateY, 
-          rotateY: useSpring(useTransform(useMotionValue(isFlipped ? 1 : 0), [0, 1], [0, 180]), { stiffness: 200, damping: 25 }),
           transformStyle: "preserve-3d" 
         }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
@@ -117,9 +99,9 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
              <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
                 {String(i + 1).padStart(2, "0")}
               </span>
-            <HexAvatar member={member} size={isFounder ? "lg" : "sm"} className="mb-4 group-hover:scale-105 transition-transform duration-500" />
-            <h3 className={`${isFounder ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'} font-black uppercase tracking-tighter mb-1`}>{member.name}</h3>
-            <p className={`${isFounder ? 'text-lg md:text-xl' : 'text-sm md:text-base'} font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text`}>{member.role}</p>
+            <HexAvatar member={member} size="sm" className="mb-4 group-hover:scale-105 transition-transform duration-500" />
+            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-1">{member.name}</h3>
+            <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text">{member.role}</p>
 
             <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
@@ -130,7 +112,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                       e.stopPropagation();
                       window.open(member.linkedin, "_blank");
                     }}
-                    className={`${isFounder ? 'text-3xl' : 'text-xl'} font-black tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300`}
+                    className="text-xl font-black tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300"
                   >
                     Connect ↗
                   </button>
@@ -388,14 +370,14 @@ export default function Team() {
             </p>
           </div>
 
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+          <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-12 md:gap-16">
             {founders.map((f, i) => (
               <TeamCard
                 key={i}
                 member={f}
                 i={i}
                 isFounder
-                className="w-full h-[550px] md:h-[620px] founder-card"
+                className="w-[320px] md:w-[400px] h-[480px] md:h-[520px] founder-card"
                 onClick={() => setSelectedMember(f)}
               />
             ))}
