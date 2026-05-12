@@ -15,7 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
  */
 const founders = [
   { name: "Vanshika", role: "Founder - President", linkedin: "https://www.linkedin.com/in/vanshika-sharma-437704249/", initials: "VS", image: "/team/vanshika.png" },
-  { name: "Aditya Sehrawat", role: "Founder - Vice President", linkedin: "https://www.linkedin.com/in/aditya-sehrawat18/", initials: "AS", image: "/team/aditya.png", imageStyle: { objectPosition: "15% top" } },
+  { name: "Aditya Sehrawat", role: "Founder - Vice President", linkedin: "https://www.linkedin.com/in/aditya-sehrawat18/", initials: "AS", image: "/team/aditya.png", imageStyle: { objectPosition: "75% 0%" } },
 ];
 
 const coreMembers = [
