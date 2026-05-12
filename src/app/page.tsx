@@ -164,7 +164,7 @@ export default function Home() {
             <h4 className="text-xl font-bold uppercase mb-4">Connect</h4>
             <a href="#" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">LinkedIn</a>
             <a href="#" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">Twitter</a>
-            <a href="#" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">Instagram</a>
+            <a href="https://www.instagram.com/nexturn.iitm/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-accent)] hover:underline uppercase font-bold tracking-widest">Instagram</a>
           </div>
           <div className="text-right">
             <p className="font-bold uppercase tracking-widest mb-2">Institute of Innovation in Technology & Management</p>
