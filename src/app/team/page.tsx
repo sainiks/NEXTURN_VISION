@@ -59,13 +59,14 @@ function HexAvatar({ member, size = "md", className = "" }: { member: Member; si
   );
 }
 
-/* ── 3D Tilt Card ── */
-function TiltCard({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
+/* ── Team Card (3D Tilt + 3D Flip) ── */
+function TeamCard({ member, i, className, onClick, isFounder = false }: { member: Member; i: number; className?: string; onClick: () => void; isFounder?: boolean }) {
+  const [isFlipped, setIsFlipped] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), { stiffness: 300, damping: 30 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), { stiffness: 300, damping: 30 });
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 300, damping: 30 });
 
   const handleMouse = useCallback((e: React.MouseEvent) => {
     const el = ref.current;
@@ -75,19 +76,135 @@ function TiltCard({ children, className, onClick }: { children: React.ReactNode;
     y.set((e.clientY - rect.top) / rect.height - 0.5);
   }, [x, y]);
 
-  const handleLeave = useCallback(() => { x.set(0); y.set(0); }, [x, y]);
+  const handleLeave = useCallback(() => { 
+    x.set(0); 
+    y.set(0); 
+    setIsFlipped(false);
+  }, [x, y]);
 
   return (
-    <motion.div
-      ref={ref}
+    <div 
+      className={`relative perspective-1000 ${className}`}
       onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
       onClick={onClick}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className={className}
+      style={{ perspective: "1200px" }}
     >
-      {children}
-    </motion.div>
+      <motion.div
+        ref={ref}
+        style={{ 
+          rotateX, 
+          rotateY, 
+          rotateY: useSpring(useTransform(useMotionValue(isFlipped ? 1 : 0), [0, 1], [0, 180]), { stiffness: 200, damping: 25 }),
+          transformStyle: "preserve-3d" 
+        }}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ type: "spring", stiffness: 150, damping: 20 }}
+        className="w-full h-full relative"
+      >
+        {/* FRONT SIDE */}
+        <div className="absolute inset-0 w-full h-full backface-hidden z-10 border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-8 flex flex-col items-center text-center overflow-hidden">
+          {/* Flip Trigger Button */}
+          <button 
+            onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
+            className="absolute top-4 right-4 w-10 h-10 bg-[var(--color-accent)] text-[var(--color-foreground)] flex items-center justify-center z-20 hover:scale-110 transition-transform active:scale-95 border-2 border-[var(--color-foreground)]"
+            title="View Board ID"
+          >
+            <span className="font-black text-xs">ID</span>
+          </button>
+
+          {/* Animated corner accents */}
+          <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)] opacity-40" />
+          <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
+          
+          {/* Sweep BG */}
+          <div className="absolute inset-0 bg-[var(--color-foreground)] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0" />
+
+          <div className="z-10 flex flex-col items-center w-full">
+             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            <HexAvatar member={member} size={isFounder ? "lg" : "sm"} className="mb-6" />
+            <h3 className={`${isFounder ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'} font-black uppercase tracking-tighter mb-1`}>{member.name}</h3>
+            <p className={`${isFounder ? 'text-lg md:text-xl' : 'text-sm md:text-base'} font-bold uppercase tracking-widest text-[var(--color-accent)] mb-6`}>{member.role}</p>
+
+            <div className="w-full border-t-4 border-[var(--color-foreground)] pt-4 flex flex-col gap-2 text-left">
+              {member.linkedin ? (
+                <div className="flex flex-col">
+                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">LinkedIn</span>
+                  <span className={`${isFounder ? 'text-3xl' : 'text-xl'} font-black tracking-widest text-[var(--color-accent)]`}>Connect ↗</span>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">Nexturn</span>
+                  <span className="font-black tracking-widest text-lg">Core Member</span>
+                </div>
+              )}
+            </div>
+            <span className="mt-6 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for LinkedIn</span>
+          </div>
+        </div>
+
+        {/* BACK SIDE (Stylish ID Design) */}
+        <div 
+          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-foreground)] text-[var(--color-background)] p-8 flex flex-col justify-between overflow-hidden"
+          style={{ transform: "rotateY(180deg)" }}
+        >
+          {/* Flip Back Button */}
+          <button 
+            onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+            className="absolute top-4 right-4 w-10 h-10 bg-[var(--color-accent)] text-[var(--color-foreground)] flex items-center justify-center z-20 hover:scale-110 transition-transform active:scale-95 border-2 border-[var(--color-background)]"
+            title="View Info"
+          >
+            <span className="font-black text-xs">✕</span>
+          </button>
+          {/* Background Grid Pattern */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-background) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
+          
+          <div className="relative z-10 flex flex-col h-full">
+            {/* Top Bar */}
+            <div className="flex justify-between items-start mb-4">
+               <div className="w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
+               <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">Nxt / Board</span>
+            </div>
+
+            {/* Massive Monogram */}
+            <div className="flex-1 flex items-center justify-center relative">
+              <span className="text-[12rem] font-black leading-none tracking-tighter opacity-10 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                {member.initials}
+              </span>
+              <span className="text-[10rem] font-black leading-none tracking-tighter text-transparent" style={{ WebkitTextStroke: "2px var(--color-accent)" }}>
+                {member.initials}
+              </span>
+            </div>
+
+            {/* Metadata Footer */}
+            <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-6 font-mono space-y-2">
+              <p className="text-xl font-black uppercase tracking-tighter leading-none mb-4">Nexturn Core Board 2026</p>
+              <div className="grid grid-cols-2 gap-4 text-[10px] font-bold uppercase tracking-widest">
+                <div>
+                  <span className="opacity-50 block mb-0.5">Access Level</span>
+                  <span className="text-[var(--color-accent)]">Alpha-1</span>
+                </div>
+                <div>
+                  <span className="opacity-50 block mb-0.5">Status</span>
+                  <span className="text-[var(--color-accent)]">Active</span>
+                </div>
+                <div className="col-span-2">
+                  <span className="opacity-50 block mb-0.5">Identification</span>
+                  <span>NC-026-{member.initials}-{i+1}</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Bottom Accent */}
+            <div className="flex justify-end mt-4">
+               <div className="w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -256,9 +373,12 @@ export default function Team() {
 
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
             {founders.map((f, i) => (
-              <TiltCard
+              <TeamCard
                 key={i}
-                className="founder-card group relative border-[4px] border-[var(--color-foreground)] p-10 md:p-14 flex flex-col items-center text-center cursor-pointer overflow-hidden"
+                member={f}
+                i={i}
+                isFounder
+                className="w-full h-[600px] md:h-[700px] founder-card"
                 onClick={() => {
                   if (f.linkedin) {
                     window.open(f.linkedin, "_blank");
@@ -266,38 +386,7 @@ export default function Team() {
                     setSelectedMember(f);
                   }
                 }}
-              >
-                {/* Animated corner accents */}
-                <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* Pulsing glow on hover */}
-                <div className="absolute inset-0 bg-[var(--color-accent)] opacity-0 group-hover:opacity-[0.04] transition-opacity duration-700" />
-
-                <HexAvatar member={f} size="lg" className="founder-hex mb-10 group-hover:scale-105 transition-transform duration-500" />
-
-                <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-3">{f.name}</h3>
-                <p className="text-lg md:text-xl font-bold uppercase tracking-widest text-[var(--color-accent)] mb-6">{f.role}</p>
-
-                <div className="w-full border-t-4 border-[var(--color-foreground)] pt-6 flex flex-col gap-3 text-left">
-                  {f.linkedin && (
-                    <div className="flex flex-col">
-                      <span className="text-sm font-black uppercase tracking-widest opacity-40 mb-2">LinkedIn</span>
-                      <a 
-                        href={f.linkedin} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="font-black text-3xl tracking-widest hover:text-[var(--color-accent)] transition-all duration-300"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Connect ↗
-                      </a>
-                    </div>
-                  )}
-                </div>
-
-                <span className="mt-8 text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-60 transition-opacity duration-300">Click to Expand ↗</span>
-              </TiltCard>
+              />
             ))}
           </div>
         </section>
@@ -338,9 +427,11 @@ export default function Team() {
             {/* Scrolling track */}
             <div ref={trackRef} className="flex items-center gap-10 h-full px-8 pt-24 pb-8" style={{ width: "max-content" }}>
               {coreMembers.map((member, i) => (
-                <TiltCard
+                <TeamCard
                   key={i}
-                  className={`h-card flex-shrink-0 w-[320px] md:w-[380px] border-[4px] border-[var(--color-foreground)] p-8 flex flex-col items-center text-center cursor-pointer group relative overflow-hidden transition-all duration-300 hover:border-[var(--color-accent)] hover:shadow-[8px_8px_0_var(--color-accent)] ${
+                  member={member}
+                  i={i}
+                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[550px] md:h-[600px] ${
                     i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
                   }`}
                   onClick={() => {
@@ -350,39 +441,7 @@ export default function Team() {
                       setSelectedMember(member);
                     }
                   }}
-                >
-                  {/* Sweep BG */}
-                  <div className="absolute inset-0 bg-[var(--color-foreground)] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0" />
-
-                  <div className="z-10 flex flex-col items-center w-full group-hover:text-[var(--color-background)] transition-colors duration-300">
-                    {/* Index */}
-                    <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-
-                    {/* Hexagon */}
-                    <HexAvatar member={member} size="sm" className="mb-6 group-hover:scale-105 transition-transform duration-300" />
-
-                    <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-1">{member.name}</h3>
-                    <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] mb-6 transition-colors">{member.role}</p>
-
-                    <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
-                      {member.linkedin ? (
-                        <div className="flex flex-col">
-                          <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1.5 group-hover:text-[var(--color-background)] transition-colors">LinkedIn</span>
-                          <span className="font-black tracking-widest text-xl group-hover:text-[var(--color-background)] transition-colors">Connect ↗</span>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col">
-                          <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1.5 group-hover:text-[var(--color-background)] transition-colors">Nexturn</span>
-                          <span className="font-black tracking-widest text-lg group-hover:text-[var(--color-background)] transition-colors">Core Member</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <span className="mt-6 text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-60 transition-opacity">Click ↗</span>
-                  </div>
-                </TiltCard>
+                />
               ))}
 
               {/* End marker */}
