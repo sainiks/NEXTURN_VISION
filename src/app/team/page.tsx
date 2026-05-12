@@ -43,8 +43,8 @@ type Member = {
 /* ── Hexagon Avatar (image with initials fallback) ── */
 function HexAvatar({ member, size = "md", className = "" }: { member: Member; size?: "sm" | "md" | "lg"; className?: string }) {
   const [imgError, setImgError] = useState(false);
-  const sizeClasses = { sm: "w-36 h-36 md:w-44 md:h-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
-  const textSizes = { sm: "text-5xl md:text-6xl", md: "text-5xl", lg: "text-7xl md:text-8xl" };
+  const sizeClasses = { sm: "w-44 h-44 md:w-56 md:h-56", md: "w-48 h-48", lg: "w-60 h-60 md:w-72 md:h-72" };
+  const textSizes = { sm: "text-6xl md:text-7xl", md: "text-6xl", lg: "text-8xl md:text-9xl" };
   return (
     <div
       className={`${sizeClasses[size]} bg-[var(--color-foreground)] text-[var(--color-background)] flex items-center justify-center relative overflow-hidden ${className}`}
@@ -149,7 +149,6 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                 </div>
               )}
             </div>
-            <span className="mt-6 text-[10px] font-black uppercase tracking-widest opacity-40">Click Card for Info</span>
           </div>
         </div>
 
