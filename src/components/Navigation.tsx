@@ -10,7 +10,7 @@ const links = [
   { title: "TEAM", href: "/team" },
   { title: "RECRUITERS", href: "/recruiters" },
   { title: "STUDENTS", href: "/students" },
-  { title: "STATISTICS", href: "/#statistics" },
+  { title: "PIPELINE", href: "/pipeline" },
   { title: "CONTACT", href: "#contact" },
 ];
 
