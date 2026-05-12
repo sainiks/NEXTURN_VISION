@@ -6,19 +6,11 @@ import MagneticButton from "@/components/MagneticButton";
 
 const timelineEvents = [
   {
-    id: 1,
-    date: "JAN 30, 2025",
+    id: 4,
+    date: "MAY 02, 2026",
     status: "CLOSED",
-    title: "IGNISIA - The Intern Fair",
-    location: "Hall A",
-    priority: "High",
-  },
-  {
-    id: 2,
-    date: "OCT 15, 2025",
-    status: "CLOSED",
-    title: "FUSION - X",
-    location: "BASE 2",
+    title: "NEXTera 1.0 - Internship Drive",
+    location: "IITM Campus",
     priority: "High",
   },
   {
@@ -30,11 +22,19 @@ const timelineEvents = [
     priority: "High",
   },
   {
-    id: 4,
-    date: "MAY 02, 2026",
+    id: 2,
+    date: "OCT 15, 2025",
     status: "CLOSED",
-    title: "NEXTera 1.0 - Internship Drive",
-    location: "IITM Campus",
+    title: "FUSION - X",
+    location: "BASE 2",
+    priority: "High",
+  },
+  {
+    id: 1,
+    date: "JAN 30, 2025",
+    status: "CLOSED",
+    title: "IGNISIA - The Intern Fair",
+    location: "Hall A",
     priority: "High",
   }
 ];
