@@ -84,7 +84,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
 
   return (
     <div 
-      className={`relative perspective-1000 ${className}`}
+      className={`relative perspective-1000 group ${className}`}
       onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
       onClick={onClick}
@@ -120,31 +120,31 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
           {/* Sweep BG */}
           <div className="absolute inset-0 bg-[var(--color-foreground)] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0" />
 
-          <div className="z-10 flex flex-col items-center w-full">
-             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30">
+          <div className="z-10 flex flex-col items-center w-full group-hover:text-[var(--color-background)] transition-colors duration-300">
+             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
                 {String(i + 1).padStart(2, "0")}
               </span>
-            <HexAvatar member={member} size={isFounder ? "lg" : "sm"} className="mb-6" />
+            <HexAvatar member={member} size={isFounder ? "lg" : "sm"} className="mb-6 group-hover:scale-105 transition-transform duration-500" />
             <h3 className={`${isFounder ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'} font-black uppercase tracking-tighter mb-1`}>{member.name}</h3>
-            <p className={`${isFounder ? 'text-lg md:text-xl' : 'text-sm md:text-base'} font-bold uppercase tracking-widest text-[var(--color-accent)] mb-6`}>{member.role}</p>
+            <p className={`${isFounder ? 'text-lg md:text-xl' : 'text-sm md:text-base'} font-bold uppercase tracking-widest text-[var(--color-accent)] mb-6 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text`}>{member.role}</p>
 
-            <div className="w-full border-t-4 border-[var(--color-foreground)] pt-4 flex flex-col gap-2 text-left">
+            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
                 <div className="flex flex-col">
-                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">LinkedIn</span>
+                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">LinkedIn</span>
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
                       window.open(member.linkedin, "_blank");
                     }}
-                    className={`${isFounder ? 'text-3xl' : 'text-xl'} font-black tracking-widest text-[var(--color-accent)] text-left hover:translate-x-2 transition-transform duration-300`}
+                    className={`${isFounder ? 'text-3xl' : 'text-xl'} font-black tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300`}
                   >
                     Connect ↗
                   </button>
                 </div>
               ) : (
                 <div className="flex flex-col">
-                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1">Nexturn</span>
+                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">Nexturn</span>
                   <span className="font-black tracking-widest text-lg">Core Member</span>
                 </div>
               )}
