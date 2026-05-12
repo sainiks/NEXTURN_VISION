@@ -21,7 +21,7 @@ export default function Navigation() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-8 right-8 z-40 brutalist-btn p-4 mix-blend-difference"
+        className="fixed top-8 right-8 z-40 bg-[var(--color-foreground)] text-[var(--color-background)] p-4 border-4 border-[var(--color-foreground)] hover:bg-[var(--color-accent)] hover:text-[var(--color-foreground)] transition-all duration-300 shadow-[4px_4px_0px_var(--color-accent)] flex items-center justify-center"
       >
         <Menu size={32} />
       </button>

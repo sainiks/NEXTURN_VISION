@@ -64,12 +64,12 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
   const [isFlipped, setIsFlipped] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleLeave = useCallback(() => { 
+  const handleLeave = useCallback(() => {
     setIsFlipped(false);
   }, []);
 
   return (
-    <div 
+    <div
       className={`relative perspective-1000 group ${className}`}
       onMouseLeave={handleLeave}
       onClick={onClick}
@@ -77,8 +77,8 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
     >
       <motion.div
         ref={ref}
-        style={{ 
-          transformStyle: "preserve-3d" 
+        style={{
+          transformStyle: "preserve-3d"
         }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ type: "spring", stiffness: 150, damping: 20 }}
@@ -91,14 +91,14 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
           {/* Animated corner accents */}
           <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)] opacity-40" />
           <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
-          
+
           {/* Sweep BG */}
           <div className="absolute inset-0 bg-[var(--color-foreground)] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0" />
 
           <div className="z-10 flex flex-col items-center w-full group-hover:text-[var(--color-background)] transition-colors duration-300">
-             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+            <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
+              {String(i + 1).padStart(2, "0")}
+            </span>
             <HexAvatar member={member} size="sm" className="mb-4 group-hover:scale-105 transition-transform duration-500" />
             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-1">{member.name}</h3>
             <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text">{member.role}</p>
@@ -107,7 +107,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
               {member.linkedin ? (
                 <div className="flex flex-col">
                   <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">LinkedIn</span>
-                  <button 
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       window.open(member.linkedin, "_blank");
@@ -124,16 +124,16 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                 </div>
               )}
             </div>
-            
+
             {/* Signature Flip Trigger */}
-            <div 
+            <div
               onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
               className="mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
               title="Click to flip"
             >
               <div className="flex flex-col items-start">
                 <span className="text-[7px] font-mono uppercase tracking-tighter opacity-50">Authorized Core Board</span>
-                <span className="text-[10px] font-black tracking-widest leading-none">NXT-VERIFY-{i+1}</span>
+                <span className="text-[10px] font-black tracking-widest leading-none">NXT-VERIFY-{i + 1}</span>
               </div>
               <span className="text-sm font-black tracking-widest italic opacity-80">{member.initials}_</span>
             </div>
@@ -141,24 +141,24 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
         </div>
 
         {/* BACK SIDE (Stylish ID Design) */}
-        <div 
+        <div
           className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-8 flex flex-col justify-between overflow-hidden"
           style={{ transform: "rotateY(180deg)" }}
         >
           {/* Flip Back Pattern Overlay */}
-          <div 
+          <div
             onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
             className="absolute inset-0 z-0 cursor-pointer opacity-0 hover:opacity-5 transition-opacity"
             title="Click to flip back"
           />
           {/* Background Grid Pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-accent) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
-          
+
           <div className="relative z-10 flex flex-col h-full">
             {/* Top Bar */}
             <div className="flex justify-between items-start mb-4">
-               <div className="w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
-               <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">Nxt / Board</span>
+              <div className="w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
+              <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">Nxt / Board</span>
             </div>
 
             {/* Massive Monogram */}
@@ -185,20 +185,20 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
                 </div>
                 <div className="col-span-2">
                   <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification</span>
-                  <span className="font-black">NC-026-{member.initials}-{i+1}</span>
+                  <span className="font-black">NC-026-{member.initials}-{i + 1}</span>
                 </div>
               </div>
             </div>
-            
+
             {/* Bottom Accent + Flip Back Trigger */}
             <div className="flex justify-between items-end mt-4 relative z-10">
-               <button 
-                 onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
-                 className="px-4 py-1 border-2 border-[var(--color-accent)] text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
-               >
-                 Return to Profile
-               </button>
-               <div className="w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
+              <button
+                onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+                className="px-4 py-1 border-2 border-[var(--color-accent)] text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
+              >
+                Return to Profile
+              </button>
+              <div className="w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
             </div>
           </div>
         </div>
@@ -341,20 +341,19 @@ export default function Team() {
           <div className="max-w-7xl mx-auto relative">
             <motion.div
               className="absolute -top-8 right-0 text-[20vw] font-black text-[var(--color-foreground)] opacity-[0.03] leading-none select-none pointer-events-none"
-              initial={{ x: 200 }} animate={{ x: 0 }} transition={{ duration: 1.5, ease: [0.22,1,0.36,1] }}
+              initial={{ x: 200 }} animate={{ x: 0 }} transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
             >12</motion.div>
 
             <motion.h1
               className="text-7xl md:text-[10rem] font-black uppercase tracking-tighter leading-[0.85] relative z-10"
               initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.22,1,0.36,1] }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             >
               <TextScramble>The Team</TextScramble>
             </motion.h1>
 
             <motion.div className="flex items-center gap-6 mt-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
               <motion.div className="h-[4px] bg-[var(--color-accent)] flex-1" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.6 }} style={{ transformOrigin: "left" }} />
-              <span className="text-sm font-black uppercase tracking-widest opacity-60 flex-shrink-0">2 Founders • 10 Core</span>
             </motion.div>
           </div>
         </section>
@@ -395,24 +394,26 @@ export default function Team() {
             </p>
           </div>
 
-          {/* Pinned horizontal scroll container */}
           <div ref={horizontalRef} className="relative h-screen overflow-hidden">
-            {/* Indicator overlay — lives inside the pinned area */}
+            {/* Indicator overlay — centered at top */}
             <div className="absolute top-0 left-0 right-0 z-30 bg-[var(--color-background)]/90 backdrop-blur-sm border-b-[3px] border-[var(--color-foreground)]">
-              <div className="px-8 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <span className="text-5xl font-black text-[var(--color-accent)] transition-all duration-300">{String(activeIndex + 1).padStart(2, "0")}</span>
+              <div className="px-8 py-4 flex items-center justify-center relative min-h-[100px]">
+                <div className="absolute left-8 flex items-center gap-4">
+                  <span className="text-4xl md:text-5xl font-black text-[var(--color-accent)] transition-all duration-300">{String(activeIndex + 1).padStart(2, "0")}</span>
                   <span className="text-xs font-black uppercase tracking-widest opacity-50">/ {coreMembers.length}</span>
                 </div>
-                <span className="text-sm md:text-lg font-black uppercase tracking-tighter truncate max-w-[200px] md:max-w-none">
-                  {coreMembers[activeIndex]?.name}
-                </span>
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] hidden md:block">
-                  {coreMembers[activeIndex]?.role}
-                </span>
+                
+                <div className="flex flex-col items-center text-center px-32">
+                  <span className="text-xl md:text-3xl font-black uppercase tracking-tighter">
+                    {coreMembers[activeIndex]?.name}
+                  </span>
+                  <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[var(--color-accent)] mt-1">
+                    {coreMembers[activeIndex]?.role}
+                  </span>
+                </div>
               </div>
               {/* Progress bar */}
-              <div className="h-[3px] bg-[var(--color-foreground)] opacity-10">
+              <div className="h-[4px] bg-[var(--color-foreground)] opacity-10">
                 <div className="h-full bg-[var(--color-accent)] transition-all duration-300 ease-out" style={{ width: `${((activeIndex + 1) / coreMembers.length) * 100}%` }} />
               </div>
             </div>
@@ -424,19 +425,18 @@ export default function Team() {
                   key={i}
                   member={member}
                   i={i}
-                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[480px] md:h-[520px] ${
-                    i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
-                  }`}
+                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[480px] md:h-[520px] ${i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
+                    }`}
                   onClick={() => setSelectedMember(member)}
                 />
               ))}
 
               {/* End marker */}
-              <div className="flex-shrink-0 w-[300px] h-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-[400px] h-full flex items-center justify-center">
                 <div className="text-center">
-                  <p className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">12</p>
-                  <p className="text-sm font-black uppercase tracking-widest mt-4 opacity-60">Members Strong</p>
-                  <div className="mt-6 w-16 h-[4px] bg-[var(--color-accent)] mx-auto" />
+                  <p className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Core</p>
+                  <p className="text-2xl md:text-4xl font-black uppercase tracking-widest mt-2 opacity-80">Team</p>
+                  <div className="mt-8 w-24 h-[6px] bg-[var(--color-foreground)] mx-auto" />
                 </div>
               </div>
             </div>
