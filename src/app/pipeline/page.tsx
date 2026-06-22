@@ -58,7 +58,7 @@ export default function PipelinePage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="mb-24 max-w-7xl mx-auto"
       >
-        <div className="text-[#00FF41] uppercase tracking-widest font-bold mb-4">
+        <div className="text-[var(--color-accent)] uppercase tracking-widest font-bold mb-4">
           LOGISTICS // RSVP
         </div>
         <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
@@ -73,18 +73,18 @@ export default function PipelinePage() {
         <div className="lg:col-span-8 relative flex justify-center">
           <div ref={containerRef} className="relative flex flex-col gap-24 w-full max-w-2xl">
             {/* Animated Background Line */}
-            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[#111]" />
+            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[var(--color-border)] opacity-20" />
             <motion.div 
-              className="absolute left-0 top-0 w-[1px] bg-[#444] origin-top z-0"
+              className="absolute left-0 top-0 w-[1px] bg-[var(--color-foreground)] opacity-40 origin-top z-0"
               style={{ height: "100%", scaleY: lineHeight }}
             />
 
             {timelineEvents.map((event, index) => {
               const isScheduled = event.status === 'SCHEDULED';
-              const borderColor = isScheduled ? 'border-[#00FF41]' : 'border-[#333]';
-              const textColor = isScheduled ? 'text-[#00FF41]' : 'text-[#888]';
-              const statusColor = isScheduled ? 'text-[#00FF41]' : 'text-[#666]';
-              const nodeBorder = isScheduled ? 'border-[#00FF41]' : 'border-[#666]';
+              const borderColor = isScheduled ? 'border-[var(--color-accent)]' : 'border-[var(--color-border)]';
+              const textColor = isScheduled ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]';
+              const statusColor = isScheduled ? 'text-[var(--color-accent)]' : 'opacity-40';
+              const nodeBorder = isScheduled ? 'border-[var(--color-accent)]' : 'border-[var(--color-muted)]';
 
               return (
                 <motion.div 
@@ -98,7 +98,7 @@ export default function PipelinePage() {
                   className="relative pl-10 md:pl-16 group"
                 >
                   {/* NODE (HOLLOW SQUARE) */}
-                  <div className={`absolute left-[-7px] top-1.5 w-3.5 h-3.5 border-[1.5px] bg-[#050505] z-10 transition-transform duration-300 group-hover:scale-150 group-hover:rotate-45 ${nodeBorder} ${isScheduled ? 'animate-pulse' : ''}`} />
+                  <div className={`absolute left-[-7px] top-1.5 w-3.5 h-3.5 border-[1.5px] bg-[var(--color-background)] z-10 transition-transform duration-300 group-hover:scale-150 group-hover:rotate-45 ${nodeBorder} ${isScheduled ? 'animate-pulse' : ''}`} />
                   
                   {/* EVENT CONTENT */}
                   <div className="flex flex-col gap-4 max-w-2xl relative z-10">
@@ -121,15 +121,15 @@ export default function PipelinePage() {
                     </p>
 
                     {/* RSVP BOX */}
-                    <div className="border border-[#222] p-6 md:p-8 bg-[#050505] max-w-xl transition-all duration-300 hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.05)]">
-                      <div className="text-[#555] text-xs font-mono mb-4 tracking-wider">RSVP_FORM_V1</div>
+                    <div className="border border-[var(--color-border)] p-6 md:p-8 bg-[var(--color-surface)] max-w-xl transition-all duration-300 hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[8px_8px_0px_0px_var(--color-accent)]">
+                      <div className="text-[var(--color-muted)] opacity-50 text-xs font-mono mb-4 tracking-wider">RSVP_FORM_V1</div>
                       <input 
                         type="text" 
                         placeholder="ENTER_YOUR_NAME" 
-                        className="w-full bg-[#0a0a0a] border-none text-[#fff] p-4 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#444] transition-all placeholder:text-[#444]"
+                        className="w-full bg-[var(--color-background)] border-none text-[var(--color-foreground)] p-4 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-border)] transition-all placeholder:text-[var(--color-muted)] opacity-80"
                       />
                       <div className="mt-4">
-                        <MagneticButton className="w-full !bg-white !text-black font-bold py-3.5 uppercase hover:!bg-[var(--color-accent)] hover:!text-black transition-colors text-sm tracking-wide !border-none">
+                        <MagneticButton className="w-full !bg-[var(--color-foreground)] !text-[var(--color-background)] font-bold py-3.5 uppercase hover:!bg-[var(--color-accent)] hover:!text-[var(--color-foreground)] transition-colors text-sm tracking-wide !border-none">
                           CONFIRM ATTENDANCE
                         </MagneticButton>
                       </div>
@@ -143,11 +143,11 @@ export default function PipelinePage() {
 
         {/* RIGHT COLUMN: GLIMPSE SIDEBAR */}
         <div className="hidden lg:block lg:col-span-4 relative">
-          <div className="sticky top-32 border border-[#222] bg-[#050505] p-8">
-            <h3 className="text-[#00FF41] text-sm font-bold tracking-widest uppercase mb-8">Mission Overview</h3>
+          <div className="sticky top-32 border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
+            <h3 className="text-[var(--color-accent)] text-sm font-bold tracking-widest uppercase mb-8">Mission Overview</h3>
             <div className="flex flex-col gap-6 relative">
               {/* Subtle connecting line for overview */}
-              <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-[#222] z-0" />
+              <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-[var(--color-border)] z-0" />
               
               {timelineEvents.map((event) => {
                 const isActive = activeEventId === event.id;
@@ -159,12 +159,12 @@ export default function PipelinePage() {
                     }}
                     className="relative flex items-start gap-4 text-left group z-10"
                   >
-                    <div className={`mt-1.5 w-2 h-2 border transition-colors duration-300 ${isActive ? 'bg-[#00FF41] border-[#00FF41]' : 'bg-[#050505] border-[#444] group-hover:border-[#00FF41]'}`} />
+                    <div className={`mt-1.5 w-2 h-2 border transition-colors duration-300 ${isActive ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : 'bg-[var(--color-background)] border-[var(--color-border)] group-hover:border-[var(--color-accent)]'}`} />
                     <div className="flex flex-col">
-                      <span className={`font-mono text-xs tracking-wider transition-colors duration-300 ${isActive ? 'text-[#00FF41]' : 'text-[#666] group-hover:text-[#aaa]'}`}>
+                      <span className={`font-mono text-xs tracking-wider transition-colors duration-300 ${isActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] group-hover:text-[var(--color-foreground)]'}`}>
                         {event.date}
                       </span>
-                      <span className={`text-sm font-bold mt-1 transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#888] group-hover:text-white'}`}>
+                      <span className={`text-sm font-bold mt-1 transition-colors duration-300 ${isActive ? 'text-[var(--color-foreground)]' : 'text-[var(--color-muted)] opacity-60 group-hover:opacity-100 group-hover:text-[var(--color-foreground)]'}`}>
                         {event.title}
                       </span>
                     </div>

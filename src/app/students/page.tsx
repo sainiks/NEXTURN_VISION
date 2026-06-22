@@ -68,7 +68,7 @@ export default function Students() {
           <h2 className="text-4xl md:text-6xl font-black uppercase mb-16 brutalist-border-b pb-8">
             Active Drives
           </h2>
-          
+
           <div className="brutalist-border border-b-0">
             {/* Table Header */}
             <div className="grid grid-cols-4 border-b-4 border-[var(--color-foreground)] p-6 bg-[var(--color-foreground)] text-[var(--color-background)] uppercase font-black tracking-widest text-sm md:text-xl hidden md:grid">
@@ -81,8 +81,8 @@ export default function Students() {
             {/* Table Rows */}
             <div className="flex flex-col">
               {jobs.map((job) => (
-                <div 
-                  key={job.id} 
+                <div
+                  key={job.id}
                   className="inverted-hover cursor-pointer border-b-4 border-[var(--color-foreground)] p-6 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 items-center transition-colors duration-200"
                 >
                   <div className="font-bold text-2xl md:text-3xl uppercase">{job.role}</div>
@@ -102,10 +102,10 @@ export default function Students() {
               Prep Roadmaps
             </h2>
             <p className="text-sm md:text-lg uppercase font-bold tracking-tighter opacity-60 mt-4 md:mt-0">
-              Curated by NEX-Tech Division
+              Curated by Nexturn
             </p>
           </div>
-          
+
           <div className="flex flex-col border-4 border-[var(--color-foreground)] border-b-0">
             {roadmaps.map((roadmap, index) => {
               const isOpen = activeAccordion === index;
@@ -116,24 +116,23 @@ export default function Students() {
                       setActiveAccordion(isOpen ? null : index);
                       if (!isOpen) trackClick("Accordion Expand", roadmap.title);
                     }}
-                    className={`w-full p-8 flex justify-between items-center transition-all duration-300 ${
-                      isOpen 
-                        ? "bg-[var(--color-foreground)] text-[var(--color-background)]" 
-                        : "bg-[var(--color-background)] hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)]"
-                    }`}
+                    className={`w-full p-8 flex justify-between items-center transition-all duration-300 ${isOpen
+                      ? "bg-[var(--color-foreground)] text-[var(--color-background)]"
+                      : "bg-[var(--color-background)] hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)]"
+                      }`}
                   >
                     <span className="text-2xl md:text-5xl font-black uppercase text-left flex items-center gap-4">
                       {roadmap.title}
                       {!isOpen && <ExternalLink size={24} className="opacity-0 group-hover:opacity-100 transition-opacity" />}
                     </span>
-                    <motion.span 
+                    <motion.span
                       animate={{ rotate: isOpen ? 90 : 0 }}
                       className="text-4xl font-light"
                     >
                       <ChevronRight size={48} strokeWidth={3} />
                     </motion.span>
                   </button>
-                  
+
                   <AnimatePresence>
                     {isOpen && (
                       <motion.div
@@ -153,11 +152,11 @@ export default function Students() {
                                   {roadmap.content}
                                 </p>
                               </div>
-                              
+
                               <div className="flex flex-wrap gap-4">
-                                <a 
-                                  href={roadmap.url} 
-                                  target="_blank" 
+                                <a
+                                  href={roadmap.url}
+                                  target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={() => trackClick("Interactive Roadmap", roadmap.title)}
                                   className="brutalist-button flex items-center gap-3 bg-[var(--color-foreground)] text-[var(--color-background)] px-8 py-4 text-xl font-black uppercase hover:translate-x-2 hover:-translate-y-2 transition-transform shadow-[4px_4px_0px_var(--color-accent)]"
@@ -166,8 +165,8 @@ export default function Students() {
                                 </a>
 
                                 {isMobile && (
-                                  <a 
-                                    href={roadmap.pdfUrl} 
+                                  <a
+                                    href={roadmap.pdfUrl}
                                     download
                                     onClick={() => trackClick("PDF Download", roadmap.title)}
                                     className="brutalist-button flex items-center gap-3 border-4 border-[var(--color-foreground)] px-8 py-4 text-xl font-black uppercase hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] transition-all shadow-[4px_4px_0px_var(--color-foreground)]"
@@ -186,20 +185,20 @@ export default function Students() {
                                     <span className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                       <FileText size={14} /> PDF Preview
                                     </span>
-                                    <a 
-                                      href={roadmap.pdfUrl} 
-                                      download 
+                                    <a
+                                      href={roadmap.pdfUrl}
+                                      download
                                       onClick={() => trackClick("PDF Download", roadmap.title)}
                                       className="hover:scale-110 transition-transform"
                                     >
                                       <Download size={16} />
                                     </a>
                                   </div>
-                                  <embed 
-                                    src={`${roadmap.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
-                                    type="application/pdf" 
-                                    width="100%" 
-                                    height="100%" 
+                                  <embed
+                                    src={`${roadmap.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
                                     className="flex-grow"
                                   />
                                 </div>

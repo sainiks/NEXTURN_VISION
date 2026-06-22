@@ -15,7 +15,7 @@ const partners = [
 
 export default function Marquee() {
   return (
-    <div className="relative w-full overflow-hidden bg-[var(--color-foreground)] text-[var(--color-background)] py-4 flex border-y-[3px] border-[var(--color-foreground)]">
+    <div className="relative w-full overflow-hidden bg-[var(--color-foreground)] text-[var(--color-background)] py-4 flex border-y-[3px] border-[var(--color-foreground)] transition-colors duration-500">
       <motion.div
         className="flex whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}

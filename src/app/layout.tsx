@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description: "The official web platform for Nexturn, the unified Internship and Placement Cell at the Institute of Innovation in Technology & Management.",
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+import ThemeToggle from "@/components/ThemeToggle";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,11 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
-        <CustomCursor />
-        <Navigation />
-        <LenisProvider>
-          {children}
-        </LenisProvider>
+        <ThemeProvider>
+          <CustomCursor />
+          <Navigation />
+          <ThemeToggle />
+          <LenisProvider>
+            {children}
+          </LenisProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

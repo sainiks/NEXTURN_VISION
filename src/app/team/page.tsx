@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -60,7 +60,7 @@ function HexAvatar({ member, size = "md", className = "" }: { member: Member; si
 }
 
 /* ── Team Card (3D Flip) ── */
-function TeamCard({ member, i, className, onClick, isFounder = false }: { member: Member; i: number; className?: string; onClick: () => void; isFounder?: boolean }) {
+function TeamCard({ member, i, className, onClick }: { member: Member; i: number; className?: string; onClick: () => void; isFounder?: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -85,7 +85,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
         className="w-full h-full relative"
       >
         {/* FRONT SIDE */}
-        <div className="absolute inset-0 w-full h-full backface-hidden z-10 border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-6 flex flex-col items-center text-center overflow-hidden">
+        <div className="absolute inset-0 w-full h-full backface-hidden z-10 frost-card p-6 flex flex-col items-center text-center overflow-hidden">
           {/* Flip Trigger Button */}
 
           {/* Animated corner accents */}
@@ -93,7 +93,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
           <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
 
           {/* Sweep BG */}
-          <div className="absolute inset-0 bg-[var(--color-foreground)] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0" />
+          <div className="absolute inset-0 card-sweep transform translate-y-full group-hover:translate-y-0 z-0" />
 
           <div className="z-10 flex flex-col items-center w-full group-hover:text-[var(--color-background)] transition-colors duration-300">
             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
@@ -101,7 +101,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
             </span>
             <HexAvatar member={member} size="sm" className="mb-4 group-hover:scale-105 transition-transform duration-500" />
             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-1">{member.name}</h3>
-            <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-foreground)] bg-clip-text">{member.role}</p>
+            <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
 
             <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
@@ -211,7 +211,7 @@ function TeamCard({ member, i, className, onClick, isFounder = false }: { member
 function MemberModal({ member, onClose }: { member: Member | null; onClose: () => void }) {
   if (!member) return null;
   return (
-    <motion.div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md cursor-pointer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
+    <motion.div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--color-background)]/80 backdrop-blur-md cursor-pointer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
       <motion.div
         className="relative border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-12 max-w-lg w-full mx-4 cursor-default"
         initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 10 }}
@@ -375,7 +375,6 @@ export default function Team() {
                 key={i}
                 member={f}
                 i={i}
-                isFounder
                 className="w-[320px] md:w-[400px] h-[480px] md:h-[520px] founder-card"
                 onClick={() => setSelectedMember(f)}
               />
@@ -396,7 +395,7 @@ export default function Team() {
 
           <div ref={horizontalRef} className="relative h-screen overflow-hidden">
             {/* Indicator overlay — centered at top */}
-            <div className="absolute top-0 left-0 right-0 z-30 bg-[var(--color-background)]/90 backdrop-blur-sm border-b-[3px] border-[var(--color-foreground)]">
+            <div className="absolute top-0 left-0 right-0 z-30 frost-sweep border-b-[3px] border-[var(--color-foreground)]">
               <div className="px-8 py-4 flex items-center justify-center relative min-h-[100px]">
                 <div className="absolute left-8 flex items-center gap-4">
                   <span className="text-4xl md:text-5xl font-black text-[var(--color-accent)] transition-all duration-300">{String(activeIndex + 1).padStart(2, "0")}</span>

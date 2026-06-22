@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 const CubeFace = ({ transform, size }: { transform: string, size: number }) => {
   const squareSize = 40; // Small grid size
   const maxCols = Math.floor(size / squareSize);
+  const gridColor = "var(--color-cube-grid)";
 
   return (
     <div
@@ -15,8 +16,7 @@ const CubeFace = ({ transform, size }: { transform: string, size: number }) => {
         height: size,
         transform,
         transformStyle: "preserve-3d",
-        // The highly performant base static grid
-        backgroundImage: "linear-gradient(to right, var(--color-foreground) 1px, transparent 1px), linear-gradient(to bottom, var(--color-foreground) 1px, transparent 1px)",
+        backgroundImage: `linear-gradient(to right, ${gridColor} 1px, transparent 1px), linear-gradient(to bottom, ${gridColor} 1px, transparent 1px)`,
         backgroundSize: `${squareSize}px ${squareSize}px`
       }}
     >
@@ -32,13 +32,12 @@ const CubeFace = ({ transform, size }: { transform: string, size: number }) => {
         return (
           <div
             key={i}
-            className="absolute bg-[var(--color-background)]"
+            className="absolute cube-cell"
             style={{
               width: squareSize,
               height: squareSize,
               left: col * squareSize,
               top: row * squareSize,
-              // Using our optimized scale animation from globals.css
               animation: `cellPop ${duration}s infinite ease-in-out ${delay}s`,
             } as React.CSSProperties}
           />
@@ -139,5 +138,3 @@ export default function InteractiveCube() {
     </div>
   );
 }
-
-
