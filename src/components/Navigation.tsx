@@ -33,22 +33,22 @@ export default function Navigation() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-50 bg-[var(--color-foreground)] text-[var(--color-background)] flex flex-col justify-center px-8 md:px-24 brutalist-border-b"
+            className="fixed inset-0 z-50 bg-[var(--color-foreground)] text-[var(--color-background)] flex flex-col justify-center px-6 md:px-24 brutalist-border-b"
           >
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-8 right-8 md:right-24 p-4 border-4 border-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-foreground)] transition-colors duration-200"
+              className="absolute top-6 right-6 md:top-8 md:right-24 p-3 md:p-4 border-4 border-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-foreground)] transition-colors duration-200 z-50 bg-[var(--color-foreground)]"
             >
-              <X size={32} />
+              <X size={28} className="md:w-8 md:h-8" />
             </button>
 
-            <nav className="flex flex-col gap-4 md:gap-6">
+            <nav className="flex flex-col gap-2 md:gap-4">
               {links.map((link, i) => (
                 <div key={i} className="overflow-hidden">
                   <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="inline-block text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter hover:text-[var(--color-accent)] hover:translate-x-8 transition-transform duration-300"
+                    className="inline-block text-[clamp(2rem,min(8vw,10vh),6rem)] font-black uppercase tracking-tighter hover:text-[var(--color-accent)] hover:translate-x-4 md:hover:translate-x-8 transition-transform duration-300 leading-none py-1 md:py-2"
                   >
                     <motion.span
                       initial={{ y: "100%" }}
