@@ -61,6 +61,15 @@
   ],
   "pipelineEvents": [
     {
+      "id": 5,
+      "date": "OCT 30, 2026",
+      "status": "SCHEDULED",
+      "title": "Tech Symposium & Workshop 2026",
+      "location": "IITM Main Auditorium",
+      "priority": "High",
+      "formUrl": "https://forms.gle/techSymposium2026"
+    },
+    {
       "id": 4,
       "date": "MAY 02, 2026",
       "status": "SCHEDULED",
