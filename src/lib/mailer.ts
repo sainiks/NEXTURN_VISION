@@ -184,7 +184,7 @@ export async function logAndNotifyAlpha1Change(params: {
       }
     } else {
       console.log(`[MAILER AUDIT] Alpha-1 Activity Recorded locally for ${NOTIFICATION_RECIPIENT}`);
-      dispatchError = "SMTP credentials missing in .env.local. Set GMAIL_USER and GMAIL_APP_PASSWORD.";
+      dispatchError = "SMTP credentials missing. Set GMAIL_USER and GMAIL_APP_PASSWORD in Vercel (Project Settings > Environment Variables) to enable live email delivery.";
     }
 
     // Persist to activity logs
@@ -407,7 +407,7 @@ export async function sendTestEmail(): Promise<{ success: boolean; message: stri
   if (!smtpUser || !smtpPass) {
     return {
       success: false,
-      message: "Credentials missing. Set GMAIL_USER and GMAIL_APP_PASSWORD in .env.local to activate live inbox delivery.",
+      message: "Credentials missing. Set GMAIL_USER and GMAIL_APP_PASSWORD in Vercel (Project Settings > Environment Variables) to activate live inbox delivery.",
     };
   }
 
