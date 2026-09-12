@@ -61,6 +61,15 @@
   ],
   "pipelineEvents": [
     {
+      "id": 6,
+      "date": "DEC 15, 2026",
+      "status": "SCHEDULED",
+      "title": "Annual Placement Gala & Awards",
+      "location": "IITM Grand Auditorium",
+      "priority": "High",
+      "formUrl": "https://forms.gle/annualGala2026"
+    },
+    {
       "id": 5,
       "date": "OCT 30, 2026",
       "status": "SCHEDULED",
