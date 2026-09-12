@@ -64,16 +64,16 @@
       "id": 7,
       "date": "SEP 10, 2026",
       "status": "CLOSED",
-      "title": "PLACEMENT DRIVE",
+      "title": "BBA & BCA PLACEMENT DRIVE",
       "location": "IITM Reception area",
       "priority": "High",
-      "formUrl": ""
+      "formUrl": "https://forms.google.com/"
     },
     {
       "id": 6,
       "date": "SEP 9, 2026",
       "status": "CLOSED",
-      "title": "NEXTURN RECRUIT-2026",
+      "title": "RECRUITment 2026",
       "location": "IITM D-51 ,FIRST FLOOR",
       "priority": "High",
       "formUrl": "https://forms.gle/qC3noWtbuo5Ueac47"
