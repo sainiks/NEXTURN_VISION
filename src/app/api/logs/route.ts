@@ -5,7 +5,7 @@ import { isVicePresident } from "@/lib/teamAccess";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -19,7 +19,9 @@ export async function GET() {
     );
   }
 
-  const logs = await getActivityLogs();
+  const { searchParams } = new URL(req.url);
+  const forceSync = searchParams.get("sync") === "true" || searchParams.get("refresh") === "true";
+  const logs = await getActivityLogs({ forceSync });
   return NextResponse.json({
     success: true,
     logs,

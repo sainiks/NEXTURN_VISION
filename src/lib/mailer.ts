@@ -211,15 +211,28 @@ export async function logAndNotifyAlpha1Change(params: {
       if (globalThis.__nexturn_activity_logs_cache__) {
         existingLogs = [...globalThis.__nexturn_activity_logs_cache__];
       } else {
+        // Cold start: fetch latest logs from GitHub first so prior remote entries are preserved
         try {
-          const raw = await fs.readFile(ACTIVITY_LOGS_PATH, "utf-8");
-          existingLogs = JSON.parse(raw);
+          const { fetchActivityLogsFromGitHub } = await import("./githubSync");
+          const ghLogs = await fetchActivityLogsFromGitHub();
+          if (Array.isArray(ghLogs)) {
+            existingLogs = ghLogs;
+          }
         } catch {
+          // ignore
+        }
+
+        if (existingLogs.length === 0) {
           try {
-            const rawFallback = await fs.readFile(FALLBACK_LOGS_PATH, "utf-8");
-            existingLogs = JSON.parse(rawFallback);
+            const raw = await fs.readFile(ACTIVITY_LOGS_PATH, "utf-8");
+            existingLogs = JSON.parse(raw);
           } catch {
-            existingLogs = [];
+            try {
+              const rawFallback = await fs.readFile(FALLBACK_LOGS_PATH, "utf-8");
+              existingLogs = JSON.parse(rawFallback);
+            } catch {
+              existingLogs = [];
+            }
           }
         }
       }
@@ -245,6 +258,14 @@ export async function logAndNotifyAlpha1Change(params: {
           // ignore
         }
       }
+
+      // Auto-commit to GitHub master for permanent cloud persistence across serverless lifecycles
+      try {
+        const { commitActivityLogsToGitHub } = await import("./githubSync");
+        await commitActivityLogsToGitHub(existingLogs, memberName);
+      } catch (ghErr) {
+        console.warn("[MAILER AUDIT] Failed to commit activity logs to GitHub:", ghErr);
+      }
     } catch (logErr) {
       console.warn("[MAILER AUDIT] Failed to save activity log entry to disk:", logErr);
     }
@@ -256,41 +277,53 @@ export async function logAndNotifyAlpha1Change(params: {
   }
 }
 
-export async function getActivityLogs(): Promise<ActivityLogEntry[]> {
+export async function getActivityLogs(options?: { forceSync?: boolean }): Promise<ActivityLogEntry[]> {
   try {
     const now = Date.now();
-    let logs: ActivityLogEntry[] = [];
+    let logs: ActivityLogEntry[] | null = null;
 
-    if (globalThis.__nexturn_activity_logs_cache__) {
+    if (globalThis.__nexturn_activity_logs_cache__ && !options?.forceSync) {
       logs = [...globalThis.__nexturn_activity_logs_cache__];
     } else {
+      // 1. On cold start or when forceSync is requested, fetch from GitHub
       try {
-        const raw = await fs.readFile(ACTIVITY_LOGS_PATH, "utf-8");
-        logs = JSON.parse(raw);
-      } catch {
+        const { fetchActivityLogsFromGitHub } = await import("./githubSync");
+        const ghLogs = await fetchActivityLogsFromGitHub();
+        if (Array.isArray(ghLogs)) {
+          logs = ghLogs;
+        }
+      } catch (ghErr) {
+        console.warn("[MAILER AUDIT] Remote GitHub fetch skipped/failed:", ghErr);
+      }
+
+      // 2. Fallback to local files if GitHub could not be fetched
+      if (!logs) {
         try {
-          const rawFallback = await fs.readFile(FALLBACK_LOGS_PATH, "utf-8");
-          logs = JSON.parse(rawFallback);
+          const raw = await fs.readFile(ACTIVITY_LOGS_PATH, "utf-8");
+          logs = JSON.parse(raw);
         } catch {
-          logs = [];
+          try {
+            const rawFallback = await fs.readFile(FALLBACK_LOGS_PATH, "utf-8");
+            logs = JSON.parse(rawFallback);
+          } catch {
+            logs = [];
+          }
         }
       }
     }
 
-    const activeLogs = filterExpiredLogs(logs, now);
+    const activeLogs = filterExpiredLogs(logs || [], now);
     globalThis.__nexturn_activity_logs_cache__ = activeLogs;
 
-    // If any logs have been pruned, persist cleaned list
-    if (activeLogs.length !== logs.length) {
-      const serialized = JSON.stringify(activeLogs, null, 2);
+    // Persist cleaned list to disk/fallback
+    const serialized = JSON.stringify(activeLogs, null, 2);
+    try {
+      await fs.writeFile(ACTIVITY_LOGS_PATH, serialized, "utf-8");
+    } catch {
       try {
-        await fs.writeFile(ACTIVITY_LOGS_PATH, serialized, "utf-8");
+        await fs.writeFile(FALLBACK_LOGS_PATH, serialized, "utf-8");
       } catch {
-        try {
-          await fs.writeFile(FALLBACK_LOGS_PATH, serialized, "utf-8");
-        } catch {
-          // ignore
-        }
+        // ignore
       }
     }
 
@@ -323,6 +356,14 @@ export async function deleteActivityLog(logId: string): Promise<{ success: boole
       }
     }
 
+    // Auto-commit deletion to GitHub master
+    try {
+      const { commitActivityLogsToGitHub } = await import("./githubSync");
+      await commitActivityLogsToGitHub(filtered, "Vice President");
+    } catch (ghErr) {
+      console.warn("[MAILER AUDIT] Failed to commit log deletion to GitHub:", ghErr);
+    }
+
     return { success: true };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -342,6 +383,15 @@ export async function clearAllActivityLogs(): Promise<{ success: boolean; error?
         // ignore
       }
     }
+
+    // Auto-commit clear all to GitHub master
+    try {
+      const { commitActivityLogsToGitHub } = await import("./githubSync");
+      await commitActivityLogsToGitHub([], "Vice President");
+    } catch (ghErr) {
+      console.warn("[MAILER AUDIT] Failed to commit clear logs to GitHub:", ghErr);
+    }
+
     return { success: true };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);

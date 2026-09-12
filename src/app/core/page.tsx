@@ -164,14 +164,15 @@ export default function AdminPage() {
     }
   };
 
-  const fetchLogs = async (currentSession?: SessionData | null) => {
+  const fetchLogs = async (currentSession?: SessionData | null, forceSync = false) => {
     const s = currentSession !== undefined ? currentSession : session;
     if (!isVicePresident(s)) {
       setActivityLogs([]);
       return;
     }
     try {
-      const res = await fetch("/api/logs");
+      const url = forceSync ? "/api/logs?sync=true" : "/api/logs";
+      const res = await fetch(url);
       const data = await res.json();
       if (data.success && data.logs) {
         setActivityLogs(data.logs);
@@ -1648,7 +1649,7 @@ export default function AdminPage() {
                   {isSendingTestEmail ? "Sending Test..." : "Send Test Email"}
                 </button>
                 <button
-                  onClick={() => fetchLogs()}
+                  onClick={() => fetchLogs(undefined, true)}
                   className="px-4 py-2 border-2 border-[var(--color-border)] font-mono font-bold text-xs uppercase hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] transition-colors flex items-center gap-1.5"
                 >
                   <RefreshCw className="w-3.5 h-3.5" /> Refresh ({activityLogs.length})
