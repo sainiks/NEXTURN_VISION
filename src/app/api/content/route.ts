@@ -9,6 +9,7 @@ import {
   TopTalent,
 } from "@/lib/content";
 import { logAndNotifyAlpha1Change } from "@/lib/mailer";
+import { commitPortalDataToGitHub } from "@/lib/githubSync";
 
 export const dynamic = "force-dynamic";
 
@@ -175,6 +176,33 @@ export async function PUT(request: Request) {
     // Persist to multi-tier storage
     await savePortalData(currentData);
 
+    // Commit directly to GitHub master branch for permanent cloud persistence
+    let githubSynced = false;
+    let githubCommitSha: string | null = null;
+    let githubNote = "";
+
+    try {
+      const githubResult = await commitPortalDataToGitHub(currentData, {
+        name: session.user,
+        code: session.code,
+        role: session.role,
+        section,
+      });
+      githubSynced = githubResult.success;
+      githubCommitSha = githubResult.commitSha || null;
+
+      if (githubResult.success) {
+        githubNote = ` Committed to GitHub master (${githubResult.commitSha?.slice(0, 7)}).`;
+      } else if (githubResult.skipped) {
+        githubNote = ` (Cloud Notice: Set GITHUB_TOKEN in Vercel to auto-commit to GitHub).`;
+      } else if (githubResult.error) {
+        githubNote = ` (GitHub sync: ${githubResult.error}).`;
+      }
+    } catch (ghErr) {
+      console.warn("[CONTENT API] Non-fatal GitHub sync error:", ghErr);
+      githubNote = " (GitHub sync non-fatal warning).";
+    }
+
     // Dispatches email to nexturn.kunal@gmail.com and records in audit log
     // Non-blocking & safely isolated so mailer issues cannot crash or fail data saving
     let mailStatus: "SENT" | "QUEUED_LOCAL" = "QUEUED_LOCAL";
@@ -196,7 +224,9 @@ export async function PUT(request: Request) {
       success: true,
       data: currentData,
       mailStatus,
-      message: `Section '${section}' updated successfully. Audit email logged for Vice President (nexturn.kunal@gmail.com).`,
+      githubSynced,
+      githubCommit: githubCommitSha,
+      message: `Section '${section}' updated successfully!${githubNote} Audit email logged for Vice President (nexturn.kunal@gmail.com).`,
     });
   } catch (err: unknown) {
     const errorMsg = err instanceof Error ? err.message : String(err);

@@ -1,5 +1,67 @@
 [
   {
+    "id": "LOG-1789234812865-591",
+    "createdAt": 1789234812865,
+    "timestamp": "12/9/2026, 11:10:12 pm IST",
+    "actor": {
+      "name": "Kanha",
+      "code": "NC-026-K-11",
+      "role": "Tech Co-Head",
+      "accessLevel": "ALPHA_1"
+    },
+    "section": "pipelineEvents",
+    "summary": "Updated Mission Pipeline Events to 5 events with Google Form links:\n• Event #5: \"Tech Symposium & Workshop 2026\" (OCT 30, 2026) [Status: SCHEDULED, Priority: High, Loc: IITM Main Auditorium]\n   └─ Google Form RSVP Link: https://forms.gle/techSymposium2026\n• Event #4: \"NEXTera 1.0 - Internship Drive\" (MAY 02, 2026) [Status: SCHEDULED, Priority: High, Loc: IITM Campus]\n   └─ Google Form RSVP Link: https://forms.google.com/\n• Event #3: \"Blood Bank Camp\" (NOV 24, 2025) [Status: CLOSED, Priority: High, Loc: IITM Reception area]\n   └─ Google Form RSVP Link: https://forms.google.com/\n• Event #2: \"FUSION - X\" (OCT 15, 2025) [Status: CLOSED, Priority: High, Loc: BASE 2]\n   └─ Google Form RSVP Link: https://forms.google.com/\n• Event #1: \"IGNISIA - The Intern Fair\" (JAN 30, 2025) [Status: CLOSED, Priority: High, Loc: Hall A]\n   └─ Google Form RSVP Link: https://forms.google.com/",
+    "details": [
+      {
+        "id": 5,
+        "date": "OCT 30, 2026",
+        "status": "SCHEDULED",
+        "title": "Tech Symposium & Workshop 2026",
+        "location": "IITM Main Auditorium",
+        "priority": "High",
+        "formUrl": "https://forms.gle/techSymposium2026"
+      },
+      {
+        "id": 4,
+        "date": "MAY 02, 2026",
+        "status": "SCHEDULED",
+        "title": "NEXTera 1.0 - Internship Drive",
+        "location": "IITM Campus",
+        "priority": "High",
+        "formUrl": "https://forms.google.com/"
+      },
+      {
+        "id": 3,
+        "date": "NOV 24, 2025",
+        "status": "CLOSED",
+        "title": "Blood Bank Camp",
+        "location": "IITM Reception area",
+        "priority": "High",
+        "formUrl": "https://forms.google.com/"
+      },
+      {
+        "id": 2,
+        "date": "OCT 15, 2025",
+        "status": "CLOSED",
+        "title": "FUSION - X",
+        "location": "BASE 2",
+        "priority": "High",
+        "formUrl": "https://forms.google.com/"
+      },
+      {
+        "id": 1,
+        "date": "JAN 30, 2025",
+        "status": "CLOSED",
+        "title": "IGNISIA - The Intern Fair",
+        "location": "Hall A",
+        "priority": "High",
+        "formUrl": "https://forms.google.com/"
+      }
+    ],
+    "recipient": "nexturn.kunal@gmail.com",
+    "emailStatus": "SENT"
+  },
+  {
     "id": "LOG-1788811524898-725",
     "timestamp": "8/9/2026, 1:35:24 am IST",
     "actor": {

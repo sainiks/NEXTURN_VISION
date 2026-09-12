@@ -359,10 +359,13 @@ export default function AdminPage() {
           pipelineEvents: "Pipeline Events",
           topTalents: "Top 4 Talents",
         };
+        const ghNote = data.githubSynced
+          ? "✦ Changes committed to GitHub (master)!"
+          : "";
         const mailNote = data.mailStatus === "SENT"
-          ? "Audit email dispatched to Vice President (nexturn.kunal@gmail.com)."
-          : "Saved and logged in local security audit feed.";
-        showToast("success", `Updated ${labels[section] || section} successfully! ${mailNote}`);
+          ? "Audit email dispatched."
+          : "Logged in audit feed.";
+        showToast("success", `Updated ${labels[section] || section} successfully! ${ghNote} ${mailNote}`.trim());
 
         // Sync local state with persisted server data
         if (data.data) {

@@ -233,6 +233,24 @@ export async function getPortalData(): Promise<PortalData> {
       globalThis.__nexturn_portal_data_cache__ = sanitizedFallback;
       return JSON.parse(JSON.stringify(sanitizedFallback));
     } catch {
+      // 3. Attempt fetching latest version directly from GitHub
+      try {
+        const { fetchPortalDataFromGitHub } = await import("./githubSync");
+        const githubData = await fetchPortalDataFromGitHub();
+        if (githubData) {
+          const sanitizedGh = sanitizePortalData(githubData);
+          globalThis.__nexturn_portal_data_cache__ = sanitizedGh;
+          try {
+            await savePortalData(sanitizedGh);
+          } catch {
+            // non-blocking
+          }
+          return JSON.parse(JSON.stringify(sanitizedGh));
+        }
+      } catch {
+        // non-blocking fallback
+      }
+
       console.warn("[PORTAL DATA] No existing storage file found. Initializing with defaults.");
       const defaults = JSON.parse(JSON.stringify(DEFAULT_PORTAL_DATA));
       globalThis.__nexturn_portal_data_cache__ = defaults;
