@@ -61,31 +61,40 @@
   ],
   "pipelineEvents": [
     {
-      "id": 6,
-      "date": "DEC 15, 2026",
-      "status": "SCHEDULED",
-      "title": "Annual Placement Gala & Awards",
-      "location": "IITM Grand Auditorium",
+      "id": 7,
+      "date": "SEP 10, 2026",
+      "status": "CLOSED",
+      "title": "PLACEMENT DRIVE",
+      "location": "IITM Reception area",
       "priority": "High",
-      "formUrl": "https://forms.gle/annualGala2026"
+      "formUrl": ""
+    },
+    {
+      "id": 6,
+      "date": "sEP 9, 2026",
+      "status": "CLOSED",
+      "title": "NEXTURN RECRUIT-2026",
+      "location": "IITM D-51 ,FIRST FLOOR",
+      "priority": "High",
+      "formUrl": "https://forms.gle/qC3noWtbuo5Ueac47"
     },
     {
       "id": 5,
-      "date": "OCT 30, 2026",
-      "status": "SCHEDULED",
-      "title": "Tech Symposium & Workshop 2026",
-      "location": "IITM Main Auditorium",
-      "priority": "High",
-      "formUrl": "https://forms.gle/techSymposium2026"
+      "date": "SEP 8, 2026",
+      "status": "CLOSED",
+      "title": "BLOOD CAMP X EYE CARE",
+      "location": "IITM College of Engineering",
+      "priority": "Medium",
+      "formUrl": "https://forms.gle/iXiMyCVaNnncPs5E9"
     },
     {
       "id": 4,
       "date": "MAY 02, 2026",
-      "status": "SCHEDULED",
+      "status": "CLOSED",
       "title": "NEXTera 1.0 - Internship Drive",
       "location": "IITM Campus",
       "priority": "High",
-      "formUrl": "https://forms.google.com/"
+      "formUrl": "https://forms.gle/FoWngiY2KrQAjQcz9"
     },
     {
       "id": 3,
@@ -94,7 +103,7 @@
       "title": "Blood Bank Camp",
       "location": "IITM Reception area",
       "priority": "High",
-      "formUrl": "https://forms.google.com/"
+      "formUrl": "https://forms.gle/pQ6ZYadTzRh4xqaH6"
     },
     {
       "id": 2,
@@ -103,7 +112,7 @@
       "title": "FUSION - X",
       "location": "BASE 2",
       "priority": "High",
-      "formUrl": "https://forms.google.com/"
+      "formUrl": "https://forms.gle/GRNyWMpEc6jT21LP7"
     },
     {
       "id": 1,
