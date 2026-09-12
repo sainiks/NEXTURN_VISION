@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import MagneticButton from "@/components/MagneticButton";
+import { PipelineEvent } from "@/lib/content";
 
-const timelineEvents = [
+const initialEvents: PipelineEvent[] = [
   {
     id: 4,
     date: "MAY 02, 2026",
@@ -12,6 +13,7 @@ const timelineEvents = [
     title: "NEXTera 1.0 - Internship Drive",
     location: "IITM Campus",
     priority: "High",
+    formUrl: "https://forms.google.com/"
   },
   {
     id: 3,
@@ -20,6 +22,7 @@ const timelineEvents = [
     title: "Blood Bank Camp",
     location: "IITM Reception area",
     priority: "High",
+    formUrl: "https://forms.google.com/"
   },
   {
     id: 2,
@@ -28,6 +31,7 @@ const timelineEvents = [
     title: "FUSION - X",
     location: "BASE 2",
     priority: "High",
+    formUrl: "https://forms.google.com/"
   },
   {
     id: 1,
@@ -36,12 +40,35 @@ const timelineEvents = [
     title: "IGNISIA - The Intern Fair",
     location: "Hall A",
     priority: "High",
+    formUrl: "https://forms.google.com/"
   }
 ];
 
 export default function PipelinePage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [timelineEvents, setTimelineEvents] = useState<PipelineEvent[]>(initialEvents);
   const [activeEventId, setActiveEventId] = useState<number | null>(1);
+  const [rsvpNames, setRsvpNames] = useState<Record<number, string>>({});
+
+  useEffect(() => {
+    fetch("/api/content")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data?.pipelineEvents && data.data.pipelineEvents.length > 0) {
+          setTimelineEvents(data.data.pipelineEvents);
+        }
+      })
+      .catch((err) => console.error("Could not fetch pipeline events:", err));
+  }, []);
+
+  const handleConfirmAttendance = (event: PipelineEvent) => {
+    if (event.formUrl) {
+      window.open(event.formUrl, "_blank", "noopener,noreferrer");
+    } else {
+      alert(`Attendance recorded for ${event.title}! Form link will be available shortly.`);
+    }
+  };
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"],
@@ -80,7 +107,7 @@ export default function PipelinePage() {
             />
 
             {timelineEvents.map((event, index) => {
-              const isScheduled = event.status === 'SCHEDULED';
+              const isScheduled = event.status === 'SCHEDULED' || event.status === 'LIVE';
               const borderColor = isScheduled ? 'border-[var(--color-accent)]' : 'border-[var(--color-border)]';
               const textColor = isScheduled ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]';
               const statusColor = isScheduled ? 'text-[var(--color-accent)]' : 'opacity-40';
@@ -122,15 +149,27 @@ export default function PipelinePage() {
 
                     {/* RSVP BOX */}
                     <div className="border border-[var(--color-border)] p-6 md:p-8 bg-[var(--color-surface)] max-w-xl transition-all duration-300 hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[8px_8px_0px_0px_var(--color-accent)]">
-                      <div className="text-[var(--color-muted)] opacity-50 text-xs font-mono mb-4 tracking-wider">RSVP_FORM_V1</div>
+                      <div className="flex justify-between items-center mb-4">
+                        <div className="text-[var(--color-muted)] opacity-70 text-xs font-mono tracking-wider">RSVP_REGISTRATION</div>
+                        {event.formUrl && (
+                          <span className="text-[10px] font-mono uppercase bg-[var(--color-accent)] text-white px-2 py-0.5 font-bold tracking-wider">
+                            Google Form Attached ↗
+                          </span>
+                        )}
+                      </div>
                       <input 
                         type="text" 
                         placeholder="ENTER_YOUR_NAME" 
+                        value={rsvpNames[event.id] || ""}
+                        onChange={(e) => setRsvpNames({ ...rsvpNames, [event.id]: e.target.value })}
                         className="w-full bg-[var(--color-background)] border-none text-[var(--color-foreground)] p-4 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-border)] transition-all placeholder:text-[var(--color-muted)] opacity-80"
                       />
                       <div className="mt-4">
-                        <MagneticButton className="w-full !bg-[var(--color-foreground)] !text-[var(--color-background)] font-bold py-3.5 uppercase hover:!bg-[var(--color-accent)] hover:!text-[var(--color-foreground)] transition-colors text-sm tracking-wide !border-none">
-                          CONFIRM ATTENDANCE
+                        <MagneticButton 
+                          onClick={() => handleConfirmAttendance(event)}
+                          className="w-full !bg-[var(--color-foreground)] !text-[var(--color-background)] font-bold py-3.5 uppercase hover:!bg-[var(--color-accent)] hover:!text-[var(--color-foreground)] transition-colors text-sm tracking-wide !border-none"
+                        >
+                          CONFIRM ATTENDANCE {event.formUrl ? "(GOOGLE FORM ↗)" : ""}
                         </MagneticButton>
                       </div>
                     </div>

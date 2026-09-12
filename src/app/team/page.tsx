@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Link from "next/link";
+import type { CSSProperties } from "react";
 import TextScramble from "@/components/TextScramble";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,22 +15,34 @@ gsap.registerPlugin(ScrollTrigger);
  * IMAGE SETUP: Place photos in /public/team/ with the filenames below.
  * Recommended: square or portrait, min 400x400px.
  */
-const founders = [
-  { name: "Vanshika", role: "Founder - President", linkedin: "https://www.linkedin.com/in/vanshika-sharma-437704249/", initials: "VS", image: "/team/vanshika.png" },
-  { name: "Aditya Sehrawat", role: "Founder - Vice President", linkedin: "https://www.linkedin.com/in/aditya-sehrawat18/", initials: "AS", image: "/team/aditya.png", imageStyle: { objectPosition: "75% 0%" } },
+const coreLeadership = [
+  { name: "Siddhartha Khanna", role: "President", linkedin: "https://www.linkedin.com/in/siddhartha-khanna-603635336", initials: "SK", image: "/team/siddhartha_khanna.png", imageStyle: { objectPosition: "center 20%" } },
+  { name: "Kunal Saini", role: "Vice President", linkedin: "https://www.linkedin.com/in/kunal-saini-b392a0167", initials: "KS", image: "/team/kunal_saini.png", imageStyle: { objectPosition: "center 25%" } },
+];
+
+const departmentHeads = [
+  { name: "Chetan Prakash Yadav", role: "CR Head", linkedin: "https://www.linkedin.com/in/chetanprakashyadav155", initials: "CPY", image: "/team/Chetan_Yadav.png", imageFit: "fill" as const },
+  { name: "Garima Sinha", role: "Marketing Head", linkedin: "https://www.linkedin.com/in/garima-sinha-278298372", initials: "GS", image: "/team/garima_sinha.png", imageStyle: { objectPosition: "center 22%" } },
+  { name: "Poornima Singh Rana", role: "Management Head", linkedin: "https://www.linkedin.com/in/poornima-singh-rana-973539381", initials: "PSR", image: "/team/Poornima_Singh_Rana.png", imageFit: "fill" as const },
+  { name: "Suhani Saxena", role: "Social Media Head", linkedin: "https://www.linkedin.com/in/suhani-saxena-9433b9309", initials: "SS", image: "/team/Suhani_Saxena.png" },
+  { name: "Kunal Saini", role: "Tech Head", linkedin: "https://www.linkedin.com/in/kunal-saini-b392a0167", initials: "KS", image: "/team/kunal_saini.png", imageStyle: { objectPosition: "center 25%" } },
+];
+
+const departmentCoHeads = [
+  { name: "Kakul Verma", role: "CR Co-Head", linkedin: "https://www.linkedin.com/in/kakul-9a3a80379", initials: "KV", image: "/team/Kakul_verma.png", imageStyle: { objectPosition: "center 38%" } },
+  { name: "Harshita Jindal", role: "Marketing Co-Head", linkedin: "https://www.linkedin.com/in/harshita-jindal-444889364", initials: "HJ", image: "/team/Harshita_Jindal.png" },
+  { name: "Khushi Rajput", role: "Management Co-Head", linkedin: "https://www.linkedin.com/in/khushi-811342381", initials: "KR", image: "/team/Khushi_Rajput.png", imageStyle: { objectPosition: "center 55%" } },
+  { name: "Kshitiz Rohilla", role: "Social Media Co-Head", linkedin: "https://www.linkedin.com/in/kshitiz-rohilla-a9ba5130b", initials: "KR", image: "/team/Kshitiz_Rohilla.png" },
+  { name: "Kanha", role: "Tech Co-Head", linkedin: "https://www.linkedin.com/in/kanha-sharmaaa", initials: "K", image: "/team/Kanha.png", imageStyle: { objectPosition: "center 24%" } },
 ];
 
 const coreMembers = [
-  { name: "Aksh Gautam", role: "General Secretary", linkedin: "https://www.linkedin.com/in/aksh-gautam-963128222/", initials: "AG", image: "/team/aksh.png" },
-  { name: "Piyush", role: "Assistant Secretary", linkedin: "https://www.linkedin.com/in/piyush-chalka-208bb7327/", initials: "P", image: "/team/piyush.png" },
-  { name: "Harshita Thareja", role: "Marketing Head", linkedin: "https://www.linkedin.com/in/harshita-thareja/", initials: "HT", image: "/team/harshita.png" },
-  { name: "Ishita Rana", role: "Marketing Co-Head", linkedin: "https://www.linkedin.com/in/ishita-rana-a95a04332/", initials: "IR", image: "/team/ishita.png" },
-  { name: "Kunal Saini", role: "Technical Head", linkedin: "https://www.linkedin.com/in/kunal-saini-b392a0167/", initials: "KS", image: "/team/kunal.png", imageStyle: { objectPosition: "center 20%", transform: "scale(1)" } },
-  { name: "Siddhartha Khanna", role: "Social Media Head", linkedin: "https://www.linkedin.com/in/siddhartha-khanna-603635336/", initials: "SK", image: "/team/siddhartha.png" },
-  { name: "Mitashi Dogra", role: "Social Media Co-Head", linkedin: "https://www.linkedin.com/in/mitashi-dogra-a45511337/", initials: "MD", image: "/team/mitashi.png" },
-  { name: "Pratham Sehdev", role: "Corporate Relation Head", linkedin: "https://www.linkedin.com/in/pratham-sehdev-7a527b31b/", initials: "PS", image: "/team/pratham.png" },
-  { name: "Kamaljeet Kaur", role: "Corporate Relation Co-Head", linkedin: "https://www.linkedin.com/in/kamaljeet-kaur-98248a2b9/", initials: "KK", image: "/team/kamaljeet.png", imageStyle: { objectPosition: "center top", transform: "scale(1)" } },
-  { name: "Aman Sangwan", role: "Management Head", linkedin: "https://www.linkedin.com/in/aman-sangwan-7838112a6/", initials: "AS", image: "/team/aman.png", imageStyle: { objectPosition: "center 15%" } },
+  { name: "Mitashi Dogra", role: "General Secretary", linkedin: "https://www.linkedin.com/in/mitashi-dogra-a45511337", initials: "MD", image: "/team/mitashi_dogra.png", imageStyle: { objectPosition: "center 25%" } },
+  departmentHeads[0], departmentCoHeads[0],
+  departmentHeads[1], departmentCoHeads[1],
+  departmentHeads[2], departmentCoHeads[2],
+  departmentHeads[3], departmentCoHeads[3],
+  departmentHeads[4], departmentCoHeads[4],
 ];
 
 type Member = {
@@ -37,7 +51,8 @@ type Member = {
   linkedin?: string;
   initials: string;
   image: string;
-  imageStyle?: any;
+  imageFit?: "fill";
+  imageStyle?: CSSProperties;
 };
 
 /* ── Hexagon Avatar (image with initials fallback) ── */
@@ -50,8 +65,14 @@ function HexAvatar({ member, size = "md", className = "" }: { member: Member; si
       className={`${sizeClasses[size]} bg-[var(--color-foreground)] text-[var(--color-background)] flex items-center justify-center relative overflow-hidden ${className}`}
       style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
     >
+      {member.image && !imgError && (
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25 blur-md scale-110"
+          style={{ backgroundImage: `url(${member.image})` }}
+        />
+      )}
       {member.image && !imgError ? (
-        <Image src={member.image} alt={member.name} fill className={`object-cover object-top ${(member as any).imageStyle ? '' : 'scale-125'}`} style={(member as any).imageStyle || {}} sizes="(max-width: 768px) 200px, 300px" onError={() => setImgError(true)} />
+        <Image src={member.image} alt={member.name} fill className={`${member.imageFit === "fill" ? "object-fill" : "object-cover"} relative z-10`} style={member.imageStyle || {}} sizes="(max-width: 768px) 200px, 300px" onError={() => setImgError(true)} />
       ) : (
         <span className={`${textSizes[size]} font-black`}>{member.initials}</span>
       )}
@@ -67,6 +88,11 @@ function TeamCard({ member, i, className, onClick }: { member: Member; i: number
   const handleLeave = useCallback(() => {
     setIsFlipped(false);
   }, []);
+
+  const isLeader = member.role.toLowerCase().includes("president");
+  const isTech = member.role.toLowerCase().includes("tech head") || member.role.toLowerCase().includes("tech co-head");
+  const accessLevel = (isLeader || isTech) ? "Alpha-1" : "Beta-2";
+  const identificationCode = `NC-026-${member.initials}-${i + 1}`;
 
   return (
     <div
@@ -114,7 +140,7 @@ function TeamCard({ member, i, className, onClick }: { member: Member; i: number
                     }}
                     className="text-xl font-black tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300"
                   >
-                    Connect ↗
+                    Connect↗
                   </button>
                 </div>
               ) : (
@@ -133,7 +159,7 @@ function TeamCard({ member, i, className, onClick }: { member: Member; i: number
             >
               <div className="flex flex-col items-start">
                 <span className="text-[7px] font-mono uppercase tracking-tighter opacity-50">Authorized Core Board</span>
-                <span className="text-[10px] font-black tracking-widest leading-none">NXT-VERIFY-{i + 1}</span>
+                <span className="text-[10px] font-black tracking-widest leading-none">NEXTURN-VERIFIED-{i + 1}</span>
               </div>
               <span className="text-sm font-black tracking-widest italic opacity-80">{member.initials}_</span>
             </div>
@@ -173,19 +199,28 @@ function TeamCard({ member, i, className, onClick }: { member: Member; i: number
 
             {/* Metadata Footer */}
             <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-6 font-mono space-y-2">
-              <p className="text-xl font-black uppercase tracking-tighter leading-none mb-4 text-[var(--color-accent)]">Nexturn Core Board 2024</p>
-              <div className="grid grid-cols-2 gap-4 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
+              <div className="flex justify-between items-center mb-3">
+                <p className="text-xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Nexturn Core</p>
+                <span className={`text-[8px] font-black uppercase px-2 py-0.5 border ${
+                  accessLevel === "Alpha-1"
+                    ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-white"
+                    : "border-[var(--color-accent)] opacity-70"
+                }`}>
+                  {accessLevel === "Alpha-1" ? "Clearance: Alpha-1" : "Clearance: Beta-2"}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
                 <div>
                   <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
-                  <span className="font-black">Alpha-1</span>
+                  <span className="font-black">{accessLevel}</span>
                 </div>
                 <div>
                   <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Status</span>
                   <span className="font-black">Active</span>
                 </div>
                 <div className="col-span-2">
-                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification</span>
-                  <span className="font-black">NC-026-{member.initials}-{i + 1}</span>
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification Code</span>
+                  <span className="font-black text-xs block">{identificationCode}</span>
                 </div>
               </div>
             </div>
@@ -229,7 +264,7 @@ function MemberModal({ member, onClose }: { member: Member | null; onClose: () =
             <div>
               <span className="text-sm font-black uppercase tracking-widest opacity-50 block mb-2">LinkedIn</span>
               <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="font-bold text-3xl tracking-widest hover:text-[var(--color-accent)] transition-colors break-all">
-                Connect ↗
+                LinkedIn ↗
               </a>
             </div>
           ) : (
@@ -262,7 +297,7 @@ export default function Team() {
     }, 500);
 
     const ctx = gsap.context(() => {
-      /* ── Founders: staggered clip-path reveal ── */
+      /* ── Core leadership: staggered clip-path reveal ── */
       gsap.utils.toArray<HTMLElement>(".founder-card").forEach((card, i) => {
         gsap.fromTo(card,
           { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 },
@@ -358,19 +393,19 @@ export default function Team() {
           </div>
         </section>
 
-        {/* ═══ FOUNDERS — CLIP-PATH CURTAIN REVEAL ═══ */}
+        {/* ═══ CORE LEADERSHIP — CLIP-PATH CURTAIN REVEAL ═══ */}
         <section ref={foundersRef} className="py-24 md:py-40 px-8 border-t-[3px] border-[var(--color-foreground)] overflow-hidden">
           <div className="max-w-7xl mx-auto mb-20">
             <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
-              <TextScramble>Founders</TextScramble>
+              <TextScramble>Leaders</TextScramble>
             </h2>
             <p className="mt-4 text-lg md:text-2xl font-medium uppercase tracking-widest opacity-60 border-l-4 border-[var(--color-accent)] pl-6">
-              The visionaries who started it all.
+              The executive leadership team for Academic Year 2026-27.
             </p>
           </div>
 
           <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-12 md:gap-16">
-            {founders.map((f, i) => (
+            {coreLeadership.map((f, i) => (
               <TeamCard
                 key={i}
                 member={f}
@@ -389,7 +424,7 @@ export default function Team() {
               <TextScramble>Core Team</TextScramble>
             </h2>
             <p className="mt-4 text-lg md:text-2xl font-medium uppercase tracking-widest opacity-60 border-l-4 border-[var(--color-accent)] pl-6">
-              Scroll to meet the executive board →
+              Scroll to meet the 2026-27 department leadership →
             </p>
           </div>
 

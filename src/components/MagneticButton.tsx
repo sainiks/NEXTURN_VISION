@@ -6,9 +6,15 @@ import { motion } from "framer-motion";
 export default function MagneticButton({
   children,
   className = "",
+  onClick,
+  type = "button",
+  disabled = false,
 }: {
   children: React.ReactNode;
   className?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -29,6 +35,9 @@ export default function MagneticButton({
   return (
     <motion.button
       ref={ref}
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
       animate={{ x, y }}

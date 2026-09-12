@@ -1,0 +1,17 @@
+[
+  {
+    "id": "LOG-1788811524898-725",
+    "timestamp": "8/9/2026, 1:35:24 am IST",
+    "actor": {
+      "name": "Kunal Saini",
+      "code": "NC-026-KS-2",
+      "role": "Vice President & Tech Head",
+      "accessLevel": "ALPHA_1"
+    },
+    "section": "drives",
+    "summary": "Verified and confirmed live email notification system active.",
+    "details": null,
+    "recipient": "nexturn.kunal@gmail.com",
+    "emailStatus": "SENT"
+  }
+]

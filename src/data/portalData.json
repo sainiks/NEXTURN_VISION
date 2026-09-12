@@ -1,0 +1,134 @@
+{
+  "drives": [
+    {
+      "id": 1,
+      "role": "Frontend Engineer",
+      "company": "ZOMATO",
+      "ctc": "24 LPA",
+      "deadline": "12 OCT",
+      "portalUrl": "https://www.zomato.com/careers",
+      "status": "OPEN"
+    },
+    {
+      "id": 2,
+      "role": "Backend Developer",
+      "company": "ATLASSIAN",
+      "ctc": "45 LPA",
+      "deadline": "15 OCT",
+      "portalUrl": "https://www.atlassian.com/company/careers",
+      "status": "OPEN"
+    },
+    {
+      "id": 3,
+      "role": "Data Scientist",
+      "company": "UBER",
+      "ctc": "36 LPA",
+      "deadline": "20 OCT",
+      "portalUrl": "https://www.uber.com/us/en/careers/",
+      "status": "OPEN"
+    },
+    {
+      "id": 4,
+      "role": "Quantitative Analyst",
+      "company": "DE SHAW",
+      "ctc": "60 LPA",
+      "deadline": "22 OCT",
+      "portalUrl": "https://www.deshaw.com/careers",
+      "status": "OPEN"
+    }
+  ],
+  "recruiterProcess": [
+    {
+      "phase": "01",
+      "title": "Pre-Placement TAlk",
+      "desc": "Introduce your culture and roles to the student body."
+    },
+    {
+      "phase": "02",
+      "title": "Assessments",
+      "desc": "Conduct online coding rounds, aptitude tests, or design challenges."
+    },
+    {
+      "phase": "03",
+      "title": "Interviews",
+      "desc": "Technical, HR, and culture-fit rounds facilitated seamlessly."
+    },
+    {
+      "phase": "04",
+      "title": "Offers",
+      "desc": "Roll out final offers and begin the onboarding process."
+    }
+  ],
+  "pipelineEvents": [
+    {
+      "id": 4,
+      "date": "MAY 02, 2026",
+      "status": "SCHEDULED",
+      "title": "NEXTera 1.0 - Internship Drive",
+      "location": "IITM Campus",
+      "priority": "High",
+      "formUrl": "https://forms.google.com/"
+    },
+    {
+      "id": 3,
+      "date": "NOV 24, 2025",
+      "status": "CLOSED",
+      "title": "Blood Bank Camp",
+      "location": "IITM Reception area",
+      "priority": "High",
+      "formUrl": "https://forms.google.com/"
+    },
+    {
+      "id": 2,
+      "date": "OCT 15, 2025",
+      "status": "CLOSED",
+      "title": "FUSION - X",
+      "location": "BASE 2",
+      "priority": "High",
+      "formUrl": "https://forms.google.com/"
+    },
+    {
+      "id": 1,
+      "date": "JAN 30, 2025",
+      "status": "CLOSED",
+      "title": "IGNISIA - The Intern Fair",
+      "location": "Hall A",
+      "priority": "High",
+      "formUrl": "https://forms.google.com/"
+    }
+  ],
+  "topTalents": [
+    {
+      "id": 1,
+      "full_name": "Aarav Sharma",
+      "course": "B.Tech CSE 2026",
+      "company": "GOOGLE",
+      "pic": "",
+      "role": "Software Engineer"
+    },
+    {
+      "id": 2,
+      "full_name": "Diya Patel",
+      "course": "BCA 2026",
+      "company": "MICROSOFT",
+      "pic": "",
+      "role": "Full Stack Developer"
+    },
+    {
+      "id": 3,
+      "full_name": "Rohan Verma",
+      "course": "B.Tech IT 2026",
+      "company": "ZOMATO",
+      "pic": "",
+      "role": "Data Systems Engineer"
+    },
+    {
+      "id": 4,
+      "full_name": "Ananya Iyer",
+      "course": "B.Tech CSE 2026",
+      "company": "ATLASSIAN",
+      "pic": "",
+      "role": "AI / ML Researcher"
+    }
+  ]
+}

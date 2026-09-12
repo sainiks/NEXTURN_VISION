@@ -1,10 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import TextScramble from "@/components/TextScramble";
 import MagneticButton from "@/components/MagneticButton";
+import { RecruiterStep } from "@/lib/content";
 
-const timeline = [
+const initialTimeline: RecruiterStep[] = [
   { phase: "01", title: "Pre-Placement Talk", desc: "Introduce your culture and roles to the student body." },
   { phase: "02", title: "Assessments", desc: "Conduct online coding rounds, aptitude tests, or design challenges." },
   { phase: "03", title: "Interviews", desc: "Technical, HR, and culture-fit rounds facilitated seamlessly." },
@@ -12,6 +14,18 @@ const timeline = [
 ];
 
 export default function Recruiters() {
+  const [timeline, setTimeline] = useState<RecruiterStep[]>(initialTimeline);
+
+  useEffect(() => {
+    fetch("/api/content")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data?.recruiterProcess && data.data.recruiterProcess.length > 0) {
+          setTimeline(data.data.recruiterProcess);
+        }
+      })
+      .catch((err) => console.error("Could not fetch recruiter process:", err));
+  }, []);
   return (
     <main className="min-h-screen pt-32 px-8 pb-32">
       <div className="max-w-7xl mx-auto">

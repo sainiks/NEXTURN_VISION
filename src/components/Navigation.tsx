@@ -11,7 +11,7 @@ const links = [
   { title: "RECRUITERS", href: "/recruiters" },
   { title: "STUDENTS", href: "/students" },
   { title: "PIPELINE", href: "/pipeline" },
-  { title: "CONTACT", href: "#contact" },
+  { title: "CORE", href: "/core" },
 ];
 
 export default function Navigation() {
@@ -68,7 +68,7 @@ export default function Navigation() {
               ))}
             </nav>
 
-            <div className="absolute bottom-8 left-8 right-8 md:left-24 md:right-24 flex justify-between uppercase font-bold tracking-widest text-sm border-t-4 border-[var(--color-background)] pt-4">
+            <div className="absolute bottom-8 left-8 right-8 md:left-24 md:right-24 flex justify-between items-center uppercase font-bold tracking-widest text-xs md:text-sm border-t-4 border-[var(--color-background)] pt-4">
               <span>IITM • NEXTURN</span>
               <span>EST. 2024</span>
             </div>

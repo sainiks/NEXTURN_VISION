@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import TextScramble from "@/components/TextScramble";
 import { ExternalLink, FileText, Download, ChevronRight } from "lucide-react";
+import { Drive } from "@/lib/content";
 
-const jobs = [
-  { id: 1, role: "Frontend Engineer", company: "ZOMATO", ctc: "24 LPA", deadline: "12 OCT" },
-  { id: 2, role: "Backend Developer", company: "ATLASSIAN", ctc: "45 LPA", deadline: "15 OCT" },
-  { id: 3, role: "Data Scientist", company: "UBER", ctc: "36 LPA", deadline: "20 OCT" },
-  { id: 4, role: "Quantitative Analyst", company: "DE SHAW", ctc: "60 LPA", deadline: "22 OCT" },
+const initialJobs: Drive[] = [
+  { id: 1, role: "Frontend Engineer", company: "ZOMATO", ctc: "24 LPA", deadline: "12 OCT", portalUrl: "https://www.zomato.com/careers", status: "OPEN" },
+  { id: 2, role: "Backend Developer", company: "ATLASSIAN", ctc: "45 LPA", deadline: "15 OCT", portalUrl: "https://www.atlassian.com/company/careers", status: "OPEN" },
+  { id: 3, role: "Data Scientist", company: "UBER", ctc: "36 LPA", deadline: "20 OCT", portalUrl: "https://www.uber.com/us/en/careers/", status: "OPEN" },
+  { id: 4, role: "Quantitative Analyst", company: "DE SHAW", ctc: "60 LPA", deadline: "22 OCT", portalUrl: "https://www.deshaw.com/careers", status: "OPEN" },
 ];
 
 const roadmaps = [
@@ -36,6 +37,7 @@ const roadmaps = [
 export default function Students() {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [jobs, setJobs] = useState<Drive[]>(initialJobs);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -44,6 +46,17 @@ export default function Students() {
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/content")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data?.drives && data.data.drives.length > 0) {
+          setJobs(data.data.drives);
+        }
+      })
+      .catch((err) => console.error("Could not fetch active drives:", err));
   }, []);
 
   const trackClick = (type: string, title: string) => {
@@ -59,23 +72,29 @@ export default function Students() {
             <TextScramble>Student Portal</TextScramble>
           </h1>
           <p className="text-xl md:text-3xl max-w-3xl font-medium uppercase tracking-widest opacity-80 leading-relaxed">
-            Your centralized hub for active placement drives, skill roadmaps, and career resources.
+            Your centralized hub for active placement drives.
           </p>
         </header>
 
         {/* JOB BOARD */}
         <section className="mb-32">
-          <h2 className="text-4xl md:text-6xl font-black uppercase mb-16 brutalist-border-b pb-8">
-            Active Drives
-          </h2>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 brutalist-border-b pb-8">
+            <h2 className="text-4xl md:text-6xl font-black uppercase">
+              Active Drives
+            </h2>
+            <span className="text-xs md:text-sm font-mono uppercase tracking-widest text-[var(--color-accent)] mt-2 md:mt-0">
+              UPDATED BY  NEXTURN // {jobs.length} ACTIVE DRIVES
+            </span>
+          </div>
 
           <div className="brutalist-border border-b-0">
             {/* Table Header */}
-            <div className="grid grid-cols-4 border-b-4 border-[var(--color-foreground)] p-6 bg-[var(--color-foreground)] text-[var(--color-background)] uppercase font-black tracking-widest text-sm md:text-xl hidden md:grid">
-              <div>Role</div>
-              <div>Company</div>
-              <div>CTC</div>
-              <div>Deadline</div>
+            <div className="grid grid-cols-12 border-b-4 border-[var(--color-foreground)] p-6 bg-[var(--color-foreground)] text-[var(--color-background)] uppercase font-black tracking-widest text-sm md:text-lg hidden md:grid">
+              <div className="col-span-3">Role</div>
+              <div className="col-span-3">Company</div>
+              <div className="col-span-2">CTC</div>
+              <div className="col-span-2">Deadline</div>
+              <div className="col-span-2 text-right">Portal Link</div>
             </div>
 
             {/* Table Rows */}
@@ -83,12 +102,30 @@ export default function Students() {
               {jobs.map((job) => (
                 <div
                   key={job.id}
-                  className="inverted-hover cursor-pointer border-b-4 border-[var(--color-foreground)] p-6 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 items-center transition-colors duration-200"
+                  onClick={() => {
+                    if (job.portalUrl) window.open(job.portalUrl, "_blank");
+                  }}
+                  className="inverted-hover cursor-pointer border-b-4 border-[var(--color-foreground)] p-6 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-0 items-center transition-colors duration-200 group"
                 >
-                  <div className="font-bold text-2xl md:text-3xl uppercase">{job.role}</div>
-                  <div className="font-medium text-xl opacity-80 uppercase">{job.company}</div>
-                  <div className="font-black text-2xl text-[var(--color-accent)]">{job.ctc}</div>
-                  <div className="font-bold uppercase tracking-widest">{job.deadline}</div>
+                  <div className="md:col-span-3 font-bold text-2xl md:text-3xl uppercase">{job.role}</div>
+                  <div className="md:col-span-3 font-medium text-xl opacity-80 uppercase">{job.company}</div>
+                  <div className="md:col-span-2 font-black text-2xl text-[var(--color-accent)] group-hover:text-[var(--color-background)]">{job.ctc}</div>
+                  <div className="md:col-span-2 font-bold uppercase tracking-widest text-sm md:text-base">{job.deadline}</div>
+                  <div className="md:col-span-2 md:text-right flex items-center md:justify-end">
+                    {job.portalUrl ? (
+                      <a
+                        href={job.portalUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-4 py-2 border-2 border-[var(--color-foreground)] bg-[var(--color-foreground)] text-[var(--color-background)] group-hover:bg-[var(--color-background)] group-hover:text-[var(--color-foreground)] text-xs font-black uppercase tracking-wider transition-colors shadow-[2px_2px_0px_0px_var(--color-accent)]"
+                      >
+                        Apply Portal <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : (
+                      <span className="text-xs font-mono uppercase opacity-50">Portal TBA</span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

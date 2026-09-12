@@ -23,6 +23,23 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const [isGridVisible, setIsGridVisible] = useState(false);
+  const [topTalents, setTopTalents] = useState<any[]>([
+    { id: 1, full_name: "Aarav Sharma", course: "B.Tech CSE 2026", company: "GOOGLE", pic: "", role: "Software Engineer" },
+    { id: 2, full_name: "Diya Patel", course: "BCA 2026", company: "MICROSOFT", pic: "", role: "Full Stack Developer" },
+    { id: 3, full_name: "Rohan Verma", course: "B.Tech IT 2026", company: "ZOMATO", pic: "", role: "Data Systems Engineer" },
+    { id: 4, full_name: "Ananya Iyer", course: "B.Tech CSE 2026", company: "ATLASSIAN", pic: "", role: "AI / ML Researcher" },
+  ]);
+
+  useEffect(() => {
+    fetch("/api/content")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data?.topTalents && data.data.topTalents.length > 0) {
+          setTopTalents(data.data.topTalents.slice(0, 4));
+        }
+      })
+      .catch((err) => console.error("Failed to load top talents", err));
+  }, []);
 
   useEffect(() => {
     // 1. Hero Reveal Sequence
@@ -120,16 +137,16 @@ export default function Home() {
           </h2>
           <div key={theme} className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-white text-black border-[3px] border-[var(--color-foreground)] shadow-[8px_8px_0px_var(--color-home-accent)] transition-all duration-500">
             <div className="flex flex-col">
-              <span className="text-sm font-bold uppercase tracking-widest mb-2">Placement Rate</span>
-              <span className="stat-number text-6xl md:text-8xl font-black" data-target="96" data-suffix="%">0%</span>
+              <span className="text-sm font-bold uppercase tracking-widest mb-2">Placement Assistance</span>
+              <span className="stat-number text-6xl md:text-8xl font-black" data-target="100" data-suffix="%">0%</span>
             </div>
             <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-8 md:pt-0 md:pl-8 transition-colors duration-500">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Active Partners</span>
-              <span className="stat-number text-6xl md:text-8xl font-black" data-target="150" data-suffix="+">0+</span>
+              <span className="stat-number text-6xl md:text-8xl font-black" data-target="155" data-suffix="+">0+</span>
             </div>
             <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-8 md:pt-0 md:pl-8 transition-colors duration-500">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Avg. CTC (LPA)</span>
-              <span className="stat-number text-6xl md:text-8xl font-black" data-target="12" data-suffix="L">0L</span>
+              <span className="stat-number text-6xl md:text-8xl font-black" data-target="6" data-suffix="L">0L</span>
             </div>
           </div>
         </div>
@@ -142,17 +159,61 @@ export default function Home() {
             <TextScramble>Top Talent</TextScramble>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-y-32">
-            {[1, 2, 3, 4].map((item) => (
+            {topTalents.map((talent, index) => (
               <div
-                key={item}
-                className="parallax-card inverted-hover brutalist-border p-8 cursor-pointer flex flex-col justify-between aspect-video relative group bg-[var(--color-background)] hover:border-[var(--color-home-accent)] transition-colors duration-200"
+                key={talent.id || index}
+                className="parallax-card inverted-hover brutalist-border p-6 md:p-8 cursor-pointer flex flex-col justify-between min-h-[280px] md:min-h-[320px] relative group bg-[var(--color-background)] hover:border-[var(--color-home-accent)] transition-colors duration-200"
               >
-                <div>
-                  <h3 className="text-3xl font-black uppercase mb-2 group-hover:text-[var(--color-background)] transition-colors duration-200">Software Engineer</h3>
-                  <p className="font-medium opacity-80 uppercase tracking-widest">B.Tech 2026</p>
+                <div className="flex items-start gap-5 md:gap-7">
+                  {/* Talent Profile Photo */}
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
+                    {talent.pic ? (
+                      <img
+                        src={talent.pic}
+                        alt={talent.full_name || "Top Talent"}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="font-mono font-black text-2xl sm:text-3xl md:text-5xl text-[var(--color-foreground)] group-hover:text-[var(--color-background)] transition-colors">
+                        {talent.full_name
+                          ? talent.full_name
+                              .split(" ")
+                              .map((n: string) => n[0])
+                              .join("")
+                              .slice(0, 2)
+                              .toUpperCase()
+                          : `0${index + 1}`}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Talent Name, Course & Company */}
+                  <div className="flex-1">
+                    {talent.company && (
+                      <div className="mb-2">
+                        <span className="inline-block bg-[var(--color-foreground)] text-[var(--color-background)] px-2.5 py-0.5 text-[11px] font-mono font-black uppercase tracking-wider group-hover:bg-[var(--color-background)] group-hover:text-[var(--color-foreground)] transition-colors">
+                          @ {talent.company}
+                        </span>
+                      </div>
+                    )}
+                    <h3 className="text-2xl md:text-3xl font-black uppercase mb-1 leading-tight group-hover:text-[var(--color-background)] transition-colors duration-200">
+                      {talent.full_name || "Top Talent"}
+                    </h3>
+                    <p className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-[var(--color-home-accent)] group-hover:text-[var(--color-background)] transition-colors duration-200">
+                      {talent.course || "B.Tech 2026"}
+                    </p>
+                    {talent.role && (
+                      <p className="mt-2 text-xs font-mono opacity-75 uppercase group-hover:text-[var(--color-background)] transition-colors duration-200">
+                        {talent.role}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="flex justify-between items-end">
-                  <span className="text-5xl font-black text-[var(--color-home-accent)] group-hover:text-[var(--color-background)] transition-colors duration-200">0{item}</span>
+
+                <div className="flex justify-between items-end mt-6">
+                  <span className="text-4xl md:text-5xl font-black text-[var(--color-home-accent)] group-hover:text-[var(--color-background)] transition-colors duration-200">
+                    0{index + 1}
+                  </span>
                   <div className="w-12 h-12 brutalist-border rounded-full bg-[var(--color-home-accent)] group-hover:bg-[var(--color-background)] group-hover:border-[var(--color-background)] transform scale-0 group-hover:scale-100 transition-all origin-center ease-out duration-200" />
                 </div>
               </div>
@@ -164,13 +225,55 @@ export default function Home() {
       {/* --- MASSIVE FOOTER --- */}
       <footer className="pt-32 pb-8 px-8 brutalist-border-t bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden relative transition-colors duration-500">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div className="flex flex-col gap-4">
-            <h4 className="text-xl font-bold uppercase mb-4">Connect</h4>
-            <a href="https://www.linkedin.com/company/nexturn-iitm/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-home-accent)] hover:underline uppercase font-bold tracking-widest">LinkedIn</a>
-            <a href="https://www.instagram.com/nexturn.iitm/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-home-accent)] hover:underline uppercase font-bold tracking-widest">Instagram</a>
+          <div className="flex flex-col gap-3">
+            <h4 className="text-xl font-bold uppercase mb-2">Connect</h4>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.linkedin.com/company/nexturn-iitm/posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="p-3 border-2 border-[var(--color-background)] hover:border-[var(--color-home-accent)] hover:text-[var(--color-home-accent)] hover:scale-105 transition-all duration-200"
+              >
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect width="4" height="12" x="2" y="9" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/nexturn.iitm/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="p-3 border-2 border-[var(--color-background)] hover:border-[var(--color-home-accent)] hover:text-[var(--color-home-accent)] hover:scale-105 transition-all duration-200"
+              >
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                </svg>
+              </a>
+            </div>
           </div>
           <div className="text-right">
-            <p className="font-bold uppercase tracking-widest mb-2">Institute of Innovation in Technology & Management</p>
+            <p className="font-bold uppercase tracking-widest mb-2">IITM College of Engineering</p>
             <p className="opacity-80">Janakpuri, New Delhi</p>
             <p className="opacity-80">placement@iitmjp.ac.in</p>
           </div>
