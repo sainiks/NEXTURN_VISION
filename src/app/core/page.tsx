@@ -359,13 +359,26 @@ export default function AdminPage() {
           pipelineEvents: "Pipeline Events",
           topTalents: "Top 4 Talents",
         };
-        showToast("success", `Updated ${labels[section] || section} successfully! Audit email dispatched to Vice President (nexturn.kunal@gmail.com).`);
+        const mailNote = data.mailStatus === "SENT"
+          ? "Audit email dispatched to Vice President (nexturn.kunal@gmail.com)."
+          : "Saved and logged in local security audit feed.";
+        showToast("success", `Updated ${labels[section] || section} successfully! ${mailNote}`);
+
+        // Sync local state with persisted server data
+        if (data.data) {
+          if (Array.isArray(data.data.drives)) setDrives(data.data.drives);
+          if (Array.isArray(data.data.recruiterProcess)) setProcessSteps(data.data.recruiterProcess);
+          if (Array.isArray(data.data.pipelineEvents)) setPipelineEvents(data.data.pipelineEvents);
+          if (Array.isArray(data.data.topTalents) && data.data.topTalents.length > 0) setTopTalents(data.data.topTalents);
+        }
+
         fetchLogs();
       } else {
         showToast("error", data.error || "Failed to save changes");
       }
-    } catch {
-      showToast("error", "Network error while saving");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Network error while saving";
+      showToast("error", `Save failed: ${msg}`);
     } finally {
       setIsSaving(false);
     }
@@ -425,7 +438,8 @@ export default function AdminPage() {
 
   const addDrive = () => {
     if (!isAlpha1) return;
-    const nextId = drives.length > 0 ? Math.max(...drives.map((d) => d.id)) + 1 : 1;
+    const maxId = drives.reduce((max, d) => Math.max(max, Number(d.id) || 0), 0);
+    const nextId = maxId + 1;
     const newDrive: Drive = {
       id: nextId,
       role: "Software Development Engineer",
@@ -453,7 +467,8 @@ export default function AdminPage() {
 
   const addProcessStep = () => {
     if (!isAlpha1) return;
-    const nextNum = String(processSteps.length + 1).padStart(2, "0");
+    const maxPhase = processSteps.reduce((max, s) => Math.max(max, parseInt(s.phase, 10) || 0), 0);
+    const nextNum = String(maxPhase + 1).padStart(2, "0");
     const newStep: RecruiterStep = {
       phase: nextNum,
       title: "New Stage",
@@ -477,7 +492,8 @@ export default function AdminPage() {
 
   const addPipelineEvent = () => {
     if (!isAlpha1) return;
-    const nextId = pipelineEvents.length > 0 ? Math.max(...pipelineEvents.map((e) => e.id)) + 1 : 1;
+    const maxId = pipelineEvents.reduce((max, e) => Math.max(max, Number(e.id) || 0), 0);
+    const nextId = maxId + 1;
     const newEvent: PipelineEvent = {
       id: nextId,
       date: "OCT 30, 2026",

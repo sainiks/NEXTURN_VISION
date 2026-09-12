@@ -158,6 +158,12 @@ TEAM_MEMBERS_REGISTRY["NC-026-K-5"] = {
   ...TEAM_MEMBERS_REGISTRY["NC-026-K-11"],
   code: "NC-026-K-5",
 };
+if (TEAM_MEMBERS_REGISTRY["NC-026-CY-2"]) {
+  TEAM_MEMBERS_REGISTRY["NC-026-CPY-2"] = {
+    ...TEAM_MEMBERS_REGISTRY["NC-026-CY-2"],
+    code: "NC-026-CPY-2",
+  };
+}
 
 export function lookupMemberByCode(rawCode: string): TeamMemberAccess | null {
   if (!rawCode) return null;

@@ -38,84 +38,169 @@ export async function PUT(request: Request) {
       );
     }
 
-    const body = await request.json();
-    const { section, payload } = body;
+    let body: any;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON request payload provided" }, { status: 400 });
+    }
+
+    const { section, payload } = body || {};
+
+    if (!section || typeof section !== "string") {
+      return NextResponse.json({ error: "Section parameter is required" }, { status: 400 });
+    }
+
+    if (!Array.isArray(payload)) {
+      return NextResponse.json({ error: `Payload for section '${section}' must be an array of entries` }, { status: 400 });
+    }
 
     const currentData = await getPortalData();
     let changeSummary = "";
 
-    if (section === "drives") {
+    if (section === "pipelineEvents") {
+      if (!session.permissions.includes("pipeline:write")) {
+        return NextResponse.json({ error: "Missing pipeline:write permission" }, { status: 403 });
+      }
+
+      // Robust sanitization of all pipeline event items
+      const sanitizedEvents: PipelineEvent[] = payload.map((raw: any, idx: number) => {
+        const item = typeof raw === "object" && raw !== null ? raw : {};
+        const idNum = Number(item.id);
+        return {
+          id: Number.isFinite(idNum) && idNum > 0 ? idNum : idx + 1,
+          date: String(item.date || "OCT 30, 2026").trim(),
+          status: String(item.status || "SCHEDULED").trim(),
+          title: String(item.title || "New Campus Event").trim(),
+          location: String(item.location || "IITM Main Auditorium").trim(),
+          priority: String(item.priority || "High").trim(),
+          formUrl: String(item.formUrl || "").trim(),
+        };
+      });
+
+      currentData.pipelineEvents = sanitizedEvents;
+
+      const eventSummaries = sanitizedEvents.map(
+        (e) => `• Event #${e.id}: "${e.title}" (${e.date}) [Status: ${e.status}, Priority: ${e.priority}, Loc: ${e.location}]\n   └─ Google Form RSVP Link: ${e.formUrl || "Not Attached"}`
+      ).join("\n");
+
+      changeSummary = `Updated Mission Pipeline Events to ${sanitizedEvents.length} events with Google Form links:\n${eventSummaries}`;
+    } else if (section === "drives") {
       if (!session.permissions.includes("drives:write")) {
         return NextResponse.json({ error: "Missing drives:write permission" }, { status: 403 });
       }
-      const newDrives = payload as Drive[];
-      currentData.drives = newDrives;
 
-      const driveSummaries = newDrives.map(
+      // Robust sanitization of all drive items
+      const sanitizedDrives: Drive[] = payload.map((raw: any, idx: number) => {
+        const item = typeof raw === "object" && raw !== null ? raw : {};
+        const idNum = Number(item.id);
+        const validStatus: Drive["status"] = ["OPEN", "CLOSED", "UPCOMING"].includes(item.status)
+          ? item.status
+          : "OPEN";
+        return {
+          id: Number.isFinite(idNum) && idNum > 0 ? idNum : idx + 1,
+          role: String(item.role || "Software Development Engineer").trim(),
+          company: String(item.company || "New Company").trim(),
+          ctc: String(item.ctc || "12 LPA").trim(),
+          deadline: String(item.deadline || "TBD").trim(),
+          portalUrl: String(item.portalUrl || "").trim(),
+          status: validStatus,
+        };
+      });
+
+      currentData.drives = sanitizedDrives;
+
+      const driveSummaries = sanitizedDrives.map(
         (d) => `• ${d.company} - ${d.role} (${d.ctc}) [Deadline: ${d.deadline}, Status: ${d.status}] -> Portal URL: ${d.portalUrl || "None"}`
       ).join("\n");
 
-      changeSummary = `Updated Student Active Drives list to ${newDrives.length} entries:\n${driveSummaries}`;
+      changeSummary = `Updated Student Active Drives list to ${sanitizedDrives.length} entries:\n${driveSummaries}`;
     } else if (section === "recruiterProcess") {
       if (!session.permissions.includes("process:write")) {
         return NextResponse.json({ error: "Missing process:write permission" }, { status: 403 });
       }
-      const newProcess = payload as RecruiterStep[];
-      currentData.recruiterProcess = newProcess;
 
-      const processSummaries = newProcess.map(
+      // Robust sanitization of all recruiter step items
+      const sanitizedProcess: RecruiterStep[] = payload.map((raw: any, idx: number) => {
+        const item = typeof raw === "object" && raw !== null ? raw : {};
+        return {
+          phase: String(item.phase || String(idx + 1).padStart(2, "0")).trim(),
+          title: String(item.title || `Stage ${idx + 1}`).trim(),
+          desc: String(item.desc || "").trim(),
+        };
+      });
+
+      currentData.recruiterProcess = sanitizedProcess;
+
+      const processSummaries = sanitizedProcess.map(
         (p) => `• Phase ${p.phase}: "${p.title}" - ${p.desc}`
       ).join("\n");
 
-      changeSummary = `Updated Recruiter Process stages to ${newProcess.length} phases:\n${processSummaries}`;
-    } else if (section === "pipelineEvents") {
-      if (!session.permissions.includes("pipeline:write")) {
-        return NextResponse.json({ error: "Missing pipeline:write permission" }, { status: 403 });
-      }
-      const newEvents = payload as PipelineEvent[];
-      currentData.pipelineEvents = newEvents;
-
-      const eventSummaries = newEvents.map(
-        (e) => `• Event #${e.id}: "${e.title}" (${e.date}) [Status: ${e.status}, Priority: ${e.priority}, Loc: ${e.location}]\n   └─ Google Form RSVP Link: ${e.formUrl || "Not Attached"}`
-      ).join("\n");
-
-      changeSummary = `Updated Mission Pipeline Events to ${newEvents.length} events with Google Form links:\n${eventSummaries}`;
+      changeSummary = `Updated Recruiter Process stages to ${sanitizedProcess.length} phases:\n${processSummaries}`;
     } else if (section === "topTalents") {
       if (!session.permissions.includes("talents:write")) {
         return NextResponse.json({ error: "Missing talents:write permission" }, { status: 403 });
       }
-      const newTalents = payload as TopTalent[];
-      currentData.topTalents = newTalents;
 
-      const talentSummaries = newTalents.map(
-        (t, idx) => `• Talent #${idx + 1}: ${t.full_name || "Unnamed"} | Course: ${t.course || "N/A"} | Company: ${t.company || "N/A"} | Photo: ${t.pic ? (t.pic.startsWith("data:") ? "(Custom Uploaded Image)" : t.pic) : "Default Icon"}`
+      // Robust sanitization of top talents items
+      const sanitizedTalents: TopTalent[] = payload.map((raw: any, idx: number) => {
+        const item = typeof raw === "object" && raw !== null ? raw : {};
+        const idNum = Number(item.id);
+        return {
+          id: Number.isFinite(idNum) && idNum > 0 ? idNum : idx + 1,
+          full_name: String(item.full_name || "").trim(),
+          course: String(item.course || "").trim(),
+          company: String(item.company || "").trim(),
+          pic: String(item.pic || "").trim(),
+          role: item.role ? String(item.role).trim() : undefined,
+        };
+      });
+
+      currentData.topTalents = sanitizedTalents;
+
+      const talentSummaries = sanitizedTalents.map(
+        (t, idx) => {
+          const picLabel = typeof t.pic === "string" && t.pic.startsWith("data:")
+            ? "(Custom Uploaded Image)"
+            : (t.pic || "Default Icon");
+          return `• Talent #${idx + 1}: ${t.full_name || "Unnamed"} | Course: ${t.course || "N/A"} | Company: ${t.company || "N/A"} | Photo: ${picLabel}`;
+        }
       ).join("\n");
 
       changeSummary = `Updated Home Page Top 4 Talents showcase:\n${talentSummaries}`;
     } else {
-      return NextResponse.json({ error: "Invalid section type" }, { status: 400 });
+      return NextResponse.json({ error: `Invalid section type: '${section}'` }, { status: 400 });
     }
 
+    // Persist to multi-tier storage
     await savePortalData(currentData);
 
     // Dispatches email to nexturn.kunal@gmail.com and records in audit log
-    const mailResult = await logAndNotifyAlpha1Change({
-      memberName: session.user,
-      memberCode: session.code,
-      memberRole: session.role,
-      section,
-      summary: changeSummary,
-      details: payload,
-    });
+    // Non-blocking & safely isolated so mailer issues cannot crash or fail data saving
+    let mailStatus: "SENT" | "QUEUED_LOCAL" = "QUEUED_LOCAL";
+    try {
+      const mailResult = await logAndNotifyAlpha1Change({
+        memberName: session.user,
+        memberCode: session.code,
+        memberRole: session.role,
+        section,
+        summary: changeSummary,
+        details: payload,
+      });
+      mailStatus = mailResult.status;
+    } catch (mailError) {
+      console.warn("[CONTENT API] Non-fatal notification error:", mailError);
+    }
 
     return NextResponse.json({
       success: true,
       data: currentData,
-      mailStatus: mailResult.status,
+      mailStatus,
       message: `Section '${section}' updated successfully. Audit email logged for Vice President (nexturn.kunal@gmail.com).`,
     });
-  } catch (err) {
-    console.error("Failed to update content:", err);
-    return NextResponse.json({ error: "Failed to persist content update" }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    console.error("Failed to update content:", errorMsg, err);
+    return NextResponse.json({ error: `Failed to persist content update: ${errorMsg}` }, { status: 500 });
   }
 }
