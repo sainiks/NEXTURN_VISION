@@ -1,5 +1,86 @@
 [
   {
+    "id": "LOG-1789238730517-259",
+    "createdAt": 1789238730517,
+    "timestamp": "13/9/2026, 12:15:30 am IST",
+    "actor": {
+      "name": "Kunal Saini",
+      "code": "NC-026-KS-2",
+      "role": "Vice President & Tech Head",
+      "accessLevel": "ALPHA_1"
+    },
+    "section": "pipelineEvents",
+    "summary": "Updated Mission Pipeline Events to 7 events with Google Form links:\n• Event #7: \"BBA & BCA Placement Drive\" (SEP 10, 2026) [Status: CLOSED, Priority: High, Loc: IITM Reception area]\n   └─ Google Form RSVP Link: https://forms.google.com/\n• Event #6: \"Recruitment 2026\" (SEP 9, 2026) [Status: CLOSED, Priority: High, Loc: IITM D-51 ,FIRST FLOOR]\n   └─ Google Form RSVP Link: https://forms.gle/qC3noWtbuo5Ueac47\n• Event #5: \"BLOOD CAMP X EYE CARE\" (SEP 8, 2026) [Status: CLOSED, Priority: Medium, Loc: IITM College of Engineering]\n   └─ Google Form RSVP Link: https://forms.gle/iXiMyCVaNnncPs5E9\n• Event #4: \"NEXTera 1.0 - Internship Drive\" (MAY 02, 2026) [Status: CLOSED, Priority: High, Loc: IITM Campus]\n   └─ Google Form RSVP Link: https://forms.gle/FoWngiY2KrQAjQcz9\n• Event #3: \"Blood Bank Camp\" (NOV 24, 2025) [Status: CLOSED, Priority: High, Loc: IITM Reception area]\n   └─ Google Form RSVP Link: https://forms.gle/pQ6ZYadTzRh4xqaH6\n• Event #2: \"FUSION - X\" (OCT 15, 2025) [Status: CLOSED, Priority: High, Loc: BASE 2]\n   └─ Google Form RSVP Link: https://forms.gle/GRNyWMpEc6jT21LP7\n• Event #1: \"IGNISIA - The Intern Fair\" (JAN 30, 2025) [Status: CLOSED, Priority: High, Loc: Hall A]\n   └─ Google Form RSVP Link: https://forms.google.com/",
+    "details": [
+      {
+        "id": 7,
+        "date": "SEP 10, 2026",
+        "status": "CLOSED",
+        "title": "BBA & BCA Placement Drive",
+        "location": "IITM Reception area",
+        "priority": "High",
+        "formUrl": "https://forms.google.com/"
+      },
+      {
+        "id": 6,
+        "date": "SEP 9, 2026",
+        "status": "CLOSED",
+        "title": "Recruitment 2026",
+        "location": "IITM D-51 ,FIRST FLOOR",
+        "priority": "High",
+        "formUrl": "https://forms.gle/qC3noWtbuo5Ueac47"
+      },
+      {
+        "id": 5,
+        "date": "SEP 8, 2026",
+        "status": "CLOSED",
+        "title": "BLOOD CAMP X EYE CARE",
+        "location": "IITM College of Engineering",
+        "priority": "Medium",
+        "formUrl": "https://forms.gle/iXiMyCVaNnncPs5E9"
+      },
+      {
+        "id": 4,
+        "date": "MAY 02, 2026",
+        "status": "CLOSED",
+        "title": "NEXTera 1.0 - Internship Drive",
+        "location": "IITM Campus",
+        "priority": "High",
+        "formUrl": "https://forms.gle/FoWngiY2KrQAjQcz9"
+      },
+      {
+        "id": 3,
+        "date": "NOV 24, 2025",
+        "status": "CLOSED",
+        "title": "Blood Bank Camp",
+        "location": "IITM Reception area",
+        "priority": "High",
+        "formUrl": "https://forms.gle/pQ6ZYadTzRh4xqaH6"
+      },
+      {
+        "id": 2,
+        "date": "OCT 15, 2025",
+        "status": "CLOSED",
+        "title": "FUSION - X",
+        "location": "BASE 2",
+        "priority": "High",
+        "formUrl": "https://forms.gle/GRNyWMpEc6jT21LP7"
+      },
+      {
+        "id": 1,
+        "date": "JAN 30, 2025",
+        "status": "CLOSED",
+        "title": "IGNISIA - The Intern Fair",
+        "location": "Hall A",
+        "priority": "High",
+        "formUrl": "https://forms.google.com/"
+      }
+    ],
+    "recipient": "nexturn.kunal@gmail.com",
+    "emailStatus": "QUEUED_LOCAL",
+    "error": "SMTP credentials missing in .env.local. Set GMAIL_USER and GMAIL_APP_PASSWORD."
+  },
+  {
     "id": "LOG-1789234812865-591",
     "createdAt": 1789234812865,
     "timestamp": "12/9/2026, 11:10:12 pm IST",
