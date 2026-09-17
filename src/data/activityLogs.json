@@ -1,5 +1,54 @@
 [
   {
+    "id": "LOG-1789646103000-202",
+    "createdAt": 1789646103000,
+    "timestamp": "17/9/2026, 5:25:03 pm IST",
+    "actor": {
+      "name": "Kunal Saini",
+      "code": "NC-026-KS-2",
+      "role": "Vice President & Tech Head",
+      "accessLevel": "ALPHA_1"
+    },
+    "section": "topTalents",
+    "summary": "Updated Home Page Top 4 Talents showcase:\n• Talent #1: Vanshika Sharma | Course: B.Tech 2026 | Company: NIIT | Photo: Default Icon\n• Talent #2: Muskan Bansal | Course: BCA 2026 | Company: INfosys | Photo: Default Icon\n• Talent #3: Shreyas Kumar | Course: BBA 2026 | Company: ICICI BANK | Photo: Default Icon\n• Talent #4: Vanshika Rajput | Course: B.Tech 2026 | Company: MINDFORCE | Photo: Default Icon",
+    "details": [
+      {
+        "id": 1,
+        "full_name": "Vanshika Sharma",
+        "course": "B.Tech 2026",
+        "company": "NIIT",
+        "pic": "",
+        "role": "Software Engineer"
+      },
+      {
+        "id": 2,
+        "full_name": "Muskan Bansal",
+        "course": "BCA 2026",
+        "company": "INfosys",
+        "pic": "",
+        "role": "Full Stack Developer"
+      },
+      {
+        "id": 3,
+        "full_name": "Shreyas Kumar",
+        "course": "BBA 2026",
+        "company": "ICICI BANK",
+        "pic": "",
+        "role": "Data Systems Engineer"
+      },
+      {
+        "id": 4,
+        "full_name": "Vanshika Rajput",
+        "course": "B.Tech 2026",
+        "company": "MINDFORCE",
+        "pic": "",
+        "role": "AI / ML Researcher"
+      }
+    ],
+    "recipient": "nexturn.kunal@gmail.com",
+    "emailStatus": "SENT"
+  },
+  {
     "id": "LOG-1789239187429-766",
     "createdAt": 1789239187429,
     "timestamp": "13/9/2026, 12:23:07 am IST",
