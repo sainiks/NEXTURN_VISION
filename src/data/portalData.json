@@ -127,33 +127,33 @@
   "topTalents": [
     {
       "id": 1,
-      "full_name": "Vanshika Sharma",
-      "course": "B.Tech 2026",
-      "company": "NIIT",
-      "pic": "",
+      "full_name": "Aarav Sharma",
+      "course": "B.Tech CSE 2026",
+      "company": "GOOGLE",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFWM0AAAADUlEQVR4nGP4//8/AAX+Av4N/h3vAAAAAElFTkSuQmCC",
       "role": "Software Engineer"
     },
     {
       "id": 2,
-      "full_name": "Muskan Bansal",
+      "full_name": "Diya Patel",
       "course": "BCA 2026",
-      "company": "INFOSYS",
+      "company": "MICROSOFT",
       "pic": "",
       "role": "Full Stack Developer"
     },
     {
       "id": 3,
-      "full_name": "Shreyas Kumar",
-      "course": "BBA 2026",
-      "company": "ICICI BANK",
+      "full_name": "Rohan Verma",
+      "course": "B.Tech IT 2026",
+      "company": "ZOMATO",
       "pic": "",
       "role": "Data Systems Engineer"
     },
     {
       "id": 4,
-      "full_name": "Vanshika Rajput",
-      "course": "B.Tech 2026",
-      "company": "MINDFORCE",
+      "full_name": "Ananya Iyer",
+      "course": "B.Tech CSE 2026",
+      "company": "ATLASSIAN",
       "pic": "",
       "role": "AI / ML Researcher"
     }
