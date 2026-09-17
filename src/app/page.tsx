@@ -165,16 +165,16 @@ export default function Home() {
                 className="parallax-card inverted-hover brutalist-border p-6 md:p-8 cursor-pointer flex flex-col justify-between min-h-[280px] md:min-h-[320px] relative group bg-[var(--color-background)] hover:border-[var(--color-home-accent)] transition-colors duration-200"
               >
                 <div className="flex items-start gap-5 md:gap-7">
-                  {/* Talent Profile Photo */}
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
+                  {/* Talent Profile Photo - Square Round & Bigger */}
+                  <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 aspect-square rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
                     {talent.pic ? (
                       <img
                         src={talent.pic}
                         alt={talent.full_name || "Top Talent"}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded-2xl md:rounded-3xl"
                       />
                     ) : (
-                      <span className="font-mono font-black text-2xl sm:text-3xl md:text-5xl text-[var(--color-foreground)] group-hover:text-[var(--color-background)] transition-colors">
+                      <span className="font-mono font-black text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-[var(--color-foreground)] group-hover:text-[var(--color-background)] transition-colors">
                         {talent.full_name
                           ? talent.full_name
                               .split(" ")
@@ -202,7 +202,7 @@ export default function Home() {
                     <p className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-[var(--color-home-accent)] group-hover:text-[var(--color-background)] transition-colors duration-200">
                       {talent.course || "B.Tech 2026"}
                     </p>
-                    {talent.role && (
+                    {talent.role && talent.role.trim().length > 0 && (
                       <p className="mt-2 text-xs font-mono opacity-75 uppercase group-hover:text-[var(--color-background)] transition-colors duration-200">
                         {talent.role}
                       </p>

@@ -1584,23 +1584,23 @@ export default function AdminPage() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-5 items-start">
-                    {/* Photo preview & device upload */}
-                    <div className="flex flex-col items-center gap-2 w-full sm:w-48 flex-shrink-0">
-                      <div className="w-36 h-36 sm:w-44 sm:h-44 bg-[var(--color-background)] border-2 border-[var(--color-foreground)] flex items-center justify-center overflow-hidden relative shadow-[3px_3px_0px_var(--color-border)]">
+                    {/* Photo preview & device upload - Square Round & Bigger */}
+                    <div className="flex flex-col items-center gap-2.5 w-full sm:w-56 flex-shrink-0">
+                      <div className="w-40 h-40 sm:w-52 sm:h-52 aspect-square rounded-2xl bg-[var(--color-background)] border-2 border-[var(--color-foreground)] flex items-center justify-center overflow-hidden relative shadow-[3px_3px_0px_var(--color-border)]">
                         {talent.pic ? (
                           <img
                             src={talent.pic}
                             alt={talent.full_name || `Candidate 0${index + 1}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover rounded-2xl"
                           />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-[var(--color-muted)] font-mono text-xs text-center p-3">
-                            <Camera className="w-8 h-8 mb-1.5 text-[var(--color-accent)] opacity-60" />
+                            <Camera className="w-10 h-10 mb-1.5 text-[var(--color-accent)] opacity-60" />
                             <span className="font-bold text-[11px]">NO PHOTO</span>
                           </div>
                         )}
                         {uploadingIndex === index && (
-                          <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center text-white text-xs font-mono font-bold animate-pulse">
+                          <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center text-white text-xs font-mono font-bold animate-pulse rounded-2xl">
                             <span>Uploading...</span>
                           </div>
                         )}
@@ -1608,7 +1608,7 @@ export default function AdminPage() {
 
                       {isAlpha1 && (
                         <div className="flex flex-col gap-1.5 w-full">
-                          <label className="w-full text-center px-3 py-2 bg-[var(--color-foreground)] text-[var(--color-background)] hover:bg-black hover:text-white border-2 border-[var(--color-border)] font-mono text-[11px] font-bold uppercase cursor-pointer transition-all flex items-center justify-center gap-1.5 shadow-[2px_2px_0px_var(--color-border)]">
+                          <label className="w-full text-center px-3 py-2 bg-[var(--color-foreground)] text-[var(--color-background)] hover:bg-black hover:text-white border-2 border-[var(--color-border)] font-mono text-[11px] font-bold uppercase cursor-pointer transition-all flex items-center justify-center gap-1.5 shadow-[2px_2px_0px_var(--color-border)] rounded-md">
                             <Upload className="w-3.5 h-3.5" />
                             {uploadingIndex === index ? "Uploading..." : "Upload Pic"}
                             <input
@@ -1626,7 +1626,7 @@ export default function AdminPage() {
                             <button
                               type="button"
                               onClick={() => updateTalentField(index, "pic", "")}
-                              className="w-full text-center py-0.5 text-red-600 hover:bg-red-500/10 border border-red-300/40 font-mono text-[10px] font-bold uppercase transition-colors"
+                              className="w-full text-center py-0.5 text-red-600 hover:bg-red-500/10 border border-red-300/40 font-mono text-[10px] font-bold uppercase transition-colors rounded-sm"
                             >
                               Remove Pic
                             </button>
@@ -1667,6 +1667,20 @@ export default function AdminPage() {
 
                       <div>
                         <label className="text-[11px] font-mono uppercase font-bold text-[var(--color-muted)] mb-1 block">
+                          Role / Designation (Optional):
+                        </label>
+                        <input
+                          type="text"
+                          value={talent.role || ""}
+                          disabled={!isAlpha1}
+                          onChange={(e) => updateTalentField(index, "role", e.target.value)}
+                          placeholder="e.g. Software Engineer (or leave blank to remove)"
+                          className="w-full p-2 bg-[var(--color-background)] border-2 border-[var(--color-border)] font-mono text-xs focus:border-[var(--color-accent)] outline-none disabled:opacity-70"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase font-bold text-[var(--color-muted)] mb-1 block">
                           Course / Batch:
                         </label>
                         <input
@@ -1681,7 +1695,7 @@ export default function AdminPage() {
 
                       <div>
                         <label className="text-[11px] font-mono uppercase font-bold text-[var(--color-muted)] mb-1 block">
-                          Pic URL (or paste web link):
+                          Pic URL (or paste web link / auto-fills on upload):
                         </label>
                         <input
                           type="text"
