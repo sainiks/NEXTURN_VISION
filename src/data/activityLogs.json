@@ -1,5 +1,54 @@
 [
   {
+    "id": "LOG-1789662290194-24",
+    "createdAt": 1789662290194,
+    "timestamp": "17/9/2026, 9:54:50 pm IST",
+    "actor": {
+      "name": "Kunal Saini",
+      "code": "NC-026-KS-2",
+      "role": "Vice President & Tech Head",
+      "accessLevel": "ALPHA_1"
+    },
+    "section": "topTalents",
+    "summary": "Updated Home Page Top 4 Talents showcase:\n• Talent #1: Aarav Sharma | Course: B.Tech CSE 2026 | Company: GOOGLE | Photo: (Custom Uploaded Image)\n• Talent #2: Diya Patel | Course: BCA 2026 | Company: MICROSOFT | Photo: Default Icon\n• Talent #3: Rohan Verma | Course: B.Tech IT 2026 | Company: ZOMATO | Photo: Default Icon\n• Talent #4: Ananya Iyer | Course: B.Tech CSE 2026 | Company: ATLASSIAN | Photo: Default Icon",
+    "details": [
+      {
+        "id": 1,
+        "full_name": "Aarav Sharma",
+        "course": "B.Tech CSE 2026",
+        "company": "GOOGLE",
+        "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFWM0AAAADUlEQVR4nGP4//8/AAX+Av4N/h3vAAAAAElFTkSuQmCC",
+        "role": "Software Engineer"
+      },
+      {
+        "id": 2,
+        "full_name": "Diya Patel",
+        "course": "BCA 2026",
+        "company": "MICROSOFT",
+        "pic": "",
+        "role": "Full Stack Developer"
+      },
+      {
+        "id": 3,
+        "full_name": "Rohan Verma",
+        "course": "B.Tech IT 2026",
+        "company": "ZOMATO",
+        "pic": "",
+        "role": "Data Systems Engineer"
+      },
+      {
+        "id": 4,
+        "full_name": "Ananya Iyer",
+        "course": "B.Tech CSE 2026",
+        "company": "ATLASSIAN",
+        "pic": "",
+        "role": "AI / ML Researcher"
+      }
+    ],
+    "recipient": "nexturn.kunal@gmail.com",
+    "emailStatus": "SENT"
+  },
+  {
     "id": "LOG-1789646199653-873",
     "createdAt": 1789646199653,
     "timestamp": "17/9/2026, 5:26:39 pm IST",
