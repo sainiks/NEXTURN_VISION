@@ -396,21 +396,99 @@ export default function AdminPage() {
     setTopTalents(updated);
   };
 
+  const compressImageClient = (
+    file: File,
+    maxWidth = 600,
+    maxHeight = 600,
+    quality = 0.82
+  ): Promise<{ dataUrl: string; file: File }> => {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith("image/")) {
+        return reject(new Error("Selected file is not an image."));
+      }
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("Failed to read image file."));
+      reader.onload = () => {
+        const img = document.createElement("img");
+        img.onerror = () => reject(new Error("Failed to parse image."));
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxWidth || height > maxHeight) {
+            if (width > height) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            return reject(new Error("Could not initialize canvas context."));
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // WebP if supported, fallback to JPEG
+          let mime = "image/webp";
+          let dataUrl = canvas.toDataURL("image/webp", quality);
+          if (!dataUrl.startsWith("data:image/webp")) {
+            mime = "image/jpeg";
+            dataUrl = canvas.toDataURL("image/jpeg", quality);
+          }
+
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) {
+                return resolve({
+                  dataUrl,
+                  file,
+                });
+              }
+              const ext = mime === "image/webp" ? ".webp" : ".jpg";
+              const compressedFile = new File([blob], `talent-${Date.now()}${ext}`, { type: mime });
+              resolve({ dataUrl, file: compressedFile });
+            },
+            mime,
+            quality
+          );
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleTalentImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isAlpha1) return;
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
-      showToast("error", "Image file is too large. Please select an image under 10MB.");
+    if (file.size > 15 * 1024 * 1024) {
+      showToast("error", "Image file is too large. Please select an image under 15MB.");
       return;
     }
 
     setUploadingIndex(index);
     try {
+      // 1. Client-side instant compression (downscales large phone/laptop photos to ~40KB WebP/JPEG)
+      let compressed: { dataUrl: string; file: File } | null = null;
+      try {
+        compressed = await compressImageClient(file);
+      } catch (compErr) {
+        console.warn("Client-side compression skipped:", compErr);
+      }
+
+      const fileToUpload = compressed ? compressed.file : file;
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", fileToUpload);
       formData.append("slot", String(index + 1));
+      if (compressed?.dataUrl) {
+        formData.append("dataUrl", compressed.dataUrl);
+      }
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -420,12 +498,23 @@ export default function AdminPage() {
       const data = await res.json();
       if (res.ok && data.success && data.url) {
         updateTalentField(index, "pic", data.url);
-        showToast("success", `Photo uploaded from device for Candidate 0${index + 1}! Click 'Save Top Talents' to publish.`);
+        showToast("success", `Photo uploaded for Candidate 0${index + 1}! Click 'Save Top Talents' to publish.`);
+      } else if (compressed?.dataUrl) {
+        // Resilient fallback: Use client-compressed Data URL directly if API returns error
+        updateTalentField(index, "pic", compressed.dataUrl);
+        showToast("success", `Photo loaded from device for Candidate 0${index + 1}! Click 'Save Top Talents' to publish.`);
       } else {
         showToast("error", data.error || "Failed to upload image from device.");
       }
     } catch {
-      showToast("error", "Network error while uploading photo from device.");
+      // Network failure resilient fallback
+      try {
+        const fallback = await compressImageClient(file);
+        updateTalentField(index, "pic", fallback.dataUrl);
+        showToast("success", `Photo loaded from device for Candidate 0${index + 1}! Click 'Save Top Talents' to publish.`);
+      } catch {
+        showToast("error", "Network error while uploading photo from device.");
+      }
     } finally {
       setUploadingIndex(null);
       e.target.value = "";

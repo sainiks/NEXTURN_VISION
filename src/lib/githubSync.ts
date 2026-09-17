@@ -39,7 +39,7 @@ export function getGitHubToken(): string | null {
   return null;
 }
 
-async function commitFileToGitHub(
+export async function commitFileToGitHub(
   filePath: string,
   contentBase64: string,
   commitMessage: string,
