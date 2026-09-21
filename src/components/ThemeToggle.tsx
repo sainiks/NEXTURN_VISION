@@ -30,7 +30,7 @@ export default function ThemeToggle() {
       animate={position}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       onClick={toggleTheme}
-      className="fixed bottom-6 left-6 md:bottom-10 md:left-10 z-50 p-2.5 md:p-3 rounded-full border-[3px] border-[var(--color-foreground)] bg-[var(--color-foreground)] text-[var(--color-background)] hover:bg-[var(--color-accent)] hover:text-[var(--color-foreground)] transition-all duration-300 shadow-[4px_4px_0px_var(--color-accent)] flex items-center justify-center"
+      className="fixed bottom-4 left-4 md:bottom-10 md:left-10 z-50 p-2.5 md:p-3 rounded-full border-[3px] border-[var(--color-foreground)] bg-[var(--color-foreground)] text-[var(--color-background)] hover:bg-[var(--color-accent)] hover:text-[var(--color-foreground)] transition-all duration-300 shadow-[4px_4px_0px_var(--color-accent)] flex items-center justify-center"
       aria-label="Toggle theme"
     >
       {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}

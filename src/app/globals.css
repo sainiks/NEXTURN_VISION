@@ -201,3 +201,24 @@
     transform: scale(0.98);
   }
 }
+
+@media (max-width: 640px) {
+  html {
+    overflow-x: hidden;
+  }
+
+  main {
+    min-width: 0;
+    max-width: 100%;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  main > div {
+    min-width: 0;
+  }
+
+  .brutalist-btn {
+    min-height: 3rem;
+  }
+}

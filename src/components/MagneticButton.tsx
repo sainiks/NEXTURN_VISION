@@ -42,7 +42,7 @@ export default function MagneticButton({
       onMouseLeave={reset}
       animate={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className={`brutalist-btn px-8 py-4 ${className}`}
+      className={`brutalist-btn min-h-12 px-6 py-3 md:px-8 md:py-4 ${className}`}
     >
       {children}
     </motion.button>

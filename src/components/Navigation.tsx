@@ -21,9 +21,9 @@ export default function Navigation() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-8 right-8 z-40 bg-[var(--color-foreground)] text-[var(--color-background)] p-4 border-4 border-[var(--color-foreground)] hover:bg-[var(--color-accent)] hover:text-[var(--color-foreground)] transition-all duration-300 shadow-[4px_4px_0px_var(--color-accent)] flex items-center justify-center"
+        className="fixed top-4 right-4 md:top-8 md:right-8 z-40 bg-[var(--color-foreground)] text-[var(--color-background)] p-3 md:p-4 border-4 border-[var(--color-foreground)] hover:bg-[var(--color-accent)] hover:text-[var(--color-foreground)] transition-all duration-300 shadow-[4px_4px_0px_var(--color-accent)] flex items-center justify-center"
       >
-        <Menu size={32} />
+        <Menu size={28} className="md:w-8 md:h-8" />
       </button>
 
       <AnimatePresence>
@@ -33,11 +33,11 @@ export default function Navigation() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-50 bg-[var(--color-foreground)] text-[var(--color-background)] flex flex-col justify-center px-6 md:px-24 brutalist-border-b"
+            className="fixed inset-0 z-50 bg-[var(--color-foreground)] text-[var(--color-background)] flex flex-col justify-center px-4 md:px-24 brutalist-border-b"
           >
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 md:top-8 md:right-24 p-3 md:p-4 border-4 border-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-foreground)] transition-colors duration-200 z-50 bg-[var(--color-foreground)]"
+              className="absolute top-4 right-4 md:top-8 md:right-24 p-3 md:p-4 border-4 border-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-foreground)] transition-colors duration-200 z-50 bg-[var(--color-foreground)]"
             >
               <X size={28} className="md:w-8 md:h-8" />
             </button>
@@ -68,7 +68,7 @@ export default function Navigation() {
               ))}
             </nav>
 
-            <div className="absolute bottom-8 left-8 right-8 md:left-24 md:right-24 flex justify-between items-center uppercase font-bold tracking-widest text-xs md:text-sm border-t-4 border-[var(--color-background)] pt-4">
+            <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-24 md:right-24 flex justify-between items-center uppercase font-bold tracking-widest text-[10px] md:text-sm border-t-4 border-[var(--color-background)] pt-4">
               <span>IITM • NEXTURN</span>
               <span>EST. 2024</span>
             </div>

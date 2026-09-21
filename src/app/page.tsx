@@ -94,11 +94,11 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* --- HERO SECTION --- */}
-      <section ref={heroRef} className="relative h-screen flex flex-col justify-center items-center overflow-hidden brutalist-border-b px-4">
+      <section ref={heroRef} className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden brutalist-border-b px-4 py-20">
         <div className="absolute inset-0 z-10 hero-mask bg-[var(--color-background)]" />
 
-        <div className="group z-20 px-8 py-4 md:px-12 md:py-6 border-[3px] border-[var(--color-foreground)] bg-white/5 backdrop-blur-xl overflow-hidden flex justify-center items-center shadow-[8px_8px_0px_#000] hover:bg-black hover:shadow-[8px_8px_0px_var(--color-accent)] transition-all duration-300">
-          <h1 className="text-[12vw] font-black tracking-tighter leading-none flex uppercase text-[var(--color-foreground)] group-hover:!text-white transition-colors duration-300">
+        <div className="group z-20 px-4 py-3 sm:px-8 md:px-12 md:py-6 border-[3px] border-[var(--color-foreground)] bg-white/5 backdrop-blur-xl overflow-hidden flex justify-center items-center shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] hover:bg-black hover:shadow-[8px_8px_0px_var(--color-accent)] transition-all duration-300">
+          <h1 className="text-[17vw] sm:text-[14vw] md:text-[12vw] font-black tracking-tighter leading-none flex uppercase text-[var(--color-foreground)] group-hover:!text-white transition-colors duration-300">
             <TextScramble className="hero-text transform translate-y-[200px]">NEXTURN</TextScramble>
           </h1>
         </div>
@@ -110,13 +110,13 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={isGridVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4 }}
-          className="mt-12 flex gap-6 z-20"
+          className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 z-20 w-full sm:w-auto px-4 sm:px-0"
         >
-          <MagneticButton className="!bg-[var(--color-foreground)] !text-[var(--color-background)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
+          <MagneticButton className="w-full sm:w-auto !bg-[var(--color-foreground)] !text-[var(--color-background)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
             Register Drive
           </MagneticButton>
           <Link href="/pipeline">
-            <MagneticButton className="!bg-transparent !text-[var(--color-foreground)] border-2 border-[var(--color-foreground)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
+            <MagneticButton className="w-full sm:w-auto !bg-transparent !text-[var(--color-foreground)] border-2 border-[var(--color-foreground)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
               View Pipeline
             </MagneticButton>
           </Link>
@@ -126,32 +126,32 @@ export default function Home() {
       <Marquee />
 
       {/* --- STATISTICS SECTION --- */}
-      <section ref={statsRef} className="py-32 px-8 border-b-[3px] border-[var(--color-foreground)]">
+      <section ref={statsRef} className="py-20 md:py-32 px-4 md:px-8 border-b-[3px] border-[var(--color-foreground)]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl md:text-7xl font-bold uppercase mb-16 border-l-4 border-[var(--color-home-accent)] pl-6">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold uppercase mb-10 md:mb-16 border-l-4 border-[var(--color-home-accent)] pl-4 md:pl-6">
             <TextScramble>Cell Statistics</TextScramble>
           </h2>
-          <div key={theme} className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-white text-black border-[3px] border-[var(--color-foreground)] shadow-[8px_8px_0px_var(--color-home-accent)] transition-all duration-500">
+          <div key={theme} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 p-4 md:p-8 bg-white text-black border-[3px] border-[var(--color-foreground)] shadow-[6px_6px_0px_var(--color-home-accent)] md:shadow-[8px_8px_0px_var(--color-home-accent)] transition-all duration-500">
             <div className="flex flex-col">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Placement Assistance</span>
-              <span className="stat-number text-6xl md:text-8xl font-black" data-target="100" data-suffix="%">0%</span>
+              <span className="stat-number text-5xl sm:text-6xl md:text-8xl font-black" data-target="100" data-suffix="%">0%</span>
             </div>
             <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-8 md:pt-0 md:pl-8 transition-colors duration-500">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Active Partners</span>
-              <span className="stat-number text-6xl md:text-8xl font-black" data-target="155" data-suffix="+">0+</span>
+              <span className="stat-number text-5xl sm:text-6xl md:text-8xl font-black" data-target="155" data-suffix="+">0+</span>
             </div>
             <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-8 md:pt-0 md:pl-8 transition-colors duration-500">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Avg. CTC (LPA)</span>
-              <span className="stat-number text-6xl md:text-8xl font-black" data-target="6" data-suffix="L">0L</span>
+              <span className="stat-number text-5xl sm:text-6xl md:text-8xl font-black" data-target="6" data-suffix="L">0L</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* --- PORTFOLIO / ENTITIES --- */}
-      <section className="py-32 px-8 bg-[var(--color-background)] text-[var(--color-foreground)] overflow-hidden">
+      <section className="py-20 md:py-32 px-4 md:px-8 bg-[var(--color-background)] text-[var(--color-foreground)] overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl md:text-7xl font-bold uppercase mb-16 text-right border-r-4 border-[var(--color-home-accent)] pr-6">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold uppercase mb-10 md:mb-16 text-right border-r-4 border-[var(--color-home-accent)] pr-4 md:pr-6">
             <TextScramble>Top Talent</TextScramble>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -162,7 +162,7 @@ export default function Home() {
               >
                 <div className="flex items-start gap-4 md:gap-5">
                   {/* Talent Profile Photo - Square Round & Bigger */}
-                  <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 aspect-square rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
+                  <div className="w-[34vw] max-w-48 min-w-24 aspect-square rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors md:w-44 md:h-44 lg:w-48 lg:h-48">
                     {talent.pic ? (
                       <img
                         src={talent.pic}
@@ -219,8 +219,8 @@ export default function Home() {
       </section>
 
       {/* --- MASSIVE FOOTER --- */}
-      <footer className="pt-32 pb-8 px-8 brutalist-border-t bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden relative transition-colors duration-500">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+      <footer className="pt-20 md:pt-32 pb-8 px-4 md:px-8 brutalist-border-t bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden relative transition-colors duration-500">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-8">
           <div className="flex flex-col gap-3">
             <h4 className="text-xl font-bold uppercase mb-2">
               <TextScramble>Connect</TextScramble>
@@ -270,18 +270,18 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-left md:text-right break-words">
             <p className="font-bold uppercase tracking-widest mb-2">IITM College of Engineering</p>
             <p className="opacity-80">Janakpuri, New Delhi</p>
             <p className="opacity-80">placement@iitmjp.ac.in</p>
           </div>
         </div>
 
-        <h1 className="text-[15vw] font-black tracking-tighter leading-none text-center select-none uppercase">
+        <h1 className="text-[18vw] md:text-[15vw] font-black tracking-tighter leading-none text-center select-none uppercase">
           <TextScramble>NEXTURN</TextScramble>
         </h1>
 
-        <div className="mt-8 pt-8 border-t-[3px] border-[var(--color-background)] flex justify-between text-sm font-bold uppercase tracking-widest">
+        <div className="mt-8 pt-8 border-t-[3px] border-[var(--color-background)] flex flex-col sm:flex-row justify-between gap-3 text-[10px] sm:text-sm font-bold uppercase tracking-widest">
           <span>© 2024 NEXTURN</span>
           <span>ALL RIGHTS RESERVED</span>
         </div>
