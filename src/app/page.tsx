@@ -166,7 +166,7 @@ export default function Home() {
               >
                 <div className="flex items-start gap-4 md:gap-5">
                   {/* Talent Profile Photo - Square Round & Bigger */}
-                  <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 aspect-square rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 aspect-square rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
                     {talent.pic ? (
                       <img
                         src={talent.pic}
