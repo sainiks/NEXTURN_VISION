@@ -193,7 +193,7 @@ export default function Home() {
                       </div>
                     )}
                     <h3 className="text-xl md:text-2xl font-black uppercase mb-1 leading-tight break-words group-hover:text-[var(--color-background)] transition-colors duration-200">
-                      <TextScramble>{talent.full_name || "Top Talent"}</TextScramble>
+                      {talent.full_name || "Top Talent"}
                     </h3>
                     <p className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-[var(--color-home-accent)] group-hover:text-[var(--color-background)] transition-colors duration-200">
                       {talent.course || "B.Tech 2026"}
