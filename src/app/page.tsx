@@ -112,9 +112,11 @@ export default function Home() {
           transition={{ delay: 0.4 }}
           className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 z-20 w-full sm:w-auto px-4 sm:px-0"
         >
-          <MagneticButton className="w-full sm:w-auto !bg-[var(--color-foreground)] !text-[var(--color-background)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
-            Register Drive
-          </MagneticButton>
+          <Link href="/recruiters#register-drive" className="w-full sm:w-auto">
+            <MagneticButton className="w-full sm:w-auto !bg-[var(--color-foreground)] !text-[var(--color-background)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
+              Register Drive
+            </MagneticButton>
+          </Link>
           <Link href="/pipeline">
             <MagneticButton className="w-full sm:w-auto !bg-transparent !text-[var(--color-foreground)] border-2 border-[var(--color-foreground)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
               View Pipeline

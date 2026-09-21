@@ -72,7 +72,7 @@ export default function Recruiters() {
             </p>
           </div>
           
-          <form className="brutalist-border p-8 bg-[var(--color-foreground)] text-[var(--color-background)] flex flex-col gap-6">
+          <form id="register-drive" className="brutalist-border p-8 bg-[var(--color-foreground)] text-[var(--color-background)] flex flex-col gap-6 scroll-mt-8">
             <div className="flex flex-col gap-2">
               <label className="uppercase font-bold tracking-widest text-sm">Company Name</label>
               <input 
