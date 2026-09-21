@@ -13,42 +13,54 @@ export default function TextScramble({
 }) {
   const [text, setText] = useState(children);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseOver = () => {
-    let iteration = 0;
-    if (intervalRef.current) clearInterval(intervalRef.current);
-
-    intervalRef.current = setInterval(() => {
-      setText((prev) =>
-        children
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return children[index];
-            }
-            return CHARS[Math.floor(Math.random() * CHARS.length)];
-          })
-          .join("")
-      );
-
-      if (iteration >= children.length) {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-      }
-
-      iteration += 1 / 3; // Controls speed of scramble resolution
-    }, 30);
-  };
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrambleRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
+    const scramble = () => {
+      let iteration = 0;
+
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+      intervalRef.current = setInterval(() => {
+        setText(
+          children
+            .split("")
+            .map((letter, index) => {
+              if (index < iteration) return children[index];
+              return CHARS[Math.floor(Math.random() * CHARS.length)];
+            })
+            .join("")
+        );
+
+        if (iteration >= children.length) {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+          timeoutRef.current = setTimeout(scramble, 1800);
+        }
+
+        iteration += 1 / 3;
+      }, 30);
+    };
+
+    scrambleRef.current = scramble;
+    scramble();
+
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, []);
+  }, [children]);
+
+  const handleMouseEnter = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (scrambleRef.current) scrambleRef.current();
+  };
 
   return (
     <span
       className={`inline-block ${className}`}
-      onMouseOver={handleMouseOver}
+      onMouseEnter={handleMouseEnter}
     >
       {text}
     </span>

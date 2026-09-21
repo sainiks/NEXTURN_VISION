@@ -99,11 +99,7 @@ export default function Home() {
 
         <div className="group z-20 px-8 py-4 md:px-12 md:py-6 border-[3px] border-[var(--color-foreground)] bg-white/5 backdrop-blur-xl overflow-hidden flex justify-center items-center shadow-[8px_8px_0px_#000] hover:bg-black hover:shadow-[8px_8px_0px_var(--color-accent)] transition-all duration-300">
           <h1 className="text-[12vw] font-black tracking-tighter leading-none flex uppercase text-[var(--color-foreground)] group-hover:!text-white transition-colors duration-300">
-            {["N", "E", "X", "T", "U", "R", "N"].map((letter, i) => (
-              <span key={i} className="hero-text inline-block transform translate-y-[200px]">
-                {letter}
-              </span>
-            ))}
+            <TextScramble className="hero-text transform translate-y-[200px]">NEXTURN</TextScramble>
           </h1>
         </div>
 
@@ -197,7 +193,7 @@ export default function Home() {
                       </div>
                     )}
                     <h3 className="text-xl md:text-2xl font-black uppercase mb-1 leading-tight break-words group-hover:text-[var(--color-background)] transition-colors duration-200">
-                      {talent.full_name || "Top Talent"}
+                      <TextScramble>{talent.full_name || "Top Talent"}</TextScramble>
                     </h3>
                     <p className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-[var(--color-home-accent)] group-hover:text-[var(--color-background)] transition-colors duration-200">
                       {talent.course || "B.Tech 2026"}
@@ -226,7 +222,9 @@ export default function Home() {
       <footer className="pt-32 pb-8 px-8 brutalist-border-t bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden relative transition-colors duration-500">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className="flex flex-col gap-3">
-            <h4 className="text-xl font-bold uppercase mb-2">Connect</h4>
+            <h4 className="text-xl font-bold uppercase mb-2">
+              <TextScramble>Connect</TextScramble>
+            </h4>
             <div className="flex items-center gap-3">
               <a
                 href="https://www.linkedin.com/company/nexturn-iitm/posts/?feedView=all"
