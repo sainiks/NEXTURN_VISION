@@ -158,15 +158,15 @@ export default function Home() {
           <h2 className="text-4xl md:text-7xl font-bold uppercase mb-16 text-right border-r-4 border-[var(--color-home-accent)] pr-6">
             <TextScramble>Top Talent</TextScramble>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {topTalents.map((talent, index) => (
               <div
                 key={talent.id || index}
                 className="parallax-card inverted-hover brutalist-border p-4 md:p-5 cursor-pointer flex flex-col justify-between min-h-[280px] relative group bg-[var(--color-background)] hover:border-[var(--color-home-accent)] transition-colors duration-200"
               >
-                <div className="flex flex-col items-stretch gap-5">
+                <div className="flex items-start gap-4 md:gap-5">
                   {/* Talent Profile Photo - Square Round & Bigger */}
-                  <div className="w-full aspect-square max-h-64 rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 aspect-square rounded-2xl md:rounded-3xl bg-[var(--color-surface)] border-2 md:border-3 border-[var(--color-foreground)] flex-shrink-0 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_var(--color-border)] group-hover:border-[var(--color-background)] transition-colors">
                     {talent.pic ? (
                       <img
                         src={talent.pic}
