@@ -26,9 +26,9 @@ export const ALL_TEAM_CARDS: TeamMemberAccess[] = [
   {
     code: "NC-026-KS-2",
     name: "Kunal Saini",
-    role: "Vice President & Tech Head",
+    role: "Vice President",
     accessLevel: "ALPHA_1",
-    department: "Executive Leadership & Tech",
+    department: "Executive Leadership",
     initials: "KS",
     image: "/team/kunal_saini.png",
     imageStyle: { objectPosition: "center 25%" },
@@ -46,12 +46,21 @@ export const ALL_TEAM_CARDS: TeamMemberAccess[] = [
   {
     code: "NC-026-K-11",
     name: "Kanha",
-    role: "Tech Co-Head",
+    role: "Tech Head",
     accessLevel: "ALPHA_1",
     department: "Tech Department",
     initials: "K",
     image: "/team/Kanha.png",
     imageStyle: { objectPosition: "center 24%" },
+  },
+  {
+    code: "NC-026-GS-12",
+    name: "Gaurav Singh",
+    role: "Tech Co-Head",
+    accessLevel: "ALPHA_1",
+    department: "Tech Department",
+    initials: "GS",
+    image: "/team/Gaurav_Singh.png",
   },
 
   // --- CORE MEMBERS (BETA-2 READ-ONLY) ---
@@ -115,14 +124,13 @@ export const ALL_TEAM_CARDS: TeamMemberAccess[] = [
     imageFit: "fill",
   },
   {
-    code: "NC-026-KR-7",
-    name: "Khushi Rajput",
+    code: "NC-026-DS-7",
+    name: "Dakshay Sachdeva",
     role: "Management Co-Head",
     accessLevel: "BETA_2",
     department: "Management",
-    initials: "KR",
-    image: "/team/Khushi_Rajput.png",
-    imageStyle: { objectPosition: "center 55%" },
+    initials: "DS",
+    image: "/team/Dakshay_Sachdeva.png",
   },
   {
     code: "NC-026-SS-8",
