@@ -99,8 +99,8 @@ export default function Home() {
       <section ref={heroRef} className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden brutalist-border-b px-4 py-20">
         <div className="absolute inset-0 z-10 hero-mask bg-[var(--color-background)]" />
 
-        <div className="group z-20 px-4 py-3 sm:px-8 md:px-12 md:py-6 border-[3px] border-[var(--color-foreground)] bg-white/5 backdrop-blur-xl overflow-hidden flex justify-center items-center shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] hover:bg-black hover:shadow-[8px_8px_0px_var(--color-accent)] transition-all duration-300">
-          <h1 className="text-[17vw] sm:text-[14vw] md:text-[12vw] font-black tracking-tighter leading-none flex uppercase text-[var(--color-foreground)] group-hover:!text-white transition-colors duration-300">
+        <div className="group z-20 max-w-full px-3 py-3 sm:px-8 md:px-12 md:py-6 border-[3px] border-[var(--color-foreground)] bg-white/5 backdrop-blur-xl overflow-hidden flex justify-center items-center shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] hover:bg-black hover:shadow-[8px_8px_0px_var(--color-accent)] transition-all duration-300">
+          <h1 className="text-[15vw] sm:text-[14vw] md:text-[12vw] font-black tracking-tighter leading-none flex uppercase text-[var(--color-foreground)] group-hover:!text-white transition-colors duration-300">
             <TextScramble className="hero-text transform translate-y-[200px]">NEXTURN</TextScramble>
           </h1>
         </div>
@@ -112,14 +112,14 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={isGridVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4 }}
-          className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 z-20 w-full sm:w-auto px-4 sm:px-0"
+          className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 z-20 w-full sm:w-auto px-0 sm:px-0"
         >
           <Link href="/recruiters#register-drive" className="w-full sm:w-auto">
             <MagneticButton className="w-full sm:w-auto !bg-[var(--color-foreground)] !text-[var(--color-background)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
               Register Drive
             </MagneticButton>
           </Link>
-          <Link href="/pipeline">
+          <Link href="/pipeline" className="w-full sm:w-auto">
             <MagneticButton className="w-full sm:w-auto !bg-transparent !text-[var(--color-foreground)] border-2 border-[var(--color-foreground)] hover:!bg-black hover:!text-white shadow-[6px_6px_0px_#000]">
               View Pipeline
             </MagneticButton>
@@ -149,9 +149,9 @@ export default function Home() {
           </div>
           <div className="absolute bottom-7 right-7 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">Nº 02&nbsp;&nbsp; / &nbsp;&nbsp;Coming into focus</div>
         </div>
-        <div className="relative z-10 mx-auto flex min-h-[28rem] max-w-7xl items-center px-5 py-16 sm:px-8 sm:py-20 md:min-h-[32rem] md:py-24">
+        <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-stretch px-5 py-12 sm:min-h-[28rem] sm:px-8 sm:py-16 md:min-h-[32rem] md:justify-center md:py-20">
           <div className="max-w-3xl">
-            <div className="mb-8 flex flex-wrap items-center gap-3 font-mono text-xs font-black uppercase tracking-[0.18em] sm:text-sm">
+            <div className="mb-6 flex flex-wrap items-center gap-2.5 font-mono text-[10px] font-black uppercase tracking-[0.14em] sm:mb-8 sm:gap-3 sm:text-sm sm:tracking-[0.18em]">
               <span className="inline-flex items-center gap-2 border-2 border-black px-3 py-2"><Sparkles size={15} /> Up next</span>
               <span className="flex items-center gap-2">
                 <span className="relative flex h-3 w-3 items-center justify-center">
@@ -184,7 +184,7 @@ export default function Home() {
               whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0, letterSpacing: "0.2em" }}
               viewport={{ once: true, amount: 0.8 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-3 font-mono text-sm font-bold uppercase"
+              className="mb-2 font-mono text-xs font-bold uppercase sm:mb-3 sm:text-sm"
             >
               The return
             </motion.p>
@@ -197,7 +197,7 @@ export default function Home() {
                 backgroundImage: "linear-gradient(105deg, #000 0%, #000 42%, rgba(255,255,255,0.95) 50%, #000 58%, #000 100%)",
                 backgroundSize: "240% 100%",
               }}
-              className="w-fit max-w-4xl bg-clip-text text-5xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-transparent sm:text-7xl md:text-8xl"
+              className="w-fit max-w-full bg-clip-text text-[clamp(2.65rem,12vw,4.25rem)] font-black uppercase leading-[0.88] tracking-[-0.07em] text-transparent sm:max-w-4xl sm:text-7xl sm:tracking-[-0.06em] md:text-8xl"
             >
               FUSION-X
             </motion.h2>
@@ -206,7 +206,7 @@ export default function Home() {
               whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.8 }}
               transition={{ duration: 0.6, delay: 0.62, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-6 max-w-xl text-lg font-bold uppercase leading-snug sm:text-2xl"
+              className="mt-4 max-w-[28rem] text-base font-bold uppercase leading-snug sm:mt-6 sm:text-2xl"
             >
               A new edition is on the horizon. Stay tuned.
             </motion.p>
@@ -215,33 +215,39 @@ export default function Home() {
               whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.8 }}
               transition={{ duration: 0.55, delay: 0.82, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8"
+              className="mt-6 sm:mt-8"
             >
-              <Link href="/pipeline" className="group inline-flex w-fit items-center gap-5 border-2 border-black bg-black px-6 py-5 font-mono text-sm font-black uppercase tracking-wider text-white transition-transform hover:-translate-y-1 hover:translate-x-1 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black">
+              <Link href="/pipeline" className="group inline-flex min-h-12 w-fit items-center gap-4 border-2 border-black bg-black px-5 py-3.5 font-mono text-xs font-black uppercase tracking-wider text-white transition-transform hover:-translate-y-1 hover:translate-x-1 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black sm:min-h-0 sm:gap-5 sm:px-6 sm:py-5 sm:text-sm">
                 Stay tuned
                 <span className="transition-transform group-hover:translate-x-1"><ArrowUpRight size={20} /></span>
               </Link>
             </motion.div>
           </div>
+          <div aria-hidden="true" className="relative mt-8 flex h-24 items-center justify-between overflow-hidden border border-white/20 bg-[#101014] px-4 text-white md:hidden">
+            <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.16)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.16)_1px,transparent_1px)] [background-size:20px_20px]" />
+            <div className="relative z-10 font-mono text-[9px] font-bold uppercase leading-relaxed tracking-[0.18em] text-white/65">Nº 02<br /><span className="text-[var(--color-accent)]">The return</span></div>
+            <motion.span className="relative z-10 font-black text-7xl leading-none tracking-[-0.13em] text-[var(--color-accent)]" animate={prefersReducedMotion ? undefined : { x: [0, -4, 0] }} transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}>X</motion.span>
+            <motion.span className="absolute inset-y-0 left-0 w-1 bg-white/80 shadow-[0_0_18px_rgba(255,255,255,.75)]" animate={prefersReducedMotion ? undefined : { x: ["-4px", "100vw"] }} transition={{ duration: 5, ease: "linear", repeat: Infinity }} />
+          </div>
         </div>
       </section>
 
       {/* --- STATISTICS SECTION --- */}
-      <section ref={statsRef} className="py-20 md:py-32 px-4 md:px-8 border-b-[3px] border-[var(--color-foreground)]">
+      <section ref={statsRef} className="py-14 sm:py-20 md:py-32 px-4 md:px-8 border-b-[3px] border-[var(--color-foreground)]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold uppercase mb-10 md:mb-16 border-l-4 border-[var(--color-home-accent)] pl-4 md:pl-6">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold uppercase mb-8 sm:mb-10 md:mb-16 border-l-4 border-[var(--color-home-accent)] pl-4 md:pl-6">
             <TextScramble>Cell Statistics</TextScramble>
           </h2>
-          <div key={theme} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 p-4 md:p-8 bg-white text-black border-[3px] border-[var(--color-foreground)] shadow-[6px_6px_0px_var(--color-home-accent)] md:shadow-[8px_8px_0px_var(--color-home-accent)] transition-all duration-500">
+          <div key={theme} className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 p-4 sm:p-6 md:p-8 bg-white text-black border-[3px] border-[var(--color-foreground)] shadow-[6px_6px_0px_var(--color-home-accent)] md:shadow-[8px_8px_0px_var(--color-home-accent)] transition-all duration-500">
             <div className="flex flex-col">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Placement Assistance</span>
               <span className="stat-number text-5xl sm:text-6xl md:text-8xl font-black" data-target="100" data-suffix="%">0%</span>
             </div>
-            <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-8 md:pt-0 md:pl-8 transition-colors duration-500">
+            <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-4 sm:pt-6 md:pt-0 md:pl-8 transition-colors duration-500">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Active Partners</span>
               <span className="stat-number text-5xl sm:text-6xl md:text-8xl font-black" data-target="155" data-suffix="+">0+</span>
             </div>
-            <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-8 md:pt-0 md:pl-8 transition-colors duration-500">
+            <div className="flex flex-col border-t-2 md:border-t-0 md:border-l-2 border-black pt-4 sm:pt-6 md:pt-0 md:pl-8 transition-colors duration-500">
               <span className="text-sm font-bold uppercase tracking-widest mb-2">Avg. CTC (LPA)</span>
               <span className="stat-number text-5xl sm:text-6xl md:text-8xl font-black" data-target="6" data-suffix="L">0L</span>
             </div>
@@ -250,19 +256,19 @@ export default function Home() {
       </section>
 
       {/* --- PORTFOLIO / ENTITIES --- */}
-      <section className="relative overflow-hidden bg-[var(--color-foreground)] px-4 py-20 text-[var(--color-background)] md:px-8 md:py-32">
+      <section className="relative overflow-hidden bg-[var(--color-foreground)] px-4 py-14 sm:py-20 text-[var(--color-background)] md:px-8 md:py-32">
         <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-16 select-none font-black leading-none text-[28rem] opacity-[0.035]">N</div>
         <div className="relative mx-auto max-w-7xl">
-          <div className="mb-10 flex flex-col justify-between gap-8 border-b border-[var(--color-background)]/25 pb-7 sm:mb-14 sm:flex-row sm:items-end md:pb-9">
+          <div className="mb-8 flex flex-col justify-between gap-5 border-b border-[var(--color-background)]/25 pb-6 sm:mb-14 sm:gap-8 sm:flex-row sm:items-end md:pb-9">
             <div>
-              <p className="mb-4 flex items-center gap-3 font-mono text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">
+              <p className="mb-3 flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.16em] sm:mb-4 sm:gap-3 sm:text-xs sm:tracking-[0.2em]">
                 <span className="h-2 w-2 rounded-full bg-[var(--color-accent)]" /> Nexturn / Career outcomes
               </p>
               <h2 className="text-5xl font-black uppercase leading-[0.82] tracking-[-0.07em] sm:text-7xl md:text-8xl">
                 Top<br /><span className="text-[var(--color-accent)]">Talent.</span>
               </h2>
             </div>
-            <p className="max-w-xs font-mono text-xs font-bold uppercase leading-relaxed tracking-wider text-[var(--color-background)]/65 sm:text-right">
+            <p className="max-w-xs font-mono text-[10px] font-bold uppercase leading-relaxed tracking-wider text-[var(--color-background)]/65 sm:text-xs sm:text-right">
               Big ambition. Real people. The next chapter starts here.
             </p>
           </div>
@@ -270,7 +276,7 @@ export default function Home() {
             {topTalents.map((talent, index) => (
               <div
                 key={talent.id || index}
-                className="group relative isolate aspect-[4/3] min-h-[330px] overflow-hidden border border-[var(--color-background)]/20 bg-black sm:aspect-[5/4] sm:min-h-[360px] lg:min-h-[420px]"
+                className="group relative isolate aspect-[4/3] min-h-[280px] overflow-hidden border border-[var(--color-background)]/20 bg-black sm:aspect-[5/4] sm:min-h-[360px] lg:min-h-[420px]"
               >
                 {talent.pic ? (
                   <>
@@ -283,15 +289,15 @@ export default function Home() {
                   </div>
                 )}
                 <div aria-hidden="true" className="absolute inset-0 -z-0 bg-gradient-to-t from-black via-black/35 to-black/5" />
-                <div className="absolute left-4 top-4 z-10 font-mono text-6xl font-black leading-none tracking-[-0.08em] text-white/45 sm:left-6 sm:top-6 sm:text-7xl">0{index + 1}</div>
+                <div className="absolute left-4 top-4 z-10 font-mono text-5xl font-black leading-none tracking-[-0.08em] text-white/45 sm:left-6 sm:top-6 sm:text-7xl">0{index + 1}</div>
                 {talent.company && (
                   <div className="absolute right-4 top-4 z-10 max-w-[60%] border border-white/35 bg-black/45 px-3 py-2 text-right font-mono text-[10px] font-black uppercase tracking-[0.14em] text-white backdrop-blur-sm sm:right-6 sm:top-6 sm:text-xs">
                     Placed at <span className="text-[var(--color-accent)]">{talent.company}</span>
                   </div>
                 )}
-                <div className="absolute inset-x-0 bottom-0 z-10 p-5 sm:p-7 md:p-8">
+                <div className="absolute inset-x-0 bottom-0 z-10 p-4 sm:p-7 md:p-8">
                   <div className="mb-3 h-1 w-10 bg-[var(--color-accent)] transition-all duration-300 group-hover:w-16" />
-                  <h3 className="max-w-[90%] break-words text-3xl font-black uppercase leading-[0.95] tracking-[-0.04em] text-white sm:text-4xl md:text-5xl">{talent.full_name || "Top Talent"}</h3>
+                  <h3 className="max-w-[90%] break-words text-[clamp(1.5rem,7vw,2rem)] font-black uppercase leading-[0.95] tracking-[-0.04em] text-white sm:text-4xl md:text-5xl">{talent.full_name || "Top Talent"}</h3>
                   <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white/75 sm:text-xs">
                     <span>{talent.course || "B.Tech 2026"}</span>
                     {talent.role && talent.role.trim().length > 0 && <><span aria-hidden="true" className="text-[var(--color-accent)]">✳</span><span>{talent.role}</span></>}
@@ -304,8 +310,8 @@ export default function Home() {
       </section>
 
       {/* --- MASSIVE FOOTER --- */}
-      <footer className="pt-20 md:pt-32 pb-8 px-4 md:px-8 brutalist-border-t bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden relative transition-colors duration-500">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-8">
+      <footer className="pt-14 sm:pt-20 md:pt-32 pb-8 px-4 md:px-8 brutalist-border-t bg-[var(--color-foreground)] text-[var(--color-background)] overflow-hidden relative transition-colors duration-500">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-12 md:mb-16 gap-6 sm:gap-8">
           <div className="flex flex-col gap-3">
             <h4 className="text-xl font-bold uppercase mb-2">
               <TextScramble>Connect</TextScramble>

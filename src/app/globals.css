@@ -210,8 +210,6 @@
   main {
     min-width: 0;
     max-width: 100%;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
   }
 
   main > div {

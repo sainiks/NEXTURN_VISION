@@ -15,7 +15,7 @@ const partners = [
 
 export default function Marquee() {
   return (
-    <div className="relative w-full overflow-hidden bg-[var(--color-foreground)] text-[var(--color-background)] py-4 flex border-y-[3px] border-[var(--color-foreground)] transition-colors duration-500">
+    <div className="relative w-full overflow-hidden bg-[var(--color-foreground)] text-[var(--color-background)] py-3 sm:py-4 flex border-y-[3px] border-[var(--color-foreground)] transition-colors duration-500">
       <motion.div
         className="flex whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}
@@ -27,11 +27,11 @@ export default function Marquee() {
       >
         {/* We render the list twice to ensure seamless looping */}
         {[...partners, ...partners, ...partners, ...partners].map((partner, i) => (
-          <div key={i} className="flex items-center mx-8">
-            <span className="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+          <div key={i} className="flex items-center mx-4 sm:mx-8">
+            <span className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">
               {partner}
             </span>
-            <span className="mx-8 text-2xl text-[var(--color-accent)]">✦</span>
+            <span className="mx-4 sm:mx-8 text-xl sm:text-2xl text-[var(--color-accent)]">✦</span>
           </div>
         ))}
       </motion.div>

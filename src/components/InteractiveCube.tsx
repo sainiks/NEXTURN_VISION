@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CubeFace = ({ transform, size }: { transform: string, size: number }) => {
   const squareSize = 40; // Small grid size
@@ -63,6 +63,7 @@ const Cube = ({ size }: { size: number }) => {
 
 export default function InteractiveCube() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Mouse tracking
   const mouseX = useMotionValue(0);
@@ -80,6 +81,14 @@ export default function InteractiveCube() {
   const baseRotateX = useSpring(0, { damping: 10, stiffness: 5, mass: 1.5 });
   const baseRotateY = useSpring(0, { damping: 10, stiffness: 5, mass: 1.5 });
   const baseRotateZ = useSpring(0, { damping: 10, stiffness: 5, mass: 1.5 });
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 639px)");
+    const updateViewport = () => setIsMobile(media.matches);
+    updateViewport();
+    media.addEventListener("change", updateViewport);
+    return () => media.removeEventListener("change", updateViewport);
+  }, []);
 
   useEffect(() => {
     // Every 2.5 seconds, sharply rotate the cube 90 degrees on a random axis
@@ -126,7 +135,7 @@ export default function InteractiveCube() {
           rotateY,
           rotateZ,
           transformStyle: "preserve-3d",
-          scale: 9// Zoom the cube so it covers the screen like a flat grid
+          scale: isMobile ? 5 : 9// Keep the background grid lighter on small screens
         }}
         className="flex justify-center items-center"
       >
