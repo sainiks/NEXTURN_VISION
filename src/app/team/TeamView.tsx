@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
-import { RotateCw } from "lucide-react";
 import TextScramble from "@/components/TextScramble";
 import { coreLeadership, coreMembers, type Member } from "./members";
 
@@ -15,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── Hexagon Avatar (image with initials fallback) ── */
 function HexAvatar({ member, size = "md", className = "" }: { member: Member; size?: "sm" | "md" | "lg"; className?: string }) {
   const [imgError, setImgError] = useState(false);
-  const sizeClasses = { sm: "size-[min(11.75rem,52cqw)] shrink-0 md:size-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
+  const sizeClasses = { sm: "size-[min(11rem,48cqw)] shrink-0 md:size-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
   const textSizes = { sm: "text-5xl md:text-6xl", md: "text-5xl", lg: "text-7xl md:text-8xl" };
   return (
     <div
@@ -140,40 +139,42 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(-50%) rotateY(90deg)" }} />
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(50%) rotateY(90deg)" }} />
         {/* FRONT SIDE */}
-        <div inert={isFlipped} className="team-id-face relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card px-4 py-3 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
+        <div inert={isFlipped} className="relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card px-4 py-2 min-[360px]:py-3 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
+          {/* Flip Trigger Button */}
+
           {/* Animated corner accents */}
-          <div className="absolute top-0 left-0 hidden md:block w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)] opacity-40" />
-          <div className="absolute bottom-0 right-0 hidden md:block w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
+          <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)] opacity-40" />
+          <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
 
           {/* Sweep BG */}
           <div className="absolute inset-0 hidden md:block card-sweep transform translate-y-full group-hover:translate-y-0 z-0" />
 
           <div className="z-10 flex flex-col items-center w-full max-md:flex-1 md:group-hover:text-[var(--color-background)] transition-colors duration-300">
-            <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest max-md:rounded-full max-md:border max-md:border-white/20 max-md:px-2 max-md:text-[10px] max-md:leading-5 max-md:text-white/75 md:opacity-30 md:group-hover:opacity-60">
+            <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="flex w-full flex-col items-center max-md:flex-1 max-md:justify-center">
               <HexAvatar member={member} size="sm" className="mb-1 min-[360px]:mb-2 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
-              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter max-md:text-balance max-md:leading-tight mb-1">{member.name}</h3>
+              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter max-md:leading-tight mb-1">{member.name}</h3>
               <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 md:mb-4 transition-colors md:group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
             </div>
 
-            <div className="w-full border-t border-white/20 md:border-t-4 md:border-[var(--color-foreground)] md:group-hover:border-[var(--color-background)] md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
+            <div className="w-full border-t-4 border-[var(--color-foreground)] md:group-hover:border-[var(--color-background)] pt-2 md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
-                <div className="flex items-center justify-between md:flex-col md:items-stretch">
-                  <span className="text-xs font-black uppercase tracking-widest opacity-60 md:opacity-40 md:mb-1 md:group-hover:opacity-70">LinkedIn</span>
+                <div className="flex flex-col">
+                  <span className="text-xs font-black uppercase tracking-widest opacity-60 md:opacity-40 mb-1 md:group-hover:opacity-70">LinkedIn</span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       window.open(member.linkedin, "_blank");
                     }}
-                    className="max-md:min-h-11 text-base md:text-xl font-black tracking-widest text-[var(--color-accent)] md:group-hover:text-[var(--color-background)] text-left md:hover:translate-x-2 transition-transform duration-300"
+                    className="text-xl font-black tracking-widest text-[var(--color-accent)] md:group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300"
                   >
                     Connect↗
                   </button>
                 </div>
               ) : (
-                <div className="flex min-h-11 items-center justify-between md:min-h-0 md:flex-col md:items-stretch">
+                <div className="flex flex-col">
                   <span className="text-xs font-black uppercase tracking-widest opacity-60 md:opacity-40 mb-1 md:group-hover:opacity-70">Nexturn</span>
                   <span className="font-black tracking-widest text-lg">Core Member</span>
                 </div>
@@ -186,14 +187,14 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               type="button"
               aria-label="Flip to ID details"
               onClick={flip}
-              className="w-full min-h-11 rounded-lg border border-white/20 bg-white/[0.07] px-3 py-2 md:mt-6 md:min-h-0 md:rounded-none md:border-2 md:border-dashed md:border-[var(--color-foreground)] md:bg-transparent md:p-2 md:group-hover:border-[var(--color-background)] flex items-center justify-between cursor-pointer md:hover:bg-[var(--color-accent)] transition-all duration-300"
+              className="mt-2 md:mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] md:group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer md:hover:bg-[var(--color-accent)] transition-all duration-300"
               title="Click to flip"
             >
               <span className="flex flex-col items-start">
-                <span className="text-[9px] md:text-[7px] font-mono uppercase tracking-tighter opacity-65 md:opacity-50">Authorized Core Board</span>
+                <span className="text-[7px] font-mono uppercase tracking-tighter opacity-50">Authorized Core Board</span>
                 <span className="text-[10px] font-black tracking-widest leading-none">NEXTURN-VERIFIED-{i + 1}</span>
               </span>
-              <span className="flex items-center gap-2 text-sm font-black tracking-widest italic opacity-80">{member.initials}_<RotateCw aria-hidden="true" size={16} className="text-[var(--color-accent)] md:hidden" /></span>
+              <span className="text-sm font-black tracking-widest italic opacity-80">{member.initials}_</span>
             </button>
           </div>
         </div>
@@ -201,7 +202,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
         {/* BACK SIDE (Stylish ID Design) */}
         <div
           inert={!isFlipped}
-          className="team-id-face relative col-start-1 row-start-1 min-w-0 backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-4 md:p-8 flex flex-col overflow-clip"
+          className="relative col-start-1 row-start-1 min-w-0 backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-4 md:p-8 flex flex-col overflow-clip"
           style={{ transform: "rotateY(180deg) translateZ(2px)" }}
         >
           {/* Flip Back Pattern Overlay */}
@@ -216,7 +217,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
           <div className="relative z-10 flex flex-1 flex-col">
             {/* Top Bar */}
             <div className="flex justify-between items-start mb-2 md:mb-4">
-              <div className="size-6 md:size-12 border-t-2 border-l-2 md:border-t-4 md:border-l-4 border-[var(--color-accent)]" />
+              <div className="size-8 md:size-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
               <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-90 md:opacity-60">Nxt / Board</span>
             </div>
 
@@ -231,7 +232,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
             </div>
 
             {/* Metadata Footer */}
-            <div className="mt-auto border-t border-white/20 md:border-t-4 md:border-[var(--color-accent)] pt-3 md:pt-6 font-mono space-y-2">
+            <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-3 md:pt-6 font-mono space-y-2">
               <div className="flex justify-between items-center mb-3">
                 <p className="text-xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Nexturn Core</p>
                 <span className={`text-[8px] font-black uppercase px-2 py-0.5 border ${
@@ -242,7 +243,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
                   {accessLevel === "Alpha-1" ? "Clearance: Alpha-1" : "Clearance: Beta-2"}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-foreground)] md:text-[var(--color-accent)]">
+              <div className="grid grid-cols-2 gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
                 <div>
                   <span className="opacity-90 md:opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
                   <span className="font-black">{accessLevel}</span>
@@ -264,11 +265,11 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
                 ref={backControl}
                 type="button"
                 onClick={flip}
-                className="min-h-11 rounded-lg border border-[var(--id-rim)] px-4 py-1 text-[10px] md:min-h-0 md:rounded-none md:border-2 md:border-[var(--color-accent)] md:text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
+                className="px-4 py-1 border-2 border-[var(--color-accent)] text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
               >
                 Return to Profile
               </button>
-              <div className="size-6 md:size-12 border-b-2 border-r-2 md:border-b-4 md:border-r-4 border-[var(--color-accent)]" />
+              <div className="size-8 md:size-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
             </div>
           </div>
         </div>
