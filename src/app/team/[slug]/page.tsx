@@ -24,7 +24,7 @@ export default async function MemberPage({ params }: MemberPageProps) {
   if (!card) notFound();
 
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center gap-5 px-3 pt-28 pb-12">
+    <main className="flex min-h-svh flex-col items-center justify-center gap-3 px-3 pt-[4.5rem] pb-6 md:gap-5 md:pt-28 md:pb-12">
       <h1 className="text-center text-sm font-black uppercase tracking-widest">Nexturn Core · Digital ID</h1>
       <TeamCard member={card.member} i={card.index} />
       <p className="text-center text-sm"><span className="motion-reduce:hidden">Drag sideways or </span>tap the signature to flip the card.</p>

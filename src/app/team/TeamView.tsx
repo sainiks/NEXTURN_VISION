@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── Hexagon Avatar (image with initials fallback) ── */
 function HexAvatar({ member, size = "md", className = "" }: { member: Member; size?: "sm" | "md" | "lg"; className?: string }) {
   const [imgError, setImgError] = useState(false);
-  const sizeClasses = { sm: "w-36 h-36 md:w-44 md:h-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
+  const sizeClasses = { sm: "size-[clamp(6rem,35cqw,9rem)] shrink-0 md:size-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
   const textSizes = { sm: "text-5xl md:text-6xl", md: "text-5xl", lg: "text-7xl md:text-8xl" };
   return (
     <div
@@ -111,7 +111,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
 
   return (
     <div
-      className={`relative group w-full min-w-0 max-w-[400px] min-h-[440px] md:min-h-[520px] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
+      className={`relative group w-full min-w-0 max-w-[360px] md:max-w-[400px] [container-type:inline-size] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
       onClick={onClick}
       onClickCapture={(event) => {
         if (!ignoreClick.current || event.detail === 0) return;
@@ -134,12 +134,12 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
     >
       <motion.div
         style={{ transformStyle: "preserve-3d", rotateY: angle, rotateX: tilt, rotateZ: bank }}
-        className="relative min-h-[inherit] w-full"
+        className="relative grid w-full grid-cols-1 aspect-[4/5] md:aspect-auto md:min-h-[520px]"
       >
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(-50%) rotateY(90deg)" }} />
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(50%) rotateY(90deg)" }} />
         {/* FRONT SIDE */}
-        <div inert={isFlipped} className="relative min-h-[inherit] w-full backface-hidden frost-card p-4 sm:p-6 flex flex-col items-center text-center overflow-hidden" style={{ transform: "translateZ(2px)" }}>
+        <div inert={isFlipped} className="relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card p-4 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
           {/* Flip Trigger Button */}
 
           {/* Animated corner accents */}
@@ -149,15 +149,17 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
           {/* Sweep BG */}
           <div className="absolute inset-0 card-sweep transform translate-y-full group-hover:translate-y-0 z-0" />
 
-          <div className="z-10 flex flex-col items-center w-full group-hover:text-[var(--color-background)] transition-colors duration-300">
+          <div className="z-10 flex flex-col items-center w-full max-md:flex-1 group-hover:text-[var(--color-background)] transition-colors duration-300">
             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <HexAvatar member={member} size="sm" className="mb-4 group-hover:scale-105 transition-transform duration-500" />
-            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-1">{member.name}</h3>
-            <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
+            <div className="flex w-full flex-col items-center max-md:flex-1 max-md:justify-center">
+              <HexAvatar member={member} size="sm" className="mb-2 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
+              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter max-md:leading-tight mb-1">{member.name}</h3>
+              <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-3 md:mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
+            </div>
 
-            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
+            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-3 md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
                 <div className="flex flex-col">
                   <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">LinkedIn</span>
@@ -185,7 +187,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               type="button"
               aria-label="Flip to ID details"
               onClick={flip}
-              className="mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
+              className="mt-4 md:mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
               title="Click to flip"
             >
               <span className="flex flex-col items-start">
@@ -200,7 +202,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
         {/* BACK SIDE (Stylish ID Design) */}
         <div
           inert={!isFlipped}
-          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-4 sm:p-8 flex flex-col justify-between overflow-hidden"
+          className="relative col-start-1 row-start-1 min-w-0 backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-4 md:p-8 flex flex-col overflow-clip"
           style={{ transform: "rotateY(180deg) translateZ(2px)" }}
         >
           {/* Flip Back Pattern Overlay */}
@@ -212,25 +214,25 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
           {/* Background Grid Pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-accent) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
 
-          <div className="relative z-10 flex flex-col h-full">
+          <div className="relative z-10 flex flex-1 flex-col">
             {/* Top Bar */}
-            <div className="flex justify-between items-start mb-4">
-              <div className="w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
+            <div className="flex justify-between items-start mb-2 md:mb-4">
+              <div className="size-8 md:size-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
               <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">Nxt / Board</span>
             </div>
 
             {/* Massive Monogram */}
             <div className="flex-1 flex items-center justify-center relative [container-type:inline-size]">
-              <span className={`${longMonogram ? "text-[min(12rem,46cqw)]" : "text-[min(12rem,68cqw)]"} font-black leading-none tracking-tighter opacity-10 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}>
+              <span className={`${longMonogram ? "text-[min(12rem,46cqw)]" : "text-[min(12rem,54cqw)] md:text-[min(12rem,68cqw)]"} font-black leading-none tracking-tighter opacity-10 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}>
                 {member.initials}
               </span>
-              <span className={`${longMonogram ? "text-[min(10rem,42cqw)]" : "text-[min(10rem,60cqw)]"} font-black leading-none tracking-tighter text-transparent`} style={{ WebkitTextStroke: "2px var(--color-accent)" }}>
+              <span className={`${longMonogram ? "text-[min(10rem,42cqw)]" : "text-[min(10rem,48cqw)] md:text-[min(10rem,60cqw)]"} font-black leading-none tracking-tighter text-transparent`} style={{ WebkitTextStroke: "2px var(--color-accent)" }}>
                 {member.initials}
               </span>
             </div>
 
             {/* Metadata Footer */}
-            <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-6 font-mono space-y-2">
+            <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-3 md:pt-6 font-mono space-y-2">
               <div className="flex justify-between items-center mb-3">
                 <p className="text-xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Nexturn Core</p>
                 <span className={`text-[8px] font-black uppercase px-2 py-0.5 border ${
@@ -258,7 +260,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
             </div>
 
             {/* Bottom Accent + Flip Back Trigger */}
-            <div className="flex justify-between items-end mt-4 relative z-10">
+            <div className="flex justify-between items-end mt-2 md:mt-4 relative z-10">
               <button
                 ref={backControl}
                 type="button"
@@ -267,7 +269,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               >
                 Return to Profile
               </button>
-              <div className="w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
+              <div className="size-8 md:size-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
             </div>
           </div>
         </div>
