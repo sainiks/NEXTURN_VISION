@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── Hexagon Avatar (image with initials fallback) ── */
 function HexAvatar({ member, size = "md", className = "" }: { member: Member; size?: "sm" | "md" | "lg"; className?: string }) {
   const [imgError, setImgError] = useState(false);
-  const sizeClasses = { sm: "size-[clamp(6rem,35cqw,9rem)] shrink-0 md:size-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
+  const sizeClasses = { sm: "size-[min(11rem,48cqw)] shrink-0 md:size-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
   const textSizes = { sm: "text-5xl md:text-6xl", md: "text-5xl", lg: "text-7xl md:text-8xl" };
   return (
     <div
@@ -139,7 +139,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(-50%) rotateY(90deg)" }} />
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(50%) rotateY(90deg)" }} />
         {/* FRONT SIDE */}
-        <div inert={isFlipped} className="relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card p-4 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
+        <div inert={isFlipped} className="relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card px-4 py-2 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
           {/* Flip Trigger Button */}
 
           {/* Animated corner accents */}
@@ -154,12 +154,12 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="flex w-full flex-col items-center max-md:flex-1 max-md:justify-center">
-              <HexAvatar member={member} size="sm" className="mb-2 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
+              <HexAvatar member={member} size="sm" className="mb-1 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
               <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter max-md:leading-tight mb-1">{member.name}</h3>
-              <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-3 md:mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
+              <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 md:mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
             </div>
 
-            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-3 md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
+            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-2 md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
                 <div className="flex flex-col">
                   <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">LinkedIn</span>
@@ -187,7 +187,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               type="button"
               aria-label="Flip to ID details"
               onClick={flip}
-              className="mt-4 md:mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
+              className="mt-2 md:mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
               title="Click to flip"
             >
               <span className="flex flex-col items-start">
