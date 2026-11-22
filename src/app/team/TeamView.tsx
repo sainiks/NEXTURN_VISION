@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import { motion, AnimatePresence, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -39,35 +39,107 @@ function HexAvatar({ member, size = "md", className = "" }: { member: Member; si
 /* ── Team Card (3D Flip) ── */
 export function TeamCard({ member, i, className, onClick }: { member: Member; i: number; className?: string; onClick?: () => void }) {
   const [isFlipped, setIsFlipped] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const angle = useSpring(0, { stiffness: 210, damping: 26 });
+  const tilt = useTransform(angle, (value) => reducedMotion ? 0 : Math.sin(value * Math.PI / 180) * 12);
+  const bank = useTransform(tilt, (value) => value / 3);
+  const settledAngle = useRef(0);
+  const gesture = useRef<{ pointerId: number; startX: number; startY: number; startAngle: number; rolling: boolean } | null>(null);
+  const ignoreClick = useRef(false);
+  const moveFocus = useRef(false);
+  const frontControl = useRef<HTMLButtonElement>(null);
+  const backControl = useRef<HTMLButtonElement>(null);
 
-  const handleLeave = useCallback(() => {
-    setIsFlipped(false);
-  }, []);
+  useEffect(() => {
+    if (!moveFocus.current) return;
+    moveFocus.current = false;
+    (isFlipped ? backControl : frontControl).current?.focus({ preventScroll: true });
+  }, [isFlipped]);
+
+  const settle = (target: number) => {
+    settledAngle.current = target;
+    if (reducedMotion) angle.jump(target);
+    else angle.set(target);
+    setIsFlipped(Math.abs(target % 360) === 180);
+  };
+
+  const flip = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    moveFocus.current = event.detail === 0;
+    settle(settledAngle.current + 180);
+  };
+
+  const startRoll = (event: PointerEvent<HTMLDivElement>) => {
+    if (!event.isPrimary || event.button !== 0) return;
+    ignoreClick.current = false;
+    if (reducedMotion || (event.target instanceof Element && event.target.closest("button, a"))) return;
+    gesture.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, startAngle: 0, rolling: false };
+  };
+
+  const roll = (event: PointerEvent<HTMLDivElement>) => {
+    const current = gesture.current;
+    if (!current || current.pointerId !== event.pointerId) return;
+    const offset = event.clientX - current.startX;
+    if (!current.rolling) {
+      if (Math.abs(offset) < Math.max(8, Math.abs(event.clientY - current.startY) * 1.2)) return;
+      current.rolling = true;
+      current.startAngle = angle.get();
+      ignoreClick.current = true;
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+    angle.jump(current.startAngle + offset / event.currentTarget.offsetWidth * 260);
+  };
+
+  const finishRoll = (event: PointerEvent<HTMLDivElement>, cancelled = false) => {
+    const current = gesture.current;
+    if (!current || current.pointerId !== event.pointerId) return;
+    gesture.current = null;
+    if (!current.rolling) return;
+
+    const offset = event.clientX - current.startX;
+    const nearestFace = Math.round(angle.get() / 180) * 180;
+    const previousFace = settledAngle.current;
+    const isSwipe = Math.abs(offset) >= event.currentTarget.offsetWidth * 0.17;
+    settle(cancelled ? previousFace : isSwipe && nearestFace === previousFace ? previousFace + Math.sign(offset) * 180 : nearestFace);
+  };
 
   const isLeader = member.role.toLowerCase().includes("president");
   const isTech = member.role.toLowerCase().includes("tech head") || member.role.toLowerCase().includes("tech co-head");
   const accessLevel = (isLeader || isTech) ? "Alpha-1" : "Beta-2";
   const identificationCode = `NC-026-${member.initials}-${i + 1}`;
+  const longMonogram = member.initials.length > 2;
 
   return (
     <div
-      className={`relative perspective-1000 group ${className}`}
-      onMouseLeave={onClick ? handleLeave : undefined}
+      className={`relative group w-full min-w-0 max-w-[400px] min-h-[440px] md:min-h-[520px] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
       onClick={onClick}
-      style={{ perspective: "1200px" }}
+      onClickCapture={(event) => {
+        if (!ignoreClick.current || event.detail === 0) return;
+        ignoreClick.current = false;
+        event.preventDefault();
+        event.stopPropagation();
+      }}
+      onPointerDown={startRoll}
+      onPointerMove={roll}
+      onPointerUp={(event) => finishRoll(event)}
+      onPointerCancel={(event) => finishRoll(event, true)}
+      onLostPointerCapture={(event) => {
+        if (event.target === event.currentTarget) finishRoll(event, true);
+      }}
+      onPointerLeave={(event) => {
+        if (!gesture.current?.rolling) finishRoll(event, true);
+      }}
+      onDragStart={(event) => event.preventDefault()}
+      style={{ perspective: "1000px" }}
     >
       <motion.div
-        ref={ref}
-        style={{
-          transformStyle: "preserve-3d"
-        }}
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 150, damping: 20 }}
-        className="w-full h-full relative"
+        style={{ transformStyle: "preserve-3d", rotateY: angle, rotateX: tilt, rotateZ: bank }}
+        className="relative min-h-[inherit] w-full"
       >
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(-50%) rotateY(90deg)" }} />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(50%) rotateY(90deg)" }} />
         {/* FRONT SIDE */}
-        <div inert={isFlipped} className="absolute inset-0 w-full h-full backface-hidden z-10 frost-card p-6 flex flex-col items-center text-center overflow-hidden">
+        <div inert={isFlipped} className="relative min-h-[inherit] w-full backface-hidden frost-card p-4 sm:p-6 flex flex-col items-center text-center overflow-hidden" style={{ transform: "translateZ(2px)" }}>
           {/* Flip Trigger Button */}
 
           {/* Animated corner accents */}
@@ -109,14 +181,15 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
 
             {/* Signature Flip Trigger */}
             <button
+              ref={frontControl}
               type="button"
               aria-label="Flip to ID details"
-              onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
+              onClick={flip}
               className="mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
               title="Click to flip"
             >
               <span className="flex flex-col items-start">
-                <span className="text-xs font-bold uppercase tracking-wide">Flip to view ID</span>
+                <span className="text-[7px] font-mono uppercase tracking-tighter opacity-50">Authorized Core Board</span>
                 <span className="text-[10px] font-black tracking-widest leading-none">NEXTURN-VERIFIED-{i + 1}</span>
               </span>
               <span className="text-sm font-black tracking-widest italic opacity-80">{member.initials}_</span>
@@ -127,12 +200,12 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
         {/* BACK SIDE (Stylish ID Design) */}
         <div
           inert={!isFlipped}
-          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-8 flex flex-col justify-between overflow-hidden"
-          style={{ transform: "rotateY(180deg)" }}
+          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-4 sm:p-8 flex flex-col justify-between overflow-hidden"
+          style={{ transform: "rotateY(180deg) translateZ(2px)" }}
         >
           {/* Flip Back Pattern Overlay */}
           <div
-            onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+            onClick={flip}
             className="absolute inset-0 z-0 cursor-pointer opacity-0 hover:opacity-5 transition-opacity"
             title="Click to flip back"
           />
@@ -147,11 +220,11 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
             </div>
 
             {/* Massive Monogram */}
-            <div className="flex-1 flex items-center justify-center relative">
-              <span className="text-[12rem] font-black leading-none tracking-tighter opacity-10 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="flex-1 flex items-center justify-center relative [container-type:inline-size]">
+              <span className={`${longMonogram ? "text-[min(12rem,46cqw)]" : "text-[min(12rem,68cqw)]"} font-black leading-none tracking-tighter opacity-10 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}>
                 {member.initials}
               </span>
-              <span className="text-[10rem] font-black leading-none tracking-tighter text-transparent" style={{ WebkitTextStroke: "2px var(--color-accent)" }}>
+              <span className={`${longMonogram ? "text-[min(10rem,42cqw)]" : "text-[min(10rem,60cqw)]"} font-black leading-none tracking-tighter text-transparent`} style={{ WebkitTextStroke: "2px var(--color-accent)" }}>
                 {member.initials}
               </span>
             </div>
@@ -187,7 +260,9 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
             {/* Bottom Accent + Flip Back Trigger */}
             <div className="flex justify-between items-end mt-4 relative z-10">
               <button
-                onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+                ref={backControl}
+                type="button"
+                onClick={flip}
                 className="px-4 py-1 border-2 border-[var(--color-accent)] text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
               >
                 Return to Profile
@@ -256,7 +331,8 @@ export default function Team() {
       ScrollTrigger.refresh();
     }, 500);
 
-    const ctx = gsap.context(() => {
+    const media = gsap.matchMedia();
+    media.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
       /* ── Core leadership: staggered clip-path reveal ── */
       gsap.utils.toArray<HTMLElement>(".founder-card").forEach((card, i) => {
         gsap.fromTo(card,
@@ -324,7 +400,7 @@ export default function Team() {
 
     return () => {
       clearTimeout(initTimer);
-      ctx.revert();
+      media.revert();
     };
   }, []);
 
@@ -354,8 +430,8 @@ export default function Team() {
         </section>
 
         {/* ═══ CORE LEADERSHIP — CLIP-PATH CURTAIN REVEAL ═══ */}
-        <section ref={foundersRef} className="py-24 md:py-40 px-8 border-t-[3px] border-[var(--color-foreground)] overflow-hidden">
-          <div className="max-w-7xl mx-auto mb-20">
+        <section ref={foundersRef} className="py-24 md:py-40 px-3 md:px-8 border-t-[3px] border-[var(--color-foreground)] overflow-hidden">
+          <div className="max-w-7xl mx-auto mb-20 px-5 md:px-0">
             <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
               <TextScramble>Leaders</TextScramble>
             </h2>
@@ -370,7 +446,7 @@ export default function Team() {
                 key={i}
                 member={f}
                 i={i}
-                className="w-[320px] md:w-[400px] h-[480px] md:h-[520px] founder-card"
+                className="founder-card"
                 onClick={() => setSelectedMember(f)}
               />
             ))}
@@ -388,9 +464,9 @@ export default function Team() {
             </p>
           </div>
 
-          <div ref={horizontalRef} className="relative h-screen overflow-hidden">
+          <div ref={horizontalRef} className="relative md:motion-safe:h-screen md:motion-safe:min-h-[680px] md:motion-safe:overflow-hidden">
             {/* Indicator overlay — centered at top */}
-            <div className="absolute top-0 left-0 right-0 z-30 frost-sweep border-b-[3px] border-[var(--color-foreground)]">
+            <div className="absolute top-0 left-0 right-0 z-30 hidden md:motion-safe:block frost-sweep border-b-[3px] border-[var(--color-foreground)]">
               <div className="px-8 py-4 flex items-center justify-center relative min-h-[100px]">
                 <div className="absolute left-8 flex items-center gap-4">
                   <span className="text-4xl md:text-5xl font-black text-[var(--color-accent)] transition-all duration-300">{String(activeIndex + 1).padStart(2, "0")}</span>
@@ -413,20 +489,20 @@ export default function Team() {
             </div>
 
             {/* Scrolling track */}
-            <div ref={trackRef} className="flex items-center gap-10 h-full px-8 pt-24 pb-8" style={{ width: "max-content" }}>
+            <div ref={trackRef} className="flex flex-col items-center gap-10 px-3 pb-8 md:motion-safe:h-full md:motion-safe:w-max md:motion-safe:flex-row md:motion-safe:px-8 md:motion-safe:pt-24">
               {coreMembers.map((member, i) => (
                 <TeamCard
                   key={i}
                   member={member}
                   i={i}
-                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[480px] md:h-[520px] ${i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
+                  className={`h-card shrink-0 md:motion-safe:w-[400px] ${i % 2 === 0 ? "md:motion-safe:self-start md:motion-safe:mt-8" : "md:motion-safe:self-end md:motion-safe:mb-8"
                     }`}
                   onClick={() => setSelectedMember(member)}
                 />
               ))}
 
               {/* End marker */}
-              <div className="flex-shrink-0 w-[400px] h-full flex items-center justify-center">
+              <div className="hidden shrink-0 w-[400px] h-full items-center justify-center md:motion-safe:flex">
                 <div className="text-center">
                   <p className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Core</p>
                   <p className="text-2xl md:text-4xl font-black uppercase tracking-widest mt-2 opacity-80">Team</p>
