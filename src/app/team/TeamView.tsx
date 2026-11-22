@@ -111,7 +111,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
 
   return (
     <div
-      className={`relative group w-full min-w-0 max-w-[360px] md:max-w-[400px] [container-type:inline-size] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
+      className={`relative group w-full min-w-0 max-w-[min(360px,calc(100vw-2*clamp(0.75rem,20vw-3.25rem,1.25rem)))] md:max-w-[400px] [container-type:inline-size] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
       onClick={onClick}
       onClickCapture={(event) => {
         if (!ignoreClick.current || event.detail === 0) return;
@@ -139,7 +139,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(-50%) rotateY(90deg)" }} />
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-1 bg-[var(--color-foreground)]" style={{ transform: "translateX(50%) rotateY(90deg)" }} />
         {/* FRONT SIDE */}
-        <div inert={isFlipped} className="relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card px-4 py-2 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
+        <div inert={isFlipped} className="relative col-start-1 row-start-1 min-w-0 backface-hidden frost-card px-4 py-2 min-[360px]:py-3 md:p-6 flex flex-col items-center text-center overflow-clip" style={{ transform: "translateZ(2px)" }}>
           {/* Flip Trigger Button */}
 
           {/* Animated corner accents */}
@@ -154,7 +154,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="flex w-full flex-col items-center max-md:flex-1 max-md:justify-center">
-              <HexAvatar member={member} size="sm" className="mb-1 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
+              <HexAvatar member={member} size="sm" className="mb-1 min-[360px]:mb-2 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
               <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter max-md:leading-tight mb-1">{member.name}</h3>
               <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 md:mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
             </div>
