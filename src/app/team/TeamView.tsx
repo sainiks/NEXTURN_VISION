@@ -111,7 +111,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
 
   return (
     <div
-      className={`relative group w-full min-w-0 max-w-[min(360px,calc(100vw-2*clamp(0.75rem,20vw-3.25rem,1.25rem)))] md:max-w-[400px] [container-type:inline-size] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
+      className={`team-id-card relative group w-full min-w-0 max-w-[min(360px,calc(100vw-2*clamp(0.75rem,20vw-3.25rem,1.25rem)))] md:max-w-[400px] [container-type:inline-size] touch-pan-y select-none motion-safe:cursor-grab motion-safe:active:cursor-grabbing ${className ?? ""}`}
       onClick={onClick}
       onClickCapture={(event) => {
         if (!ignoreClick.current || event.detail === 0) return;
@@ -147,35 +147,35 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
           <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
 
           {/* Sweep BG */}
-          <div className="absolute inset-0 card-sweep transform translate-y-full group-hover:translate-y-0 z-0" />
+          <div className="absolute inset-0 hidden md:block card-sweep transform translate-y-full group-hover:translate-y-0 z-0" />
 
-          <div className="z-10 flex flex-col items-center w-full max-md:flex-1 group-hover:text-[var(--color-background)] transition-colors duration-300">
+          <div className="z-10 flex flex-col items-center w-full max-md:flex-1 md:group-hover:text-[var(--color-background)] transition-colors duration-300">
             <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="flex w-full flex-col items-center max-md:flex-1 max-md:justify-center">
               <HexAvatar member={member} size="sm" className="mb-1 min-[360px]:mb-2 md:mb-4 group-hover:scale-105 transition-transform duration-500" />
               <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter max-md:leading-tight mb-1">{member.name}</h3>
-              <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 md:mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
+              <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 md:mb-4 transition-colors md:group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
             </div>
 
-            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-2 md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
+            <div className="w-full border-t-4 border-[var(--color-foreground)] md:group-hover:border-[var(--color-background)] pt-2 md:pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
               {member.linkedin ? (
                 <div className="flex flex-col">
-                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">LinkedIn</span>
+                  <span className="text-xs font-black uppercase tracking-widest opacity-60 md:opacity-40 mb-1 md:group-hover:opacity-70">LinkedIn</span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       window.open(member.linkedin, "_blank");
                     }}
-                    className="text-xl font-black tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300"
+                    className="text-xl font-black tracking-widest text-[var(--color-accent)] md:group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300"
                   >
                     Connect↗
                   </button>
                 </div>
               ) : (
                 <div className="flex flex-col">
-                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">Nexturn</span>
+                  <span className="text-xs font-black uppercase tracking-widest opacity-60 md:opacity-40 mb-1 md:group-hover:opacity-70">Nexturn</span>
                   <span className="font-black tracking-widest text-lg">Core Member</span>
                 </div>
               )}
@@ -187,7 +187,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
               type="button"
               aria-label="Flip to ID details"
               onClick={flip}
-              className="mt-2 md:mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
+              className="mt-2 md:mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] md:group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer md:hover:bg-[var(--color-accent)] transition-all duration-300"
               title="Click to flip"
             >
               <span className="flex flex-col items-start">
@@ -218,7 +218,7 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
             {/* Top Bar */}
             <div className="flex justify-between items-start mb-2 md:mb-4">
               <div className="size-8 md:size-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
-              <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">Nxt / Board</span>
+              <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-90 md:opacity-60">Nxt / Board</span>
             </div>
 
             {/* Massive Monogram */}
@@ -237,23 +237,23 @@ export function TeamCard({ member, i, className, onClick }: { member: Member; i:
                 <p className="text-xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Nexturn Core</p>
                 <span className={`text-[8px] font-black uppercase px-2 py-0.5 border ${
                   accessLevel === "Alpha-1"
-                    ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-white"
-                    : "border-[var(--color-accent)] opacity-70"
+                    ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-background)] md:text-white"
+                    : "border-[var(--color-accent)] opacity-90 md:opacity-70"
                 }`}>
                   {accessLevel === "Alpha-1" ? "Clearance: Alpha-1" : "Clearance: Beta-2"}
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
                 <div>
-                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
+                  <span className="opacity-90 md:opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
                   <span className="font-black">{accessLevel}</span>
                 </div>
                 <div>
-                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Status</span>
+                  <span className="opacity-90 md:opacity-60 block mb-0.5 text-[var(--color-accent)]">Status</span>
                   <span className="font-black">Active</span>
                 </div>
                 <div className="col-span-2">
-                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification Code</span>
+                  <span className="opacity-90 md:opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification Code</span>
                   <span className="font-black text-xs block">{identificationCode}</span>
                 </div>
               </div>
