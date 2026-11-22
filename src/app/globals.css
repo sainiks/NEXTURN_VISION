@@ -121,12 +121,20 @@
     .team-id-card {
       --color-background: #000;
       --color-foreground: #fcfcfc;
+      --id-rim: color-mix(in srgb, var(--color-accent) 48%, #383838);
       color: var(--color-foreground);
+    }
+
+    .team-id-card .team-id-face {
+      border: 1px solid var(--id-rim);
+      border-radius: 1rem;
+      box-shadow: inset 0 1px 0 #ffffff1a, 0 6px 14px -8px #0009;
+      background-image: radial-gradient(ellipse at 50% 10%, color-mix(in srgb, var(--color-accent) 13%, transparent), transparent 58%);
     }
 
     [data-theme='light'] .team-id-card .frost-card {
       background-color: var(--color-background) !important;
-      border-color: var(--color-foreground);
+      border-color: var(--id-rim);
     }
   }
 
