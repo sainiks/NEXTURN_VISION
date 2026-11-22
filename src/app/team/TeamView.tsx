@@ -1,0 +1,454 @@
+"use client";
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
+import Link from "next/link";
+import TextScramble from "@/components/TextScramble";
+import { coreLeadership, coreMembers, type Member } from "./members";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── Hexagon Avatar (image with initials fallback) ── */
+function HexAvatar({ member, size = "md", className = "" }: { member: Member; size?: "sm" | "md" | "lg"; className?: string }) {
+  const [imgError, setImgError] = useState(false);
+  const sizeClasses = { sm: "w-36 h-36 md:w-44 md:h-44", md: "w-40 h-40", lg: "w-52 h-52 md:w-64 md:h-64" };
+  const textSizes = { sm: "text-5xl md:text-6xl", md: "text-5xl", lg: "text-7xl md:text-8xl" };
+  return (
+    <div
+      className={`${sizeClasses[size]} bg-[var(--color-foreground)] text-[var(--color-background)] flex items-center justify-center relative overflow-hidden ${className}`}
+      style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+    >
+      {member.image && !imgError && (
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25 blur-md scale-110"
+          style={{ backgroundImage: `url(${member.image})` }}
+        />
+      )}
+      {member.image && !imgError ? (
+        <Image src={member.image} alt={member.name} fill className={`${member.imageFit === "fill" ? "object-fill" : "object-cover"} relative z-10`} style={member.imageStyle || {}} sizes="(max-width: 768px) 200px, 300px" onError={() => setImgError(true)} />
+      ) : (
+        <span className={`${textSizes[size]} font-black`}>{member.initials}</span>
+      )}
+    </div>
+  );
+}
+
+/* ── Team Card (3D Flip) ── */
+export function TeamCard({ member, i, className, onClick }: { member: Member; i: number; className?: string; onClick?: () => void }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleLeave = useCallback(() => {
+    setIsFlipped(false);
+  }, []);
+
+  const isLeader = member.role.toLowerCase().includes("president");
+  const isTech = member.role.toLowerCase().includes("tech head") || member.role.toLowerCase().includes("tech co-head");
+  const accessLevel = (isLeader || isTech) ? "Alpha-1" : "Beta-2";
+  const identificationCode = `NC-026-${member.initials}-${i + 1}`;
+
+  return (
+    <div
+      className={`relative perspective-1000 group ${className}`}
+      onMouseLeave={onClick ? handleLeave : undefined}
+      onClick={onClick}
+      style={{ perspective: "1200px" }}
+    >
+      <motion.div
+        ref={ref}
+        style={{
+          transformStyle: "preserve-3d"
+        }}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ type: "spring", stiffness: 150, damping: 20 }}
+        className="w-full h-full relative"
+      >
+        {/* FRONT SIDE */}
+        <div inert={isFlipped} className="absolute inset-0 w-full h-full backface-hidden z-10 frost-card p-6 flex flex-col items-center text-center overflow-hidden">
+          {/* Flip Trigger Button */}
+
+          {/* Animated corner accents */}
+          <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)] opacity-40" />
+          <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)] opacity-40" />
+
+          {/* Sweep BG */}
+          <div className="absolute inset-0 card-sweep transform translate-y-full group-hover:translate-y-0 z-0" />
+
+          <div className="z-10 flex flex-col items-center w-full group-hover:text-[var(--color-background)] transition-colors duration-300">
+            <span className="absolute top-4 left-4 text-sm font-black uppercase tracking-widest opacity-30 group-hover:opacity-60">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <HexAvatar member={member} size="sm" className="mb-4 group-hover:scale-105 transition-transform duration-500" />
+            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-1">{member.name}</h3>
+            <p className="text-sm md:text-base font-bold uppercase tracking-widest text-[var(--color-accent)] mb-4 transition-colors group-hover:text-[var(--color-background)] bg-clip-text">{member.role}</p>
+
+            <div className="w-full border-t-4 border-[var(--color-foreground)] group-hover:border-[var(--color-background)] pt-4 flex flex-col gap-2 text-left transition-colors duration-300">
+              {member.linkedin ? (
+                <div className="flex flex-col">
+                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">LinkedIn</span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(member.linkedin, "_blank");
+                    }}
+                    className="text-xl font-black tracking-widest text-[var(--color-accent)] group-hover:text-[var(--color-background)] text-left hover:translate-x-2 transition-transform duration-300"
+                  >
+                    Connect↗
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <span className="text-xs font-black uppercase tracking-widest opacity-40 mb-1 group-hover:opacity-70">Nexturn</span>
+                  <span className="font-black tracking-widest text-lg">Core Member</span>
+                </div>
+              )}
+            </div>
+
+            {/* Signature Flip Trigger */}
+            <button
+              type="button"
+              aria-label="Flip to ID details"
+              onClick={(e) => { e.stopPropagation(); setIsFlipped(true); }}
+              className="mt-6 w-full border-2 border-dashed border-[var(--color-foreground)] group-hover:border-[var(--color-background)] p-2 flex items-center justify-between group/sign cursor-pointer hover:bg-[var(--color-accent)] transition-all duration-300"
+              title="Click to flip"
+            >
+              <span className="flex flex-col items-start">
+                <span className="text-xs font-bold uppercase tracking-wide">Flip to view ID</span>
+                <span className="text-[10px] font-black tracking-widest leading-none">NEXTURN-VERIFIED-{i + 1}</span>
+              </span>
+              <span className="text-sm font-black tracking-widest italic opacity-80">{member.initials}_</span>
+            </button>
+          </div>
+        </div>
+
+        {/* BACK SIDE (Stylish ID Design) */}
+        <div
+          inert={!isFlipped}
+          className="absolute inset-0 w-full h-full backface-hidden border-[4px] border-[var(--color-accent)] bg-[var(--color-background)] text-[var(--color-accent)] p-8 flex flex-col justify-between overflow-hidden"
+          style={{ transform: "rotateY(180deg)" }}
+        >
+          {/* Flip Back Pattern Overlay */}
+          <div
+            onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+            className="absolute inset-0 z-0 cursor-pointer opacity-0 hover:opacity-5 transition-opacity"
+            title="Click to flip back"
+          />
+          {/* Background Grid Pattern */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--color-accent) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
+
+          <div className="relative z-10 flex flex-col h-full">
+            {/* Top Bar */}
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-12 h-12 border-t-4 border-l-4 border-[var(--color-accent)]" />
+              <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase opacity-60">Nxt / Board</span>
+            </div>
+
+            {/* Massive Monogram */}
+            <div className="flex-1 flex items-center justify-center relative">
+              <span className="text-[12rem] font-black leading-none tracking-tighter opacity-10 select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                {member.initials}
+              </span>
+              <span className="text-[10rem] font-black leading-none tracking-tighter text-transparent" style={{ WebkitTextStroke: "2px var(--color-accent)" }}>
+                {member.initials}
+              </span>
+            </div>
+
+            {/* Metadata Footer */}
+            <div className="mt-auto border-t-4 border-[var(--color-accent)] pt-6 font-mono space-y-2">
+              <div className="flex justify-between items-center mb-3">
+                <p className="text-xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Nexturn Core</p>
+                <span className={`text-[8px] font-black uppercase px-2 py-0.5 border ${
+                  accessLevel === "Alpha-1"
+                    ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-white"
+                    : "border-[var(--color-accent)] opacity-70"
+                }`}>
+                  {accessLevel === "Alpha-1" ? "Clearance: Alpha-1" : "Clearance: Beta-2"}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
+                <div>
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Access Level</span>
+                  <span className="font-black">{accessLevel}</span>
+                </div>
+                <div>
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Status</span>
+                  <span className="font-black">Active</span>
+                </div>
+                <div className="col-span-2">
+                  <span className="opacity-60 block mb-0.5 text-[var(--color-accent)]">Identification Code</span>
+                  <span className="font-black text-xs block">{identificationCode}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Accent + Flip Back Trigger */}
+            <div className="flex justify-between items-end mt-4 relative z-10">
+              <button
+                onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+                className="px-4 py-1 border-2 border-[var(--color-accent)] text-[8px] font-black uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all"
+              >
+                Return to Profile
+              </button>
+              <div className="w-12 h-12 border-b-4 border-r-4 border-[var(--color-accent)]" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── Modal ── */
+function MemberModal({ member, onClose }: { member: Member | null; onClose: () => void }) {
+  if (!member) return null;
+  return (
+    <motion.div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--color-background)]/80 backdrop-blur-md cursor-pointer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
+      <motion.div
+        className="relative border-[4px] border-[var(--color-foreground)] bg-[var(--color-background)] p-12 max-w-lg w-full mx-4 cursor-default"
+        initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 10 }}
+        transition={{ type: "spring", damping: 20, stiffness: 250 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 border-[3px] border-[var(--color-foreground)] flex items-center justify-center font-black text-xl hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] transition-colors">✕</button>
+        <div className="flex justify-center mb-8">
+          <HexAvatar member={member} size="md" />
+        </div>
+        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-center mb-2">{member.name}</h2>
+        <p className="text-center text-lg font-bold uppercase tracking-widest text-[var(--color-accent)] mb-10">{member.role}</p>
+        <div className="border-t-4 border-[var(--color-foreground)] pt-6 flex flex-col gap-4">
+          <Link href={`/team/${member.slug}`} className="font-bold underline underline-offset-4">Open digital ID</Link>
+          {member.linkedin ? (
+            <div>
+              <span className="text-sm font-black uppercase tracking-widest opacity-50 block mb-2">LinkedIn</span>
+              <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="font-bold text-3xl tracking-widest hover:text-[var(--color-accent)] transition-colors break-all">
+                LinkedIn ↗
+              </a>
+            </div>
+          ) : (
+            <div>
+              <span className="text-sm font-black uppercase tracking-widest opacity-50 block mb-2">Status</span>
+              <span className="font-bold text-2xl tracking-widest">Active Member</span>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ── Main ── */
+export default function Team() {
+  const horizontalRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const foundersRef = useRef<HTMLDivElement>(null);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    /* ── Sync Lenis with ScrollTrigger ── */
+    ScrollTrigger.defaults({ toggleActions: "play none none reverse" });
+
+    /* Wait for fonts + layout to settle */
+    const initTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    const ctx = gsap.context(() => {
+      /* ── Core leadership: staggered clip-path reveal ── */
+      gsap.utils.toArray<HTMLElement>(".founder-card").forEach((card, i) => {
+        gsap.fromTo(card,
+          { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)", opacity: 1,
+            duration: 1.4, ease: "power4.inOut", delay: i * 0.3,
+            scrollTrigger: { trigger: foundersRef.current, start: "top 60%" },
+          }
+        );
+      });
+
+
+      /* ── Core Team: horizontal scroll ── */
+      const track = trackRef.current;
+      const container = horizontalRef.current;
+      if (!track || !container) return;
+
+      /* Force layout read after render */
+      const getScrollAmount = () => track.scrollWidth - container.offsetWidth;
+
+      const hTween = gsap.to(track, {
+        x: () => -getScrollAmount(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: () => `+=${getScrollAmount()}`,
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const idx = Math.min(
+              Math.floor(self.progress * coreMembers.length),
+              coreMembers.length - 1
+            );
+            setActiveIndex(idx);
+          },
+        },
+      });
+
+      /* ── Card entrances — dramatic varied origins ── */
+      gsap.utils.toArray<HTMLElement>(".h-card").forEach((card, i) => {
+        const origins = [
+          { y: 250, x: -80, rotation: 25, scale: 0.3, skewX: 15 },
+          { y: -280, x: 60, rotation: -30, scale: 0.2, skewX: -10 },
+          { y: 0, x: 200, rotation: 45, scale: 0.1, skewX: 20 },
+          { y: 300, x: -40, rotation: -20, scale: 0.4, skewX: -15 },
+          { y: -200, x: -100, rotation: 35, scale: 0.15, skewX: 8 },
+          { y: 180, x: 120, rotation: -40, scale: 0.25, skewX: -20 },
+        ];
+        const origin = origins[i % origins.length];
+
+        gsap.fromTo(card, { ...origin, opacity: 0 }, {
+          y: 0, x: 0, rotation: 0, scale: 1, opacity: 1, skewX: 0,
+          ease: "elastic.out(1, 0.5)",
+          scrollTrigger: {
+            trigger: card, containerAnimation: hTween,
+            start: "left 100%", end: "left 55%", scrub: true,
+          },
+        });
+      });
+    });
+
+    return () => {
+      clearTimeout(initTimer);
+      ctx.revert();
+    };
+  }, []);
+
+  return (
+    <>
+      <main className="min-h-screen bg-[var(--color-background)] text-[var(--color-foreground)]">
+        {/* ═══ HEADER ═══ */}
+        <section className="pt-40 pb-16 px-8">
+          <div className="max-w-7xl mx-auto relative">
+            <motion.div
+              className="absolute -top-8 right-0 text-[20vw] font-black text-[var(--color-foreground)] opacity-[0.03] leading-none select-none pointer-events-none"
+              initial={{ x: 200 }} animate={{ x: 0 }} transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            >12</motion.div>
+
+            <motion.h1
+              className="text-7xl md:text-[10rem] font-black uppercase tracking-tighter leading-[0.85] relative z-10"
+              initial={{ opacity: 0, y: 80 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <TextScramble>The Team</TextScramble>
+            </motion.h1>
+
+            <motion.div className="flex items-center gap-6 mt-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+              <motion.div className="h-[4px] bg-[var(--color-accent)] flex-1" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.6 }} style={{ transformOrigin: "left" }} />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══ CORE LEADERSHIP — CLIP-PATH CURTAIN REVEAL ═══ */}
+        <section ref={foundersRef} className="py-24 md:py-40 px-8 border-t-[3px] border-[var(--color-foreground)] overflow-hidden">
+          <div className="max-w-7xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
+              <TextScramble>Leaders</TextScramble>
+            </h2>
+            <p className="mt-4 text-lg md:text-2xl font-medium uppercase tracking-widest opacity-60 border-l-4 border-[var(--color-accent)] pl-6">
+              The executive leadership team for Academic Year 2026-27.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-12 md:gap-16">
+            {coreLeadership.map((f, i) => (
+              <TeamCard
+                key={i}
+                member={f}
+                i={i}
+                className="w-[320px] md:w-[400px] h-[480px] md:h-[520px] founder-card"
+                onClick={() => setSelectedMember(f)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ CORE TEAM — HORIZONTAL SCROLL + 3D TILT + WILD ENTRANCES ═══ */}
+        <section className="border-t-[3px] border-[var(--color-foreground)]">
+          <div className="py-20 px-8 max-w-7xl mx-auto">
+            <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
+              <TextScramble>Core Team</TextScramble>
+            </h2>
+            <p className="mt-4 text-lg md:text-2xl font-medium uppercase tracking-widest opacity-60 border-l-4 border-[var(--color-accent)] pl-6">
+              Scroll to meet the 2026-27 department leadership →
+            </p>
+          </div>
+
+          <div ref={horizontalRef} className="relative h-screen overflow-hidden">
+            {/* Indicator overlay — centered at top */}
+            <div className="absolute top-0 left-0 right-0 z-30 frost-sweep border-b-[3px] border-[var(--color-foreground)]">
+              <div className="px-8 py-4 flex items-center justify-center relative min-h-[100px]">
+                <div className="absolute left-8 flex items-center gap-4">
+                  <span className="text-4xl md:text-5xl font-black text-[var(--color-accent)] transition-all duration-300">{String(activeIndex + 1).padStart(2, "0")}</span>
+                  <span className="text-xs font-black uppercase tracking-widest opacity-50">/ {coreMembers.length}</span>
+                </div>
+
+                <div className="flex flex-col items-center text-center px-32">
+                  <span className="text-xl md:text-3xl font-black uppercase tracking-tighter">
+                    {coreMembers[activeIndex]?.name}
+                  </span>
+                  <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[var(--color-accent)] mt-1">
+                    {coreMembers[activeIndex]?.role}
+                  </span>
+                </div>
+              </div>
+              {/* Progress bar */}
+              <div className="h-[4px] bg-[var(--color-foreground)] opacity-10">
+                <div className="h-full bg-[var(--color-accent)] transition-all duration-300 ease-out" style={{ width: `${((activeIndex + 1) / coreMembers.length) * 100}%` }} />
+              </div>
+            </div>
+
+            {/* Scrolling track */}
+            <div ref={trackRef} className="flex items-center gap-10 h-full px-8 pt-24 pb-8" style={{ width: "max-content" }}>
+              {coreMembers.map((member, i) => (
+                <TeamCard
+                  key={i}
+                  member={member}
+                  i={i}
+                  className={`h-card flex-shrink-0 w-[320px] md:w-[400px] h-[480px] md:h-[520px] ${i % 2 === 0 ? "self-start mt-8" : "self-end mb-8"
+                    }`}
+                  onClick={() => setSelectedMember(member)}
+                />
+              ))}
+
+              {/* End marker */}
+              <div className="flex-shrink-0 w-[400px] h-full flex items-center justify-center">
+                <div className="text-center">
+                  <p className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-[var(--color-accent)]">Core</p>
+                  <p className="text-2xl md:text-4xl font-black uppercase tracking-widest mt-2 opacity-80">Team</p>
+                  <div className="mt-8 w-24 h-[6px] bg-[var(--color-foreground)] mx-auto" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ FOOTER STRIP ═══ */}
+        <section className="py-16 px-8 border-t-[3px] border-[var(--color-foreground)]">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-sm font-black uppercase tracking-widest opacity-60">IITM • Nexturn — The Internship Cell</p>
+            <p className="text-sm font-black uppercase tracking-widest opacity-60">Est. 2024</p>
+          </div>
+        </section>
+      </main>
+
+      <AnimatePresence>
+        {selectedMember && <MemberModal member={selectedMember} onClose={() => setSelectedMember(null)} />}
+      </AnimatePresence>
+    </>
+  );
+}
