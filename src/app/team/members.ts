@@ -18,7 +18,7 @@ export const coreLeadership: Member[] = [
 
 export const coreMembers: Member[] = [
   { slug: "mitashi-dogra", name: "Mitashi Dogra", role: "General Secretary", linkedin: "https://www.linkedin.com/in/mitashi-dogra-a45511337", initials: "MD", image: "/team/mitashi_dogra.png", imageStyle: { objectPosition: "center 25%" } },
-  { slug: "chetan-prakash-yadav", name: "Chetan Prakash Yadav", role: "CR Head", linkedin: "https://www.linkedin.com/in/chetanprakashyadav155", initials: "CPY", image: "/team/Chetan_Yadav.png", imageFit: "fill" },
+  { slug: "Unkown", name: "Unkown", role: "Unkown", linkedin: "", initials: "L", image: "", imageFit: "fill" },
   { slug: "kakul-verma", name: "Kakul Verma", role: "CR Co-Head", linkedin: "https://www.linkedin.com/in/kakul-9a3a80379", initials: "KV", image: "/team/Kakul_verma.png", imageStyle: { objectPosition: "center 38%" } },
   { slug: "garima-sinha", name: "Garima Sinha", role: "Marketing Head", linkedin: "https://www.linkedin.com/in/garima-sinha-278298372", initials: "GS", image: "/team/garima_sinha.png", imageStyle: { objectPosition: "center 22%" } },
   { slug: "harshita-jindal", name: "Harshita Jindal", role: "Marketing Co-Head", linkedin: "https://www.linkedin.com/in/harshita-jindal-444889364", initials: "HJ", image: "/team/Harshita_Jindal.png" },
@@ -33,3 +33,6 @@ export const coreMembers: Member[] = [
 export const memberCards = [coreLeadership, coreMembers].flatMap((group) =>
   group.map((member, index) => ({ member, index })),
 );
+
+
+// { slug: "chetan-prakash-yadav", name: "Chetan Prakash Yadav", role: "CR Head", linkedin: "https://www.linkedin.com/in/chetanprakashyadav155", initials: "CPY", image: "/team/Chetan_Yadav.png", imageFit: "fill" }
