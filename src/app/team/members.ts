@@ -22,7 +22,7 @@ export const coreMembers: Member[] = [
   { slug: "kakul-verma", name: "Kakul Verma", role: "CR Co-Head", linkedin: "https://www.linkedin.com/in/kakul-9a3a80379", initials: "KV", image: "/team/Kakul_verma.png", imageStyle: { objectPosition: "center 38%" } },
   { slug: "garima-sinha", name: "Garima Sinha", role: "Marketing Head", linkedin: "https://www.linkedin.com/in/garima-sinha-278298372", initials: "GS", image: "/team/garima_sinha.png", imageStyle: { objectPosition: "center 22%" } },
   { slug: "harshita-jindal", name: "Harshita Jindal", role: "Marketing Co-Head", linkedin: "https://www.linkedin.com/in/harshita-jindal-444889364", initials: "HJ", image: "/team/Harshita_Jindal.png" },
-  { slug: "poornima-singh-rana", name: "Poornima Singh Rana", role: "Management Head", linkedin: "https://www.linkedin.com/in/poornima-singh-rana-973539381", initials: "PSR", image: "/team/Poornima_Singh_Rana.png", imageFit: "fill" },
+  { slug: "poornima-singh-rana", name: "Poornima Singh Rana", role: "Management Head", linkedin: "https://www.linkedin.com/in/poornima-singh-rana-973539381", initials: "PSR", image: "", imageFit: "fill" },
   { slug: "dakshay-sachdeva", name: "Dakshay Sachdeva", role: "Management Co-Head", linkedin: "https://www.linkedin.com/in/dakshay-sachdeva-716306363/", initials: "DS", image: "/team/Dakshay_Sachdeva.png" },
   { slug: "suhani-saxena", name: "Suhani Saxena", role: "Social Media Head", linkedin: "https://www.linkedin.com/in/suhani-saxena-9433b9309", initials: "SS", image: "/team/Suhani_Saxena.png" },
   { slug: "kshitiz-rohilla", name: "Kshitiz Rohilla", role: "Social Media Co-Head", linkedin: "https://www.linkedin.com/in/kshitiz-rohilla-a9ba5130b", initials: "KR", image: "/team/Kshitiz_Rohilla.png" },
@@ -36,3 +36,5 @@ export const memberCards = [coreLeadership, coreMembers].flatMap((group) =>
 
 
 // { slug: "chetan-prakash-yadav", name: "Chetan Prakash Yadav", role: "CR Head", linkedin: "https://www.linkedin.com/in/chetanprakashyadav155", initials: "CPY", image: "/team/Chetan_Yadav.png", imageFit: "fill" }
+
+// /team/Poornima_Singh_Rana.png
